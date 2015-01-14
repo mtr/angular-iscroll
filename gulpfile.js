@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     footer = require('gulp-footer'),
     header = require('gulp-header'),
     jshint = require('gulp-jshint'),
+    ngAnnotate = require('gulp-ng-annotate'),
     pkg = require('./package.json'),
     path = require('path'),
     remember = require('gulp-remember'),
@@ -16,11 +17,11 @@ var gulp = require('gulp'),
         dest: 'dist/'
     };
 
-gulp.task('scripts', function () {
+gulp.task('lib', function () {
     var now = new Date();
 
     return gulp.src(paths.src)
-        .pipe(cached('scripts'))            // Only pass through changed files.
+        .pipe(cached('lib'))            // Only pass through changed files.
         .pipe(jshint())
         .pipe(header('/**\n' +
         ' * @license <%= pkg.name %> v<%= pkg.version %>, <%= now %>\n' +
@@ -33,8 +34,9 @@ gulp.task('scripts', function () {
             pkg: pkg
         }))
         .pipe(footer('})();\n'))
-        .pipe(remember('scripts'))          // Add back all files to the stream.
+        .pipe(remember('lib'))          // Add back all files to the stream.
         .pipe(concat('angular-iscroll.js')) // Do things that require all files.
+        .pipe(ngAnnotate())
         .pipe(gulp.dest(paths.dest))
         .pipe(uglify({
             preserveComments: 'some'
@@ -47,14 +49,14 @@ gulp.task('scripts', function () {
 });
 
 gulp.task('watch', function () {
-    var watcher = gulp.watch(paths.src, ['scripts']);
+    var watcher = gulp.watch(paths.src, ['lib']);
 
     watcher.on('change', function _srcChanged(event) {
         if (event.type === 'deleted') {
-            delete cached.caches.scripts[event.path];
-            remember.forget('scripts', event.path);
+            delete cached.caches.lib[event.path];
+            remember.forget('lib', event.path);
         }
     });
 });
 
-gulp.task('default', ['scripts']);
+gulp.task('default', ['lib']);
