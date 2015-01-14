@@ -1,2 +1,2 @@
 # angular-iscroll
-AngularJS module that enables wraps iScroll 5 functionality in a directive.
+AngularJS module that enables iScroll 5 functionality, wrapping it in an easy-to-use directive
