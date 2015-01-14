@@ -18,6 +18,7 @@ coverage
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
+dist/
 
 # Dependency directory
 # Commenting this out is preferred by some people, see
@@ -26,3 +27,6 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+# IDEA-based editor project directory
+.idea/
