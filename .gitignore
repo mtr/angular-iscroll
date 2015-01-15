@@ -30,3 +30,6 @@ node_modules
 
 # IDEA-based editor project directory
 .idea/
+
+# Sass cache
+.sass-cache/

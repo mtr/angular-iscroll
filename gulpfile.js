@@ -32,6 +32,7 @@ var _ = require('lodash'),
             dest: 'dist/lib/'
         },
         examples: {
+            src: './src/examples/',
             root: examplesDestRoot,
             index: {
                 src: './src/examples/index.html',
@@ -128,7 +129,12 @@ gulp.task('bootstrap-assets', function () {
         .pipe(gulp.dest(paths.examples.root));
 });
 
-gulp.task('views', function () {
+gulp.task('demo-views', function () {
+    return gulp.src(path.join(paths.examples.src, '**/*.html'))
+        .pipe(gulp.dest(paths.examples.index.dest));
+});
+
+gulp.task('views', ['demo-views'], function () {
     return gulp.src(paths.examples.index.src)
         //.pipe(htmlmin({
         //    collapseWhitespace: true,
@@ -136,8 +142,6 @@ gulp.task('views', function () {
         //}))
         //.pipe(htmlify())
         .pipe(gulp.dest(paths.examples.index.dest));
-
-
 });
 
 
@@ -181,7 +185,9 @@ bundler
 
 gulp.task('watch-examples', function () {
     gulp.watch(paths.examples.index.src, ['views', browserSync.reload]);
-    gulp.watch(paths.examples.style.src, ['style', browserSync.reload]);
+    gulp.watch(path.join(paths.examples.src, '**/*.html'), ['demo-views', browserSync.reload]);
+    gulp.watch([paths.examples.style.src,
+        path.join(paths.examples.src, '**/*.scss')], ['style', browserSync.reload]);
 });
 
 gulp.task('examples', ['browser-sync', 'style', 'views', 'watch-examples'], bundle);
