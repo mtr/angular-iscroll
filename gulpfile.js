@@ -4,6 +4,7 @@ var _ = require('lodash'),
     buffer = require('vinyl-buffer'),
     cached = require('gulp-cached'),
     concat = require('gulp-concat'),
+    connect = require('gulp-connect'),
     dateFormat = require('dateformat'),
     footer = require('gulp-footer'),
     gulp = require('gulp'),
@@ -111,6 +112,20 @@ gulp.task('browser-sync', function () {
     });
 });
 
+gulp.task('connect', function () {
+    return connect.server({
+        root: paths.examples.root,
+        port: 3001,
+        livereload: true
+    });
+});
+
+gulp.task('bootstrap-assets', function () {
+    gulp.src(path.join(
+        paths.examples.style.bootstrap.assets, '@(fonts|images)/**/*'))
+        .pipe(gulp.dest(paths.examples.root));
+});
+
 gulp.task('style', ['bootstrap-assets' /*, 'wrap-vendor-css'*/], function () {
     return sass(paths.examples.style.src, {
         loadPath: [paths.examples.style.bootstrap.sass],
@@ -120,18 +135,14 @@ gulp.task('style', ['bootstrap-assets' /*, 'wrap-vendor-css'*/], function () {
     })
         .on('error', gutil.log.bind(gutil, 'Sass/Compass Error'))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(paths.examples.style.dest));
-});
-
-gulp.task('bootstrap-assets', function () {
-    gulp.src(path.join(
-        paths.examples.style.bootstrap.assets, '@(fonts|images)/**/*'))
-        .pipe(gulp.dest(paths.examples.root));
+        .pipe(gulp.dest(paths.examples.style.dest))
+        .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('demo-views', function () {
     return gulp.src(path.join(paths.examples.src, '**/*.html'))
-        .pipe(gulp.dest(paths.examples.index.dest));
+        .pipe(gulp.dest(paths.examples.index.dest))
+        .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('views', ['demo-views'], function () {
@@ -141,7 +152,8 @@ gulp.task('views', ['demo-views'], function () {
         //    removeComments: true
         //}))
         //.pipe(htmlify())
-        .pipe(gulp.dest(paths.examples.index.dest));
+        .pipe(gulp.dest(paths.examples.index.dest))
+        .pipe(browserSync.reload({stream: true}));
 });
 
 
@@ -156,7 +168,8 @@ function bundle() {
         .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
         .pipe(sourcemaps.write('./')) // writes .map file
         //
-        .pipe(gulp.dest(paths.examples.js.dest));
+        .pipe(gulp.dest(paths.examples.js.dest))
+        .pipe(browserSync.reload({stream: true}));
 }
 
 // Add any other browserify options or transforms here.
@@ -179,18 +192,23 @@ bundler
         gutil.log('Browserify bundled',
             gutil.colors.cyan(prettyBytes(browserifyStats.bytes)), 'into',
             gutil.colors.magenta(paths.examples.js.bundleName));
-        browserSync.reload();
     });
 
 
 gulp.task('watch-examples', function () {
-    gulp.watch(paths.examples.index.src, ['views', browserSync.reload]);
-    gulp.watch(path.join(paths.examples.src, '**/*.html'), ['demo-views', browserSync.reload]);
+    gulp.watch(paths.examples.index.src, ['views']);
+    gulp.watch(path.join(paths.examples.src, '**/*.html'), ['demo-views']);
     gulp.watch([paths.examples.style.src,
-        path.join(paths.examples.src, '**/*.scss')], ['style', browserSync.reload]);
+        path.join(paths.examples.src, '**/*.scss')], ['style']);
 });
 
-gulp.task('examples', ['browser-sync', 'style', 'views', 'watch-examples'], bundle);
+gulp.task('examples', [
+    'connect',
+    'browser-sync',
+    'style',
+    'views',
+    'watch-examples'
+], bundle);
 
 gulp.task('watch', function () {
     var watcher = gulp.watch(paths.lib.src, ['lib']);
@@ -202,4 +220,3 @@ gulp.task('watch', function () {
         }
     });
 });
-
