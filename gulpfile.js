@@ -18,6 +18,7 @@ var _ = require('lodash'),
     prettyBytes = require('pretty-bytes'),
     remember = require('gulp-remember'),
     rename = require('gulp-rename'),
+    sass = require('gulp-ruby-sass'),
     source = require('vinyl-source-stream'),
     sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify'),
@@ -39,6 +40,11 @@ var _ = require('lodash'),
                 bundleName: 'bundle.js',
                 src: './src/examples/app.js',
                 dest: path.join(examplesDestRoot, 'js')
+            },
+            style: {
+                src: './src/examples/scss/style.scss',
+                dest: path.join(examplesDestRoot, 'css'),
+                bootstrap: './node_modules/bootstrap-sass/assets/stylesheets/'
             }
         }
     },
@@ -51,8 +57,12 @@ var _ = require('lodash'),
         debug: true
     }, watchify.args)));
 
+function _getNow() {
+    return new Date();
+}
+
 gulp.task('lib', function () {
-    var now = new Date();
+    var now = _getNow();
 
     return gulp.src(paths.lib.src)
         .pipe(cached('lib'))            // Only pass through changed files.
@@ -85,7 +95,7 @@ gulp.task('lib', function () {
 gulp.task('default', ['lib']);
 
 
-gulp.task('browser-sync', function() {
+gulp.task('browser-sync', function () {
     browserSync({
         open: false,  // You have to manually open 'http://localhost:3000/'.
         server: {
@@ -94,8 +104,19 @@ gulp.task('browser-sync', function() {
     });
 });
 
+gulp.task('style', /*['wrap-vendor-css'], */ function () {
+    return sass(paths.examples.style.src, {
+        loadPath: [paths.examples.style.bootstrap],
+        compass: true,
+        sourcemap: true,
+        style: 'compact'
+    })
+        .on('error', gutil.log.bind(gutil, 'Sass/Compass Error'))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(paths.examples.style.dest));
+});
 
-gulp.task('views', function() {
+gulp.task('views', function () {
     return gulp.src(paths.examples.index.src)
         //.pipe(htmlmin({
         //    collapseWhitespace: true,
@@ -107,9 +128,10 @@ gulp.task('views', function() {
 
 });
 
+
 function bundle() {
     gutil.log('Starting',
-            gutil.colors.cyan("'browserify-rebundle'"), '...');
+        gutil.colors.cyan("'browserify-rebundle'"), '...');
     return bundler.bundle()
         // log errors if they happen
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
@@ -125,6 +147,7 @@ function bundle() {
 // Add any other browserify options or transforms here.
 bundler
     .transform(preprocessify({
+        now: dateFormat(_getNow(), "isoDateTime"),
         pkg: pkg
     }))
     .transform(browserifyNgAnnotate)
@@ -147,10 +170,11 @@ bundler
 
 
 gulp.task('watch-examples', function () {
-    return gulp.watch(paths.examples.index.src, ['views', browserSync.reload]);
+    gulp.watch(paths.examples.index.src, ['views', browserSync.reload]);
+    gulp.watch(paths.examples.style.src, ['style', browserSync.reload]);
 });
 
-gulp.task('examples', ['browser-sync', 'views', 'watch-examples'], bundle);
+gulp.task('examples', ['browser-sync', 'style', 'views', 'watch-examples'], bundle);
 
 gulp.task('watch', function () {
     var watcher = gulp.watch(paths.lib.src, ['lib']);
