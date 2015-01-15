@@ -8,13 +8,8 @@ function currentVersion($log, version, buildTimestamp) {
         $log.debug('directiveDefinition.name', directiveDefinition.name);
         $log.debug('attrs[directiveDefinition.name]', attrs[directiveDefinition.name]);
 
-        var text;
-        if (attrs[directiveDefinition.name] === 'full') {
-            text = version + ' (' + buildTimestamp + ')';
-        } else {
-            text = version;
-        }
-        element.text(text);
+        element.text(attrs[directiveDefinition.name] === 'full' ?
+        version + ' (' + buildTimestamp + ')' : version);
     }
 
     var directiveDefinition = {
