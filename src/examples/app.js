@@ -2,6 +2,8 @@
 
 var angular = require('angular');
 
+require('bootstrap');
+
 /* @ngInject */
 function config() {
     // NOP.

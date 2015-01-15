@@ -16,6 +16,7 @@ var _ = require('lodash'),
     path = require('path'),
     preprocessify = require('preprocessify'),
     prettyBytes = require('pretty-bytes'),
+    //process = require('process'),
     remember = require('gulp-remember'),
     rename = require('gulp-rename'),
     sass = require('gulp-ruby-sass'),
@@ -44,7 +45,10 @@ var _ = require('lodash'),
             style: {
                 src: './src/examples/scss/style.scss',
                 dest: path.join(examplesDestRoot, 'css'),
-                bootstrap: './node_modules/bootstrap-sass/assets/stylesheets/'
+                bootstrap: {
+                    assets: './node_modules/bootstrap-sass/assets/',
+                    sass: './node_modules/bootstrap-sass/assets/stylesheets/'
+                }
             }
         }
     },
@@ -56,6 +60,8 @@ var _ = require('lodash'),
         entries: paths.examples.js.src,
         debug: true
     }, watchify.args)));
+
+//process.env.BROWSERIFYSHIM_DIAGNOSTICS = 1;
 
 function _getNow() {
     return new Date();
@@ -104,9 +110,9 @@ gulp.task('browser-sync', function () {
     });
 });
 
-gulp.task('style', /*['wrap-vendor-css'], */ function () {
+gulp.task('style', ['bootstrap-assets' /*, 'wrap-vendor-css'*/], function () {
     return sass(paths.examples.style.src, {
-        loadPath: [paths.examples.style.bootstrap],
+        loadPath: [paths.examples.style.bootstrap.sass],
         compass: true,
         sourcemap: true,
         style: 'compact'
@@ -114,6 +120,12 @@ gulp.task('style', /*['wrap-vendor-css'], */ function () {
         .on('error', gutil.log.bind(gutil, 'Sass/Compass Error'))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(paths.examples.style.dest));
+});
+
+gulp.task('bootstrap-assets', function () {
+    gulp.src(path.join(
+        paths.examples.style.bootstrap.assets, '@(fonts|images)/**/*'))
+        .pipe(gulp.dest(paths.examples.root));
 });
 
 gulp.task('views', function () {
@@ -130,8 +142,7 @@ gulp.task('views', function () {
 
 
 function bundle() {
-    gutil.log('Starting',
-        gutil.colors.cyan("'browserify-rebundle'"), '...');
+    gutil.log("Starting '" + gutil.colors.cyan("browserify-rebundle") +  "' ...");
     return bundler.bundle()
         // log errors if they happen
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
@@ -159,9 +170,8 @@ bundler
         browserifyStats.time = time;
     })
     .on('log', function () {
-        gutil.log('Finished',
-            gutil.colors.cyan("'browserify-rebundle'"), 'after',
-            gutil.colors.magenta((browserifyStats.time / 1000).toFixed(2) + ' s'));
+        gutil.log("Finished '" + gutil.colors.cyan("browserify-rebundle") + "' after",
+            gutil.colors.magenta((browserifyStats.time / 1000).toFixed(2) + " s"));
         gutil.log('Browserify bundled',
             gutil.colors.cyan(prettyBytes(browserifyStats.bytes)), 'into',
             gutil.colors.magenta(paths.examples.js.bundleName));

@@ -62,6 +62,7 @@
   "browser": {
     "angular": "./node_modules/angular/angular.js",
     "angular-iscroll": "./dist/lib/angular-iscroll.js",
+    "bootstrap": "./node_modules/bootstrap-sass/assets/javascripts/bootstrap.js",
     "iscroll": "./node_modules/iscroll/build/iscroll.js",
     "jquery": "./node_modules/jquery/dist/jquery.js",
     "ui.router": "./node_modules/angular-ui-router/release/angular-ui-router.js"
@@ -75,6 +76,9 @@
     "angular": {
       "depends": "jquery:jQuery",
       "exports": "angular"
+    },
+    "bootstrap": {
+      "depends": "jquery:jQuery"
     },
     "ui.router": {
       "depends": "angular",
