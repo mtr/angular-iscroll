@@ -100,6 +100,17 @@ gulp.task('lib', function () {
 
 });
 
+gulp.task('watch', function () {
+    var watcher = gulp.watch(paths.lib.src, ['lib']);
+
+    watcher.on('change', function _srcChanged(event) {
+        if (event.type === 'deleted') {
+            delete cached.caches.lib[event.path];
+            remember.forget('lib', event.path);
+        }
+    });
+});
+
 gulp.task('default', ['lib']);
 
 
@@ -113,7 +124,7 @@ gulp.task('browser-sync', function () {
 });
 
 gulp.task('connect', function () {
-    return connect.server({
+    connect.server({
         root: paths.examples.root,
         port: 3001,
         livereload: true
@@ -194,8 +205,12 @@ bundler
             gutil.colors.magenta(paths.examples.js.bundleName));
     });
 
+gulp.task('rebundle', function () {
+    return bundle();
+});
 
 gulp.task('watch-examples', function () {
+    gulp.watch(path.join(paths.lib.dest, 'angular-iscroll.js'), ['rebundle']);
     gulp.watch(paths.examples.index.src, ['views']);
     gulp.watch(path.join(paths.examples.src, '**/*.html'), ['demo-views']);
     gulp.watch([paths.examples.style.src,
@@ -209,14 +224,3 @@ gulp.task('examples', [
     'views',
     'watch-examples'
 ], bundle);
-
-gulp.task('watch', function () {
-    var watcher = gulp.watch(paths.lib.src, ['lib']);
-
-    watcher.on('change', function _srcChanged(event) {
-        if (event.type === 'deleted') {
-            delete cached.caches.lib[event.path];
-            remember.forget('lib', event.path);
-        }
-    });
-});

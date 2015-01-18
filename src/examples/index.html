@@ -16,64 +16,66 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body ng-controller="MyAppController">
-<nav class="header navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">iScroll Demo
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser.
+  Please <a href="http://browsehappy.com/">upgrade your browser</a> to
+  improve
+  your experience.</p>
+<![endif]-->
+<div class="core header">
+  <nav class="navbar navbar-default"
+       ng-class="{'navbar-fixed-top': false}">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">iScroll Demo
         <span ng-if="browserSync" class="glyphicon glyphicon-transfer"
               title="In browser-sync." aria-hidden="true"></span>
-      </a>
-    </div>
+        </a>
+      </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li ng-class="{active: $state.includes('staticList')}">
-          <a ui-sref="staticList">Static List
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li ng-class="{active: $state.includes('staticList')}">
+            <a ui-sref="staticList">Static List
             <span ng-if="$state.includes('staticList')" class="sr-only">
               (current)
             </span>
-          </a>
-        </li>
-        <li ng-class="{active: $state.includes('ngRepeatList')}">
-          <a ui-sref="ngRepeatList">ngRepeat List
+            </a>
+          </li>
+          <li ng-class="{active: $state.includes('ngRepeatList')}">
+            <a ui-sref="ngRepeatList">ngRepeat List
             <span ng-if="$state.includes('ngRepeatList')" class="sr-only">
               (current)
             </span>
-          </a>
-        </li>
-      </ul>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
-<div ui-view="contents" class="container slide">
-  <!--[if lt IE 7]>
-  <p class="browsehappy">You are using an <strong>outdated</strong> browser.
-    Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve
-    your experience.</p>
-  <![endif]-->
+  </nav>
+</div>
+<div class="core contents" ui-view="contents"></div>
+<div class="core footer">
+  <nav class="navbar navbar-default"
+       ng-class="{'navbar-fixed-bottom': false}">
+    <div class="container">
+      <p class="navbar-text">Angular-iScroll demo app:
+        v<span current-version="full"></span></p>
+    </div>
+  </nav>
 </div>
 
-<!--<div class="contents" iscroll>-->
-
-<!--<div ng-view></div>-->
-<!--</div>-->
-<nav class="footer navbar navbar-default navbar-fixed-bottom">
-  <div class="container">
-    <p class="navbar-text">Angular-iScroll demo app:
-      v<span current-version="full"></span></p>
-  </div>
-</nav>
-
 <script src="/js/bundle.js"></script>
+
 </body>
 </html>
