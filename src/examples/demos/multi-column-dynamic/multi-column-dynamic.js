@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-function NgRepeatListController($scope, $log) {
+function MultiColumnDynamicController($scope, $log) {
     var _index = {};
 
     function _getRows(count) {
@@ -18,17 +18,18 @@ function NgRepeatListController($scope, $log) {
 
 /* @ngInject */
 function config($stateProvider) {
-    $stateProvider.state('ngRepeatList', {
-        url: '/ngRepeatList',
+    $stateProvider.state('multiColumnDynamic', {
+        url: '/multiColumnDynamic',
         views: {
             contents: {
-                templateUrl: 'demos/ng-repeat-list/ng-repeat-list.html',
-                controller: 'NgRepeatListController'
+                templateUrl: 'demos/multi-column-dynamic/multi-column-dynamic.html',
+                controller: 'MultiColumnDynamicController'
             }
         }
+
     });
 }
 
-module.exports = angular.module('myApp.demos.ngRepeatList', [])
+module.exports = angular.module('myApp.demos.multiColumnDynamic', [])
     .config(config)
-    .controller('NgRepeatListController', NgRepeatListController);
+    .controller('MultiColumnDynamicController', MultiColumnDynamicController);
