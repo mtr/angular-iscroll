@@ -3,28 +3,54 @@
 var IScroll = require('iscroll');
 
 function iscroll($timeout, $log) {
-    var _defaultOptions = {
-        snap: true,
+    /* The different options for iScroll are explained in detail at
+       http://iscrolljs.com/#configuring */
+    var defaultIScrollOptions = {
         momentum: true,
-        hScrollbar: false,
-        mouseWheel: true,
-        on: []
+        mouseWheel: true
+    };
+
+    var defaultDirectiveOptions = {
+        /* Delay, in ms, before we asynchronously perform an iScroll.refresh().
+           If false, then no async refresh is performed. */
+        asyncRefreshDelay: 0
     };
 
     function _link(scope, element, attrs) {
-        $log.debug('angular-iscroll.js:5:iscroll._link._link:');
+        var options = angular.extend({}, scope.iscroll || {}, defaultIScrollOptions),
+            directiveOptions = {};
 
+        angular.forEach(options, function _extractDirectiveOptions(value, key) {
+            if (defaultDirectiveOptions.hasOwnProperty(key)) {
+                directiveOptions[key] = value;
+                delete options[key];
+            }
+        });
 
-        //var iScroll = new IScroll(element[0], _defaultOptions);
-        var iScroll = new IScroll(element[0]);
+        var instance = new IScroll(element[0], options);
 
-        $log.debug('iScroll', iScroll);
-        $log.debug('element', element);
+        if (angular.isDefined(attrs.iscrollInstance)) {
+            scope.iscrollInstance = instance;
+        }
+
+        if (directiveOptions.asyncRefreshDelay !== false) {
+            $timeout(function _refreshAfterInitialRender() {
+                instance.refresh();
+            }, directiveOptions.asyncRefreshDelay);
+        }
+
+        scope.$on('$destroy', function _destroyScope() {
+            instance.destroy();
+        });
     }
 
     return {
         restrict: 'A',
-        link: _link
+        link: _link,
+        scope: {
+            iscroll: '=',
+            iscrollInstance: '='
+        }
     }
 }
 
