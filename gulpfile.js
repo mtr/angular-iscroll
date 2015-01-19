@@ -7,6 +7,7 @@ var _ = require('lodash'),
     connect = require('gulp-connect'),
     dateFormat = require('dateformat'),
     footer = require('gulp-footer'),
+    ghPages = require('gulp-gh-pages'),
     gulp = require('gulp'),
     gutil = require('gulp-util'),
     header = require('gulp-header'),
@@ -224,3 +225,8 @@ gulp.task('examples', [
     'views',
     'watch-examples'
 ], bundle);
+
+gulp.task('deploy', function () {
+    return gulp.src('./dist/**/*')
+        .pipe(ghPages());
+});
