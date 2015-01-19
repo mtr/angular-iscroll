@@ -44010,8 +44010,8 @@ module.exports = angular
     .module('myApp.version', [
         require('./version.directive.js').name
     ])
-    .value('version', '0.5.0')
-    .value('buildTimestamp', '2015-01-17T21:27:50+0100');
+    .value('version', '0.5.1')
+    .value('buildTimestamp', '2015-01-19T15:04:53+0100');
 
 },{"./version.directive.js":"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.directive.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/demos/demos.js":[function(require,module,exports){
 'use strict';
@@ -44025,10 +44025,50 @@ function foo() {
 
 module.exports = angular.module('myApp.demos', [
     require('./static-list/static-list.js').name,
-    require('./ng-repeat-list/ng-repeat-list.js').name
+    require('./ng-repeat-list/ng-repeat-list.js').name,
+    require('./multi-column-dynamic/multi-column-dynamic.js').name
 ]);
 
-},{"./ng-repeat-list/ng-repeat-list.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/ng-repeat-list/ng-repeat-list.js","./static-list/static-list.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/static-list/static-list.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/demos/ng-repeat-list/ng-repeat-list.js":[function(require,module,exports){
+},{"./multi-column-dynamic/multi-column-dynamic.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/multi-column-dynamic/multi-column-dynamic.js","./ng-repeat-list/ng-repeat-list.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/ng-repeat-list/ng-repeat-list.js","./static-list/static-list.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/static-list/static-list.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/demos/multi-column-dynamic/multi-column-dynamic.js":[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+/* @ngInject */
+function MultiColumnDynamicController($scope, $log) {
+    var _index = {};
+
+    function _getRows(count) {
+        if (! _index.hasOwnProperty(count)) {
+            _index[count] = new Array(count);
+        }
+        return _index[count];
+    }
+
+    $scope.getRows = _getRows;
+}
+MultiColumnDynamicController.$inject = ["$scope", "$log"];
+
+/* @ngInject */
+function config($stateProvider) {
+    $stateProvider.state('multiColumnDynamic', {
+        url: '/multiColumnDynamic',
+        views: {
+            contents: {
+                templateUrl: 'demos/multi-column-dynamic/multi-column-dynamic.html',
+                controller: 'MultiColumnDynamicController'
+            }
+        }
+
+    });
+}
+config.$inject = ["$stateProvider"];
+
+module.exports = angular.module('myApp.demos.multiColumnDynamic', [])
+    .config(config)
+    .controller('MultiColumnDynamicController', MultiColumnDynamicController);
+
+},{"angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/demos/ng-repeat-list/ng-repeat-list.js":[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -44058,7 +44098,6 @@ function config($stateProvider) {
                 controller: 'NgRepeatListController'
             }
         }
-
     });
 }
 config.$inject = ["$stateProvider"];

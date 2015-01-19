@@ -2029,6 +2029,8 @@ body { overflow: hidden; }
 
 .scroller { position: absolute; width: 100%; background-color: #fff; }
 
+.multi-column.container-fluid, .multi-column .row, .multi-column .column { height: 100%; }
+
 
 
 /*# sourceMappingURL=style.css.map */
