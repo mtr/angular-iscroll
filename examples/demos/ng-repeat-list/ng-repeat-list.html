@@ -1,0 +1,13 @@
+<div class="wrapper" iscroll iscroll-instance="instance">
+  <div class="scroller">
+    <div class="well">
+      NgRepeat List
+      <button ng-click="instance.refresh()">Refresh</button>
+    </div>
+    <ul class="list-group">
+      <li ng-repeat="item in getRows(50) track by $index"
+          class="list-group-item">Dynamically generated row {{$index + 1}}
+      </li>
+    </ul>
+  </div>
+</div>
