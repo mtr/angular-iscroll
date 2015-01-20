@@ -45,23 +45,10 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li ng-class="{active: $state.includes('staticList')}">
-            <a ui-sref="staticList">Static List
-            <span ng-if="$state.includes('staticList')" class="sr-only">
-              (current)
-            </span>
-            </a>
-          </li>
-          <li ng-class="{active: $state.includes('ngRepeatList')}">
-            <a ui-sref="ngRepeatList">ngRepeat List
-            <span ng-if="$state.includes('ngRepeatList')" class="sr-only">
-              (current)
-            </span>
-            </a>
-          </li>
-          <li ng-class="{active: $state.includes('multiColumnDynamic')}">
-            <a ui-sref="multiColumnDynamic">Multi-column
-            <span ng-if="$state.includes('multiColumnDynamic')" class="sr-only">
+          <li ng-repeat="demo in demos"
+              ng-class="{active: $state.includes(demo.state)}">
+            <a ui-sref="{{demo.state}}">{{ demo.name }}
+            <span ng-if="$state.includes(demo.state)" class="sr-only">
               (current)
             </span>
             </a>
