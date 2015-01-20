@@ -11,6 +11,21 @@ function config($urlRouterProvider) {
 }
 
 function MyAppController($scope, $window, $interval, $log) {
+    $scope.demos = [
+        {
+            state: 'staticList',
+            name: 'Static List'
+        },
+        {
+            state: 'ngRepeatList',
+            name: 'ngRepeat List'
+        },
+        {
+            state: 'multiColumnDynamic',
+            name: 'Multi-column'
+        }
+    ];
+
     var promise = $interval(function _checkBrowserSync() {
         $scope.browserSync = !!$window.___browserSync___;
     }, 250);
@@ -18,21 +33,13 @@ function MyAppController($scope, $window, $interval, $log) {
     $scope.$on('$destroy', function _cleanUp() {
         $interval.cancel(promise);
     });
-
-    //$scope.$watch(function _checkBrowserSync() {
-    //    return $window.___browserSync___;
-    //}, function browserSyncChanged(current, previous) {
-    //    $log.debug('current, previous', current, previous);
-    //});
-    //$scope.browserSync = !!window.___browserSync___;
-
-    $log.debug('app.js:14:myAppController.myAppController: ');
 }
 
 angular
     .module('myApp', [
         require('ui.router').name,
         require('angular-iscroll').name,
+        require('angular-messages').name,
         require('./demos/demos.js').name,
         require('./components/version/version.js').name
     ])

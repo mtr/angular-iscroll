@@ -3,8 +3,12 @@
 var angular = require('angular');
 
 /* @ngInject */
-function StaticListController($log) {
-    $log.debug('static-list.js:7:StaticListController.StaticListController: ');
+function StaticListController($scope, $log) {
+    $scope.registration = {
+        email: null,
+        password: null,
+        remember: null
+    };
 }
 
 /* @ngInject */
