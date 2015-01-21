@@ -8,7 +8,7 @@ require('bootstrap');
 /* @ngInject */
 function config($urlRouterProvider) {
     // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/');
 }
 config.$inject = ["$urlRouterProvider"];
 
@@ -18,15 +18,15 @@ function MyAppController($scope, $window, $interval, $log, iScrollService) {
 
     $scope.demos = [
         {
-            state: 'staticList',
+            state: 'demos.staticList',
             name: 'Static List'
         },
         {
-            state: 'ngRepeatList',
+            state: 'demos.ngRepeatList',
             name: 'ngRepeat List'
         },
         {
-            state: 'multiColumnDynamic',
+            state: 'demos.multiColumnDynamic',
             name: 'Multi-column'
         }
     ];
@@ -44536,18 +44536,37 @@ module.exports = angular
         require('./version.directive.js').name
     ])
     .value('version', '0.5.1')
-    .value('buildTimestamp', '2015-01-21T09:09:24+0100');
+    .value('buildTimestamp', '2015-01-21T17:29:11+0100');
 
 },{"./version.directive.js":"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.directive.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/demos/demos.js":[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 
+/* @ngInject */
+function config($stateProvider) {
+    $stateProvider.state('demos', {
+        url: '/demos',
+        views: {
+            //'contents@': {
+            //    templateUrl: 'home/home.html',
+            //    controller: 'HomeController'
+            //},
+            'header@': {
+                templateUrl: 'home/header.html',
+                controller: 'HomeHeaderController'
+            }
+        }
+    });
+}
+config.$inject = ["$stateProvider"];
+
 module.exports = angular.module('myApp.demos', [
     require('./static-list/static-list.js').name,
     require('./ng-repeat-list/ng-repeat-list.js').name,
     require('./multi-column-dynamic/multi-column-dynamic.js').name
-]);
+])
+    .config(config);
 
 },{"./multi-column-dynamic/multi-column-dynamic.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/multi-column-dynamic/multi-column-dynamic.js","./ng-repeat-list/ng-repeat-list.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/ng-repeat-list/ng-repeat-list.js","./static-list/static-list.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/static-list/static-list.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/demos/multi-column-dynamic/multi-column-dynamic.js":[function(require,module,exports){
 'use strict';
@@ -44571,11 +44590,12 @@ MultiColumnDynamicController.$inject = ["$scope", "$log"];
 
 /* @ngInject */
 function config($stateProvider) {
-    $stateProvider.state('multiColumnDynamic', {
+    $stateProvider.state('demos.multiColumnDynamic', {
         url: '/multiColumnDynamic',
         views: {
-            contents: {
-                templateUrl: 'demos/multi-column-dynamic/multi-column-dynamic.html',
+            'contents@': {
+                templateUrl:
+                    'demos/multi-column-dynamic/multi-column-dynamic.html',
                 controller: 'MultiColumnDynamicController'
             }
         }
@@ -44610,10 +44630,10 @@ NgRepeatListController.$inject = ["$scope", "$log"];
 
 /* @ngInject */
 function config($stateProvider) {
-    $stateProvider.state('ngRepeatList', {
+    $stateProvider.state('demos.ngRepeatList', {
         url: '/ngRepeatList',
         views: {
-            contents: {
+            'contents@': {
                 templateUrl: 'demos/ng-repeat-list/ng-repeat-list.html',
                 controller: 'NgRepeatListController'
             }
@@ -44643,10 +44663,10 @@ StaticListController.$inject = ["$scope", "$log"];
 
 /* @ngInject */
 function config($stateProvider) {
-    $stateProvider.state('staticList', {
+    $stateProvider.state('demos.staticList', {
         url: '/staticList',
         views: {
-            contents: {
+            'contents@': {
                 templateUrl: 'demos/static-list/static-list.html',
                 controller: 'StaticListController'
             }
@@ -44671,13 +44691,23 @@ function HomeController($scope, $log, iScrollService) {
 HomeController.$inject = ["$scope", "$log", "iScrollService"];
 
 /* @ngInject */
+function HomeHeaderController($log) {
+    $log.debug('home.js:12:HomeHeaderController.HomeHeaderController: ');
+}
+HomeHeaderController.$inject = ["$log"];
+
+/* @ngInject */
 function config($stateProvider) {
     $stateProvider.state('home', {
-        url: '/home',
+        url: '/',
         views: {
-            contents: {
+            'contents@': {
                 templateUrl: 'home/home.html',
                 controller: 'HomeController'
+            },
+            'header@': {
+                templateUrl: 'home/header.html',
+                controller: 'HomeHeaderController'
             }
         }
     });
@@ -44686,7 +44716,8 @@ config.$inject = ["$stateProvider"];
 
 module.exports = angular.module('myApp.home', [])
     .config(config)
-    .controller('HomeController', HomeController);
+    .controller('HomeController', HomeController)
+    .controller('HomeHeaderController', HomeHeaderController);
 
 
 },{"angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}]},{},["./src/examples/app.js"])
