@@ -18,10 +18,10 @@ function NgRepeatListController($scope, $log) {
 
 /* @ngInject */
 function config($stateProvider) {
-    $stateProvider.state('ngRepeatList', {
+    $stateProvider.state('demos.ngRepeatList', {
         url: '/ngRepeatList',
         views: {
-            contents: {
+            'contents@': {
                 templateUrl: 'demos/ng-repeat-list/ng-repeat-list.html',
                 controller: 'NgRepeatListController'
             }

@@ -8,13 +8,22 @@ function HomeController($scope, $log, iScrollService) {
 }
 
 /* @ngInject */
+function HomeHeaderController($log) {
+    $log.debug('home.js:12:HomeHeaderController.HomeHeaderController: ');
+}
+
+/* @ngInject */
 function config($stateProvider) {
     $stateProvider.state('home', {
-        url: '/home',
+        url: '/',
         views: {
-            contents: {
+            'contents@': {
                 templateUrl: 'home/home.html',
                 controller: 'HomeController'
+            },
+            'header@': {
+                templateUrl: 'home/header.html',
+                controller: 'HomeHeaderController'
             }
         }
     });
@@ -22,5 +31,6 @@ function config($stateProvider) {
 
 module.exports = angular.module('myApp.home', [])
     .config(config)
-    .controller('HomeController', HomeController);
+    .controller('HomeController', HomeController)
+    .controller('HomeHeaderController', HomeHeaderController);
 

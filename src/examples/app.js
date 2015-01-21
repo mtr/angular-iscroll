@@ -7,7 +7,7 @@ require('bootstrap');
 /* @ngInject */
 function config($urlRouterProvider) {
     // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/');
 }
 
 function MyAppController($scope, $window, $interval, $log, iScrollService) {
@@ -16,15 +16,15 @@ function MyAppController($scope, $window, $interval, $log, iScrollService) {
 
     $scope.demos = [
         {
-            state: 'staticList',
+            state: 'demos.staticList',
             name: 'Static List'
         },
         {
-            state: 'ngRepeatList',
+            state: 'demos.ngRepeatList',
             name: 'ngRepeat List'
         },
         {
-            state: 'multiColumnDynamic',
+            state: 'demos.multiColumnDynamic',
             name: 'Multi-column'
         }
     ];
