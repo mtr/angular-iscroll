@@ -6,11 +6,8 @@ var angular = require('angular');
 function config($stateProvider) {
     $stateProvider.state('demos', {
         url: '/demos',
+        abstract: true,
         views: {
-            //'contents@': {
-            //    templateUrl: 'home/home.html',
-            //    controller: 'HomeController'
-            //},
             'header@': {
                 templateUrl: 'home/header.html',
                 controller: 'HomeHeaderController'

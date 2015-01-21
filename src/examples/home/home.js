@@ -14,19 +14,20 @@ function HomeHeaderController($log) {
 
 /* @ngInject */
 function config($stateProvider) {
-    $stateProvider.state('home', {
-        url: '/',
-        views: {
-            'contents@': {
-                templateUrl: 'home/home.html',
-                controller: 'HomeController'
-            },
-            'header@': {
-                templateUrl: 'home/header.html',
-                controller: 'HomeHeaderController'
+    $stateProvider
+        .state('home', {
+            url: '/',
+            views: {
+                'header@': {
+                    templateUrl: 'home/header.html',
+                    controller: 'HomeHeaderController'
+                },
+                'contents@': {
+                    templateUrl: 'home/home.html',
+                    controller: 'HomeController'
+                }
             }
-        }
-    });
+        });
 }
 
 module.exports = angular.module('myApp.home', [])
