@@ -8,11 +8,14 @@ require('bootstrap');
 /* @ngInject */
 function config($urlRouterProvider) {
     // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise('/staticList');
+    $urlRouterProvider.otherwise('/home');
 }
 config.$inject = ["$urlRouterProvider"];
 
-function MyAppController($scope, $window, $interval, $log) {
+function MyAppController($scope, $window, $interval, $log, iScrollService) {
+    $scope.iScrollState = iScrollService.state;
+    $scope.toggleIScroll = iScrollService.toggle;
+
     $scope.demos = [
         {
             state: 'staticList',
@@ -36,24 +39,25 @@ function MyAppController($scope, $window, $interval, $log) {
         $interval.cancel(promise);
     });
 }
-MyAppController.$inject = ["$scope", "$window", "$interval", "$log"];
+MyAppController.$inject = ["$scope", "$window", "$interval", "$log", "iScrollService"];
 
 angular
     .module('myApp', [
         require('ui.router').name,
         require('angular-iscroll').name,
         require('angular-messages').name,
+        require('./components/version/version.js').name,
         require('./demos/demos.js').name,
-        require('./components/version/version.js').name
+        require('./home/home.js').name
     ])
     .config(config)
     .controller('MyAppController', MyAppController);
 
 module.exports = angular.module('myApp');
 
-},{"./components/version/version.js":"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.js","./demos/demos.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/demos.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js","angular-iscroll":"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js","angular-messages":"/home/mtr/projects/angular-iscroll/node_modules/angular-messages/angular-messages.js","bootstrap":"/home/mtr/projects/angular-iscroll/node_modules/bootstrap-sass/assets/javascripts/bootstrap.js","ui.router":"/home/mtr/projects/angular-iscroll/node_modules/angular-ui-router/release/angular-ui-router.js"}],"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js":[function(require,module,exports){
+},{"./components/version/version.js":"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.js","./demos/demos.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/demos.js","./home/home.js":"/home/mtr/projects/angular-iscroll/src/examples/home/home.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js","angular-iscroll":"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js","angular-messages":"/home/mtr/projects/angular-iscroll/node_modules/angular-messages/angular-messages.js","bootstrap":"/home/mtr/projects/angular-iscroll/node_modules/bootstrap-sass/assets/javascripts/bootstrap.js","ui.router":"/home/mtr/projects/angular-iscroll/node_modules/angular-ui-router/release/angular-ui-router.js"}],"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js":[function(require,module,exports){
 /**
- * @license angular-iscroll v0.5.0, 2015-01-19T12:22:25+0100
+ * @license angular-iscroll v0.5.1, 2015-01-21T14:21:12+0100
  * (c) 2015 Martin Thorsen Ranang <mtr@ranang.org>
  * License: MIT
  */
@@ -62,46 +66,146 @@ module.exports = angular.module('myApp');
 
 var IScroll = require('iscroll');
 
-function iscroll($timeout, $log) {
+var signals = {
+    disabled: 'iscroll:disabled',
+    enabled: 'iscroll:enabled'
+};
+
+/* @ngInject */
+function iScrollService($rootScope, $log, iScrollSignals) {
+    var _state = {
+        useIScroll: true
+    };
+
+    function _disable(signalOnly) {
+        if (!signalOnly) {
+            _state.useIScroll = false;
+        }
+        $log.debug('emit(iScrollSignals.disabled)', iScrollSignals.disabled);
+        $rootScope.$emit(iScrollSignals.disabled);
+    }
+
+    function _enable(signalOnly) {
+        if (!signalOnly) {
+            _state.useIScroll = true;
+        }
+        $log.debug('emit(iScrollSignals.enabled)', iScrollSignals.enabled);
+        $rootScope.$emit(iScrollSignals.enabled);
+    }
+
+    function _toggle(signalOnly) {
+        (_state.useIScroll ^ signalOnly) ?  // XOR
+            _disable(signalOnly) : _enable(signalOnly);
+    }
+
+    $rootScope.$on(iScrollSignals.disabled, function _disabledIScroll() {
+        $log.debug('on(iScrollSignals.disabled)', iScrollSignals.disabled);
+    });
+
+    $rootScope.$on(iScrollSignals.enabled, function _enabledIScroll() {
+        $log.debug('on(iScrollSignals.enabled)', iScrollSignals.enabled);
+    });
+
+    return {
+        state: _state,
+        enable: _enable,
+        disable: _disable,
+        toggle: _toggle
+    };
+}
+iScrollService.$inject = ["$rootScope", "$log", "iScrollSignals"];
+
+function _call(functor) {
+    functor();
+}
+
+/* @ngInject */
+function iscroll($rootScope, $timeout, $log, iScrollSignals, iScrollService) {
     /* The different options for iScroll are explained in detail at
-       http://iscrolljs.com/#configuring */
-    var defaultIScrollOptions = {
-        momentum: true,
-        mouseWheel: true
+     http://iscrolljs.com/#configuring */
+    var defaults = {
+        iScroll: {
+            momentum: true,
+            mouseWheel: true
+        },
+        directive: {
+            /* Delay, in ms, before we asynchronously perform an
+               iScroll.refresh().  If false, then no async refresh is
+               performed. */
+            asyncRefreshDelay: 0
+        }
     };
 
-    var defaultDirectiveOptions = {
-        /* Delay, in ms, before we asynchronously perform an iScroll.refresh().
-           If false, then no async refresh is performed. */
-        asyncRefreshDelay: 0
-    };
+    function _createInstance(scope, element, attrs, options) {
+        var instance = new IScroll(element[0], options.iScroll);
 
-    function _link(scope, element, attrs) {
-        var options = angular.extend({}, scope.iscroll || {}, defaultIScrollOptions),
-            directiveOptions = {};
-
-        angular.forEach(options, function _extractDirectiveOptions(value, key) {
-            if (defaultDirectiveOptions.hasOwnProperty(key)) {
-                directiveOptions[key] = value;
-                delete options[key];
-            }
-        });
-
-        var instance = new IScroll(element[0], options);
+        element.removeClass('iscroll-off').addClass('iscroll-on');
 
         if (angular.isDefined(attrs.iscrollInstance)) {
             scope.iscrollInstance = instance;
         }
 
-        if (directiveOptions.asyncRefreshDelay !== false) {
+        if (options.directive.asyncRefreshDelay !== false) {
             $timeout(function _refreshAfterInitialRender() {
                 instance.refresh();
-            }, directiveOptions.asyncRefreshDelay);
+            }, options.directive.asyncRefreshDelay);
         }
 
-        scope.$on('$destroy', function _destroyScope() {
+        function _destroyInstance() {
+            if (angular.isDefined(scope.iscrollInstance)) {
+                delete scope.iscrollInstance;
+            }
             instance.destroy();
-        });
+
+            element.removeClass('iscroll-on').addClass('iscroll-off');
+
+            angular.forEach(signalListeners, _call);
+
+            $log.debug('angular-iscroll: destroyInstance');
+        }
+
+        var signalListeners = [
+            $rootScope.$on(iScrollSignals.disabled, _destroyInstance),
+            scope.$on('$destroy', _destroyInstance)
+        ];
+
+        return instance;
+    }
+
+    function _link(scope, element, attrs) {
+        var options = {
+            iScroll: angular.extend({}, scope.iscroll || {}, defaults.iScroll),
+            directive: {}
+        };
+
+        angular.forEach(options.iScroll, function _extractOptions(value, key) {
+                if (defaults.directive.hasOwnProperty(key)) {
+                    options.directive[key] = value;
+                    delete options.iScroll[key];
+                }
+            }
+        );
+
+        function _init() {
+            if (!element.hasClass('iscroll-on')) {
+                _createInstance(scope, element, attrs, options);
+            }
+        }
+
+        var enableHandlers = [$rootScope.$on(iScrollSignals.enabled, _init)];
+
+        function _removeEnableHandlers() {
+            angular.forEach(enableHandlers, _call);
+            $log.debug('angular-iscroll: removeEnableHandlers');
+        }
+
+        if (iScrollService.state.useIScroll) {
+            _init();
+        } else {
+            element.removeClass('iscroll-on').addClass('iscroll-off');
+        }
+
+        scope.$on('$destroy', _removeEnableHandlers);
     }
 
     return {
@@ -113,10 +217,12 @@ function iscroll($timeout, $log) {
         }
     }
 }
-iscroll.$inject = ["$timeout", "$log"];
+iscroll.$inject = ["$rootScope", "$timeout", "$log", "iScrollSignals", "iScrollService"];
 
 var angularIscroll = angular.module('angular-iscroll', [])
-    .directive('iscroll', iscroll);
+    .directive('iscroll', iscroll)
+    .factory('iScrollService', iScrollService)
+    .constant('iScrollSignals', signals);
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = angularIscroll;
@@ -44430,17 +44536,12 @@ module.exports = angular
         require('./version.directive.js').name
     ])
     .value('version', '0.5.1')
-    .value('buildTimestamp', '2015-01-20T21:26:33+0100');
+    .value('buildTimestamp', '2015-01-21T09:09:24+0100');
 
 },{"./version.directive.js":"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.directive.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/demos/demos.js":[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
-
-/* @ngIncject */
-function foo() {
-
-}
 
 module.exports = angular.module('myApp.demos', [
     require('./static-list/static-list.js').name,
@@ -44557,6 +44658,36 @@ config.$inject = ["$stateProvider"];
 module.exports = angular.module('myApp.demos.staticList', [])
     .config(config)
     .controller('StaticListController', StaticListController);
+
+},{"angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/home/home.js":[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+/* @ngInject */
+function HomeController($scope, $log, iScrollService) {
+    $scope.iScrollState = iScrollService.state;
+}
+HomeController.$inject = ["$scope", "$log", "iScrollService"];
+
+/* @ngInject */
+function config($stateProvider) {
+    $stateProvider.state('home', {
+        url: '/home',
+        views: {
+            contents: {
+                templateUrl: 'home/home.html',
+                controller: 'HomeController'
+            }
+        }
+    });
+}
+config.$inject = ["$stateProvider"];
+
+module.exports = angular.module('myApp.home', [])
+    .config(config)
+    .controller('HomeController', HomeController);
+
 
 },{"angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}]},{},["./src/examples/app.js"])
 
