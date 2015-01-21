@@ -7,10 +7,13 @@ require('bootstrap');
 /* @ngInject */
 function config($urlRouterProvider) {
     // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise('/staticList');
+    $urlRouterProvider.otherwise('/home');
 }
 
-function MyAppController($scope, $window, $interval, $log) {
+function MyAppController($scope, $window, $interval, $log, iScrollService) {
+    $scope.iScrollState = iScrollService.state;
+    $scope.toggleIScroll = iScrollService.toggle;
+
     $scope.demos = [
         {
             state: 'staticList',
@@ -40,8 +43,9 @@ angular
         require('ui.router').name,
         require('angular-iscroll').name,
         require('angular-messages').name,
+        require('./components/version/version.js').name,
         require('./demos/demos.js').name,
-        require('./components/version/version.js').name
+        require('./home/home.js').name
     ])
     .config(config)
     .controller('MyAppController', MyAppController);
