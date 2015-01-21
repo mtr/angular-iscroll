@@ -44547,11 +44547,8 @@ var angular = require('angular');
 function config($stateProvider) {
     $stateProvider.state('demos', {
         url: '/demos',
+        abstract: true,
         views: {
-            //'contents@': {
-            //    templateUrl: 'home/home.html',
-            //    controller: 'HomeController'
-            //},
             'header@': {
                 templateUrl: 'home/header.html',
                 controller: 'HomeHeaderController'
@@ -44698,19 +44695,20 @@ HomeHeaderController.$inject = ["$log"];
 
 /* @ngInject */
 function config($stateProvider) {
-    $stateProvider.state('home', {
-        url: '/',
-        views: {
-            'contents@': {
-                templateUrl: 'home/home.html',
-                controller: 'HomeController'
-            },
-            'header@': {
-                templateUrl: 'home/header.html',
-                controller: 'HomeHeaderController'
+    $stateProvider
+        .state('home', {
+            url: '/',
+            views: {
+                'header@': {
+                    templateUrl: 'home/header.html',
+                    controller: 'HomeHeaderController'
+                },
+                'contents@': {
+                    templateUrl: 'home/home.html',
+                    controller: 'HomeController'
+                }
             }
-        }
-    });
+        });
 }
 config.$inject = ["$stateProvider"];
 
