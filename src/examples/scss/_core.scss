@@ -4,7 +4,6 @@ $footer-height: 50px;
 $header-z-index: 1000;
 $footer-z-index: 1000;
 
-
 .iscroll-off {
   .core {
     &.contents {
@@ -14,9 +13,8 @@ $footer-z-index: 1000;
       margin-top: 0;
       margin-bottom: 0;
     }
-  }
-  &.show-header {
-    .core {
+
+    &.header-show {
       &.header {
         display: block;
         position: fixed;
@@ -31,9 +29,8 @@ $footer-z-index: 1000;
         margin-top: $header-height;
       }
     }
-  }
-  &.hide-header {
-    .core {
+
+    &.header-hide {
       &.header {
         display: none;
       }
@@ -41,10 +38,8 @@ $footer-z-index: 1000;
         margin-top: 0;
       }
     }
-  }
 
-  &.show-footer {
-    .core {
+    &.footer-show {
       &.contents {
         margin-bottom: $footer-height;
       }
@@ -60,9 +55,8 @@ $footer-z-index: 1000;
         z-index: $header-z-index;
       }
     }
-  }
-  &.hide-footer {
-    .core {
+
+    &.footer-hide {
       &.footer {
         display: none;
       }
@@ -71,9 +65,7 @@ $footer-z-index: 1000;
       }
     }
   }
-
 }
-
 
 .iscroll-on {
   body {
@@ -91,9 +83,8 @@ $footer-z-index: 1000;
     &.contents {
       overflow: auto;
     }
-  }
-  &.show-header {
-    .core {
+
+    &.header-show {
       &.header {
         top: 0;
         z-index: $header-z-index;
@@ -102,9 +93,8 @@ $footer-z-index: 1000;
         top: $header-height;
       }
     }
-  }
-  &.hide-header {
-    .core {
+
+    &.header-hide {
       &.header {
         display: none;
       }
@@ -112,9 +102,8 @@ $footer-z-index: 1000;
         top: 0;
       }
     }
-  }
-  &.show-footer {
-    .core {
+
+    &.footer-show {
       &.contents {
         bottom: $footer-height;
       }
@@ -124,9 +113,8 @@ $footer-z-index: 1000;
         z-index: $header-z-index;
       }
     }
-  }
-  &.hide-footer {
-    .core {
+
+    &.footer-hide {
       &.contents {
         bottom: 0;
       }
