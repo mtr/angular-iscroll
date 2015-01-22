@@ -12,9 +12,12 @@ function config($urlRouterProvider) {
 }
 config.$inject = ["$urlRouterProvider"];
 
-function MyAppController($scope, $window, $interval, $log, iScrollService) {
+function MyAppController($scope, $window, $interval, $log,
+                         coreLayoutService, iScrollService) {
     $scope.iScrollState = iScrollService.state;
     $scope.toggleIScroll = iScrollService.toggle;
+
+    $scope.coreLayout = coreLayoutService.layout;
 
     $scope.demos = [
         {
@@ -39,13 +42,14 @@ function MyAppController($scope, $window, $interval, $log, iScrollService) {
         $interval.cancel(promise);
     });
 }
-MyAppController.$inject = ["$scope", "$window", "$interval", "$log", "iScrollService"];
+MyAppController.$inject = ["$scope", "$window", "$interval", "$log", "coreLayoutService", "iScrollService"];
 
 angular
     .module('myApp', [
         require('ui.router').name,
         require('angular-iscroll').name,
         require('angular-messages').name,
+        require('./components/core-layout/core-layout.js').name,
         require('./components/version/version.js').name,
         require('./demos/demos.js').name,
         require('./home/home.js').name
@@ -55,7 +59,7 @@ angular
 
 module.exports = angular.module('myApp');
 
-},{"./components/version/version.js":"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.js","./demos/demos.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/demos.js","./home/home.js":"/home/mtr/projects/angular-iscroll/src/examples/home/home.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js","angular-iscroll":"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js","angular-messages":"/home/mtr/projects/angular-iscroll/node_modules/angular-messages/angular-messages.js","bootstrap":"/home/mtr/projects/angular-iscroll/node_modules/bootstrap-sass/assets/javascripts/bootstrap.js","ui.router":"/home/mtr/projects/angular-iscroll/node_modules/angular-ui-router/release/angular-ui-router.js"}],"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js":[function(require,module,exports){
+},{"./components/core-layout/core-layout.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.js","./components/version/version.js":"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.js","./demos/demos.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/demos.js","./home/home.js":"/home/mtr/projects/angular-iscroll/src/examples/home/home.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js","angular-iscroll":"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js","angular-messages":"/home/mtr/projects/angular-iscroll/node_modules/angular-messages/angular-messages.js","bootstrap":"/home/mtr/projects/angular-iscroll/node_modules/bootstrap-sass/assets/javascripts/bootstrap.js","ui.router":"/home/mtr/projects/angular-iscroll/node_modules/angular-ui-router/release/angular-ui-router.js"}],"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js":[function(require,module,exports){
 /**
  * @license angular-iscroll v0.5.1, 2015-01-21T14:21:12+0100
  * (c) 2015 Martin Thorsen Ranang <mtr@ranang.org>
@@ -44500,7 +44504,39 @@ return jQuery;
 
 }));
 
-},{}],"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.directive.js":[function(require,module,exports){
+},{}],"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.js":[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+module.exports = angular
+    .module('MyApp.coreLayout', [
+        require('./core-layout.service.js').name
+    ]);
+
+
+},{"./core-layout.service.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.service.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.service.js":[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+
+/* @ngInject */
+function CoreLayoutService() {
+    var _layout = {
+        showHeader: true,
+        showFooter: true
+    };
+
+    return {
+        layout: _layout
+    };
+}
+
+module.exports = angular
+    .module('MyApp.coreLayout.service', [])
+    .factory('coreLayoutService', CoreLayoutService);
+
+},{"angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.directive.js":[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -44550,8 +44586,10 @@ function config($stateProvider) {
         abstract: true,
         views: {
             'header@': {
-                templateUrl: 'home/header.html',
-                controller: 'HomeHeaderController'
+                templateUrl: 'home/header.html'
+            },
+            'footer@': {
+                templateUrl: 'home/footer.html'
             }
         }
     });
@@ -44688,9 +44726,7 @@ function HomeController($scope, $log, iScrollService) {
 HomeController.$inject = ["$scope", "$log", "iScrollService"];
 
 /* @ngInject */
-function HomeHeaderController($log) {
-    $log.debug('home.js:12:HomeHeaderController.HomeHeaderController: ');
-}
+function HomeHeaderController($log) {}
 HomeHeaderController.$inject = ["$log"];
 
 /* @ngInject */
@@ -44700,12 +44736,19 @@ function config($stateProvider) {
             url: '/',
             views: {
                 'header@': {
-                    templateUrl: 'home/header.html',
-                    controller: 'HomeHeaderController'
+                    templateUrl: 'home/header.html'
+                    //controller: 'HomeHeaderController'
                 },
                 'contents@': {
                     templateUrl: 'home/home.html',
                     controller: 'HomeController'
+                },
+                'footer@': {
+                    templateUrl: 'home/footer.html'
+                    //controller: 'HomeHeaderController'
+                    //FIXME: controller: HideFooterController?
+                    //FIXME: onEnter: showFooter?
+                    //FIXME: onExit: hideFooter?
                 }
             }
         });

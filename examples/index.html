@@ -15,7 +15,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body ng-controller="MyAppController">
+<body ng-controller="MyAppController"
+      ng-class="{'show-header': coreLayout.showHeader, 'show-footer': coreLayout.showFooter, 'iscroll-active': iScrollState.useIScroll}">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser.
   Please <a href="http://browsehappy.com/">upgrade your browser</a> to
@@ -24,15 +25,7 @@
 <![endif]-->
 <div class="core header" ui-view="header"></div>
 <div class="core contents" ui-view="contents"></div>
-<div class="core footer">
-  <nav class="navbar navbar-default"
-       ng-class="{'navbar-fixed-bottom': false}">
-    <div class="container">
-      <p class="navbar-text">Angular-iScroll demo app:
-        v<span current-version="full"></span></p>
-    </div>
-  </nav>
-</div>
+<div class="core footer" ui-view="footer"></div>
 
 <script src="js/bundle.js"></script>
 </body>
