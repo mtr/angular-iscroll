@@ -2021,27 +2021,23 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 .iscroll-on .iscroll-wrapper { position: relative; width: 100%; height: 100%; overflow: hidden; background-color: #777; }
 .iscroll-on .iscroll-scroller { position: absolute; width: 100%; min-height: 100%; background-color: #fff; }
 
-.iscroll-off .core.contents { position: relative; left: 0; width: 100%; margin-top: 0; margin-bottom: 0; }
-.iscroll-off.show-header .core.header { display: block; position: fixed; top: 0; left: 0; width: 100%; padding: 0; margin: 0; z-index: 1000; }
-.iscroll-off.show-header .core.contents { margin-top: 50px; }
-.iscroll-off.hide-header .core.header { display: none; }
-.iscroll-off.hide-header .core.contents { margin-top: 0; }
-.iscroll-off.show-footer .core.contents { margin-bottom: 50px; }
-.iscroll-off.show-footer .core.footer { display: block; position: fixed; bottom: 0; left: 0; width: 100%; padding: 0; margin: 0; height: 50px; z-index: 1000; }
-.iscroll-off.hide-footer .core.footer { display: none; }
-.iscroll-off.hide-footer .core.contents { margin-bottom: 0; }
+.core { left: 0; width: 100%; padding: 0; margin: 0; }
+.core.header { top: 0; }
+.core.header.header-hide { display: none; }
+.core.header, .core.footer { z-index: 1000; }
+.core.footer { bottom: 0; height: 50px; }
+.core.footer.footer-hide { display: none; }
+
+.iscroll-off .core.header, .iscroll-off .core.footer { position: fixed; }
+.iscroll-off .core.contents { position: relative; margin-top: 50px; margin-bottom: 50px; }
+.iscroll-off .core.contents.header-hide { margin-top: 0; }
+.iscroll-off .core.contents.footer-hide { margin-bottom: 0; }
 
 .iscroll-on body { overflow: hidden; }
-.iscroll-on .core { position: absolute; left: 0; width: 100%; padding: 0; margin: 0; overflow: hidden; }
-.iscroll-on .core.contents { overflow: auto; }
-.iscroll-on.show-header .core.header { top: 0; z-index: 1000; }
-.iscroll-on.show-header .core.contents { top: 50px; }
-.iscroll-on.hide-header .core.header { display: none; }
-.iscroll-on.hide-header .core.contents { top: 0; }
-.iscroll-on.show-footer .core.contents { bottom: 50px; }
-.iscroll-on.show-footer .core.footer { height: 50px; bottom: 0; z-index: 1000; }
-.iscroll-on.hide-footer .core.contents { bottom: 0; }
-.iscroll-on.hide-footer .core.footer { display: none; }
+.iscroll-on .core { position: absolute; overflow: hidden; }
+.iscroll-on .core.contents { overflow: auto; top: 50px; bottom: 50px; }
+.iscroll-on .core.contents.header-hide { top: 0; }
+.iscroll-on .core.contents.footer-hide { bottom: 0; }
 
 .core.header .navbar, .core.header .navbar-text { margin-bottom: 0; }
 
