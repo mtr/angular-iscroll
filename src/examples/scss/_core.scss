@@ -1,34 +1,69 @@
 $header-height: 50px;
 $footer-height: 50px;
 
-body {
-  overflow: hidden;
-}
+$header-z-index: 1000;
+$footer-z-index: 1000;
 
 .core {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-
   &.header {
+    position: fixed;
     top: 0;
-//    height: $header-height;
-    overflow-y: auto;
-    z-index: 1;
-  }
-  &.footer {
-    bottom: 0;
-    height: $footer-height;
-  }
-  &.contents {
-    top: $header-height;
-    bottom: $footer-height;
-    overflow: auto;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    z-index: $header-z-index;
   }
 
+  &.contents {
+    position: relative;
+    left: 0;
+    width: 100%;
+    margin-top: $header-height;
+    margin-bottom: $footer-height;
+  }
+
+  &.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    height: $footer-height;
+    z-index: $header-z-index;
+  }
+}
+
+.iscroll-active {
+  body {
+    overflow: hidden;
+  }
+
+  .core {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+
+    &.header {
+      top: 0;
+      //    height: $header-height;
+      overflow-y: auto;
+      z-index: 1;
+    }
+    &.contents {
+      top: $header-height;
+      bottom: $footer-height;
+      overflow: auto;
+    }
+    &.footer {
+      bottom: 0;
+      height: $footer-height;
+    }
+  }
 }
 
 // iScroll + Bootstrap adjustments:

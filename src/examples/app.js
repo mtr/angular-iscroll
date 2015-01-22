@@ -10,9 +10,12 @@ function config($urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 }
 
-function MyAppController($scope, $window, $interval, $log, iScrollService) {
+function MyAppController($scope, $window, $interval, $log,
+                         coreLayoutService, iScrollService) {
     $scope.iScrollState = iScrollService.state;
     $scope.toggleIScroll = iScrollService.toggle;
+
+    $scope.coreLayout = coreLayoutService.layout;
 
     $scope.demos = [
         {
@@ -43,6 +46,7 @@ angular
         require('ui.router').name,
         require('angular-iscroll').name,
         require('angular-messages').name,
+        require('./components/core-layout/core-layout.js').name,
         require('./components/version/version.js').name,
         require('./demos/demos.js').name,
         require('./home/home.js').name

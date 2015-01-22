@@ -9,8 +9,10 @@ function config($stateProvider) {
         abstract: true,
         views: {
             'header@': {
-                templateUrl: 'home/header.html',
-                controller: 'HomeHeaderController'
+                templateUrl: 'home/header.html'
+            },
+            'footer@': {
+                templateUrl: 'home/footer.html'
             }
         }
     });

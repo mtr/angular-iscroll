@@ -8,9 +8,7 @@ function HomeController($scope, $log, iScrollService) {
 }
 
 /* @ngInject */
-function HomeHeaderController($log) {
-    $log.debug('home.js:12:HomeHeaderController.HomeHeaderController: ');
-}
+function HomeHeaderController($log) {}
 
 /* @ngInject */
 function config($stateProvider) {
@@ -19,12 +17,19 @@ function config($stateProvider) {
             url: '/',
             views: {
                 'header@': {
-                    templateUrl: 'home/header.html',
-                    controller: 'HomeHeaderController'
+                    templateUrl: 'home/header.html'
+                    //controller: 'HomeHeaderController'
                 },
                 'contents@': {
                     templateUrl: 'home/home.html',
                     controller: 'HomeController'
+                },
+                'footer@': {
+                    templateUrl: 'home/footer.html'
+                    //controller: 'HomeHeaderController'
+                    //FIXME: controller: HideFooterController?
+                    //FIXME: onEnter: showFooter?
+                    //FIXME: onExit: hideFooter?
                 }
             }
         });
