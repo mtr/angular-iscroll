@@ -2,65 +2,47 @@ $header-height: 50px;
 $footer-height: 50px;
 
 $header-z-index: 1000;
-$footer-z-index: 1000;
+
+.core {
+  left: 0;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
+  &.header {
+    top: 0;
+
+    &.header-hide {
+      display: none;
+    }
+  }
+  &.header, &.footer {
+      z-index: $header-z-index;
+  }
+  &.footer {
+    bottom: 0;
+    height: $footer-height;
+
+    &.footer-hide {
+      display: none;
+    }
+  }
+}
 
 .iscroll-off {
   .core {
+    &.header, &.footer {
+      position: fixed;
+    }
     &.contents {
       position: relative;
-      left: 0;
-      width: 100%;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
+      margin-top: $header-height;
+      margin-bottom: $footer-height;
 
-    &.header-show {
-      &.header {
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        z-index: $header-z-index;
-      }
-      &.contents {
-        margin-top: $header-height;
-      }
-    }
-
-    &.header-hide {
-      &.header {
-        display: none;
-      }
-      &.contents {
+      &.header-hide {
         margin-top: 0;
       }
-    }
-
-    &.footer-show {
-      &.contents {
-        margin-bottom: $footer-height;
-      }
-      &.footer {
-        display: block;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 0;
-        margin: 0;
-        height: $footer-height;
-        z-index: $header-z-index;
-      }
-    }
-
-    &.footer-hide {
-      &.footer {
-        display: none;
-      }
-      &.contents {
+      &.footer-hide {
         margin-bottom: 0;
       }
     }
@@ -74,52 +56,18 @@ $footer-z-index: 1000;
 
   .core {
     position: absolute;
-    left: 0;
-    width: 100%;
-    padding: 0;
-    margin: 0;
     overflow: hidden;
 
     &.contents {
       overflow: auto;
-    }
+      top: $header-height;
+      bottom: $footer-height;
 
-    &.header-show {
-      &.header {
-        top: 0;
-        z-index: $header-z-index;
-      }
-      &.contents {
-        top: $header-height;
-      }
-    }
-
-    &.header-hide {
-      &.header {
-        display: none;
-      }
-      &.contents {
+      &.header-hide {
         top: 0;
       }
-    }
-
-    &.footer-show {
-      &.contents {
-        bottom: $footer-height;
-      }
-      &.footer {
-        height: $footer-height;
+      &.footer-hide {
         bottom: 0;
-        z-index: $header-z-index;
-      }
-    }
-
-    &.footer-hide {
-      &.contents {
-        bottom: 0;
-      }
-      &.footer {
-        display: none;
       }
     }
   }

@@ -27,17 +27,13 @@
   your experience.</p>
 <![endif]-->
 <div class="core header" ui-view="header" ng-class="{
-      'header-show': coreLayout.showHeader,
       'header-hide': !coreLayout.showHeader
       }"></div>
 <div class="core contents" ui-view="contents" ng-class="{
-      'header-show': coreLayout.showHeader,
       'header-hide': !coreLayout.showHeader,
-      'footer-show': coreLayout.showFooter,
       'footer-hide': !coreLayout.showFooter
       }"></div>
 <div class="core footer" ui-view="footer" ng-class="{
-      'footer-show': coreLayout.showFooter,
       'footer-hide': !coreLayout.showFooter
       }"></div>
 
