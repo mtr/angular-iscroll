@@ -22,7 +22,7 @@ function iScrollService($rootScope, $log, iScrollSignals) {
         if (!signalOnly) {
             _state.useIScroll = false;
         }
-        $log.debug('emit(iScrollSignals.disabled)', iScrollSignals.disabled);
+        //$log.debug('emit(iScrollSignals.disabled)', iScrollSignals.disabled);
         $rootScope.$emit(iScrollSignals.disabled);
     }
 
@@ -30,7 +30,7 @@ function iScrollService($rootScope, $log, iScrollSignals) {
         if (!signalOnly) {
             _state.useIScroll = true;
         }
-        $log.debug('emit(iScrollSignals.enabled)', iScrollSignals.enabled);
+        //$log.debug('emit(iScrollSignals.enabled)', iScrollSignals.enabled);
         $rootScope.$emit(iScrollSignals.enabled);
     }
 
@@ -40,11 +40,11 @@ function iScrollService($rootScope, $log, iScrollSignals) {
     }
 
     $rootScope.$on(iScrollSignals.disabled, function _disabledIScroll() {
-        $log.debug('on(iScrollSignals.disabled)', iScrollSignals.disabled);
+        //$log.debug('on(iScrollSignals.disabled)', iScrollSignals.disabled);
     });
 
     $rootScope.$on(iScrollSignals.enabled, function _enabledIScroll() {
-        $log.debug('on(iScrollSignals.enabled)', iScrollSignals.enabled);
+        //$log.debug('on(iScrollSignals.enabled)', iScrollSignals.enabled);
     });
 
     return {
@@ -98,6 +98,8 @@ function iscroll($rootScope, $timeout, $log, iScrollSignals, iScrollService) {
             instance.destroy();
 
             element.removeClass(classes.on).addClass(classes.off);
+            // Remove element's CSS transition values:
+            element.children('.iscroll-scroller').attr('style', null);
 
             angular.forEach(signalListeners, _call);
             //$log.debug('angular-iscroll: destroyInstance');
