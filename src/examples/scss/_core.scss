@@ -4,36 +4,76 @@ $footer-height: 50px;
 $header-z-index: 1000;
 $footer-z-index: 1000;
 
-.core {
-  &.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    z-index: $header-z-index;
+
+.iscroll-off {
+  .core {
+    &.contents {
+      position: relative;
+      left: 0;
+      width: 100%;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+  &.show-header {
+    .core {
+      &.header {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        z-index: $header-z-index;
+      }
+      &.contents {
+        margin-top: $header-height;
+      }
+    }
+  }
+  &.hide-header {
+    .core {
+      &.header {
+        display: none;
+      }
+      &.contents {
+        margin-top: 0;
+      }
+    }
   }
 
-  &.contents {
-    position: relative;
-    left: 0;
-    width: 100%;
-    margin-top: $header-height;
-    margin-bottom: $footer-height;
+  &.show-footer {
+    .core {
+      &.contents {
+        margin-bottom: $footer-height;
+      }
+      &.footer {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        height: $footer-height;
+        z-index: $header-z-index;
+      }
+    }
+  }
+  &.hide-footer {
+    .core {
+      &.footer {
+        display: none;
+      }
+      &.contents {
+        margin-bottom: 0;
+      }
+    }
   }
 
-  &.footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    height: $footer-height;
-    z-index: $header-z-index;
-  }
 }
+
 
 .iscroll-on {
   body {
@@ -48,20 +88,51 @@ $footer-z-index: 1000;
     margin: 0;
     overflow: hidden;
 
-    &.header {
-      top: 0;
-      //    height: $header-height;
-      overflow-y: auto;
-      z-index: 1;
-    }
     &.contents {
-      top: $header-height;
-      bottom: $footer-height;
       overflow: auto;
     }
-    &.footer {
-      bottom: 0;
-      height: $footer-height;
+  }
+  &.show-header {
+    .core {
+      &.header {
+        top: 0;
+        z-index: $header-z-index;
+      }
+      &.contents {
+        top: $header-height;
+      }
+    }
+  }
+  &.hide-header {
+    .core {
+      &.header {
+        display: none;
+      }
+      &.contents {
+        top: 0;
+      }
+    }
+  }
+  &.show-footer {
+    .core {
+      &.contents {
+        bottom: $footer-height;
+      }
+      &.footer {
+        height: $footer-height;
+        bottom: 0;
+        z-index: $header-z-index;
+      }
+    }
+  }
+  &.hide-footer {
+    .core {
+      &.contents {
+        bottom: 0;
+      }
+      &.footer {
+        display: none;
+      }
     }
   }
 }
