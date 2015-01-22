@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body ng-controller="MyAppController"
-      ng-class="{'show-header': coreLayout.showHeader, 'show-footer': coreLayout.showFooter, 'iscroll-active': iScrollState.useIScroll}">
+      ng-class="{'show-header': coreLayout.showHeader, 'show-footer': coreLayout.showFooter, 'iscroll-on': iScrollState.useIScroll, 'iscroll-off': !iScrollState.useIScroll}">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser.
   Please <a href="http://browsehappy.com/">upgrade your browser</a> to

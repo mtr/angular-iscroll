@@ -7,6 +7,11 @@ var signals = {
     enabled: 'iscroll:enabled'
 };
 
+var classes = {
+    on: 'iscroll-on',
+    off: 'iscroll-off'
+};
+
 /* @ngInject */
 function iScrollService($rootScope, $log, iScrollSignals) {
     var _state = {
@@ -74,7 +79,7 @@ function iscroll($rootScope, $timeout, $log, iScrollSignals, iScrollService) {
     function _createInstance(scope, element, attrs, options) {
         var instance = new IScroll(element[0], options.iScroll);
 
-        element.removeClass('iscroll-off').addClass('iscroll-on');
+        element.removeClass(classes.off).addClass(classes.on);
 
         if (angular.isDefined(attrs.iscrollInstance)) {
             scope.iscrollInstance = instance;
@@ -92,11 +97,10 @@ function iscroll($rootScope, $timeout, $log, iScrollSignals, iScrollService) {
             }
             instance.destroy();
 
-            element.removeClass('iscroll-on').addClass('iscroll-off');
+            element.removeClass(classes.on).addClass(classes.off);
 
             angular.forEach(signalListeners, _call);
-
-            $log.debug('angular-iscroll: destroyInstance');
+            //$log.debug('angular-iscroll: destroyInstance');
         }
 
         var signalListeners = [
@@ -122,7 +126,7 @@ function iscroll($rootScope, $timeout, $log, iScrollSignals, iScrollService) {
         );
 
         function _init() {
-            if (!element.hasClass('iscroll-on')) {
+            if (!element.hasClass(classes.on)) {
                 _createInstance(scope, element, attrs, options);
             }
         }
@@ -131,13 +135,13 @@ function iscroll($rootScope, $timeout, $log, iScrollSignals, iScrollService) {
 
         function _removeEnableHandlers() {
             angular.forEach(enableHandlers, _call);
-            $log.debug('angular-iscroll: removeEnableHandlers');
+            //$log.debug('angular-iscroll: removeEnableHandlers');
         }
 
         if (iScrollService.state.useIScroll) {
             _init();
         } else {
-            element.removeClass('iscroll-on').addClass('iscroll-off');
+            element.removeClass(classes.on).addClass(classes.off);
         }
 
         scope.$on('$destroy', _removeEnableHandlers);
