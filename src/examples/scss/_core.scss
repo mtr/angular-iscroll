@@ -4,33 +4,25 @@ $footer-height: 50px;
 $header-z-index: 1000;
 
 .core-layout {
-  .cl-header, .cl-contents, .cl-footer {
+  >.cl-header, >.cl-contents, >.cl-footer {
     left: 0;
     width: 100%;
     padding: 0;
     margin: 0;
   }
 
-  .cl-header {
+  >.cl-header {
     top: 0;
-
-    &.cl-header-hide {
-      display: none;
-    }
   }
-  .cl-header, .cl-footer {
-      z-index: $header-z-index;
+  >.cl-header, >.cl-footer {
+    z-index: $header-z-index;
   }
-  .cl-footer {
+  >.cl-footer {
     bottom: 0;
     height: $footer-height;
 
-    &.cl-footer-hide {
-      display: none;
-    }
   }
-
-  .cl-pop-up {
+  >.cl-pop-up {
     position: absolute;
     top: 0;
     right: 0;
@@ -40,22 +32,38 @@ $header-z-index: 1000;
     height: 100%;
     z-index: 1000;
   }
+
+  &.cl-header-hide {
+    >.cl-header {
+      display: none;
+    }
+  }
+  &.cl-footer-hide {
+    >.cl-footer {
+      display: none;
+    }
+  }
 }
 
 .iscroll-off {
   .core-layout {
-    .cl-header, .cl-footer {
+    >.cl-header, >.cl-footer {
       position: fixed;
     }
-    .cl-contents {
+    >.cl-contents {
       position: relative;
       margin-top: $header-height;
       margin-bottom: $footer-height;
 
-      &.cl-header-hide {
+    }
+
+    &.cl-header-hide {
+      >.cl-contents {
         margin-top: 0;
       }
-      &.cl-footer-hide {
+    }
+    &.cl-footer-hide {
+      >.cl-contents {
         margin-bottom: 0;
       }
     }
@@ -68,22 +76,26 @@ $header-z-index: 1000;
   }
 
   .core-layout {
-    .cl-header, .cl-contents, .cl-footer {
+    >.cl-header, >.cl-contents, >.cl-footer {
       position: absolute;
       overflow: hidden;
     }
 
-    .cl-contents {
+    >.cl-contents {
       overflow: auto;
       top: $header-height;
       bottom: $footer-height;
-
-      &.cl-header-hide {
+    }
+    &.cl-header-hide {
+      >.cl-contents {
         top: 0;
       }
-      &.cl-footer-hide {
+    }
+    &.cl-footer-hide {
+      >.cl-contents {
         bottom: 0;
       }
     }
   }
 }
+

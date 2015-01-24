@@ -26,7 +26,11 @@
   improve
   your experience.</p>
 <![endif]-->
-<div core-layout="::{name: 'main', showHeader: true, showFooter: true}"></div>
+<div core-layout="::{name: 'main', showHeader: true, showFooter: true}"
+     ng-class="{
+       'cl-header-hide': !coreLayout.main.showHeader,
+       'cl-footer-hide': !coreLayout.main.showFooter
+     }"></div>
 <div class="modal-dialog" ng-show="coreLayout.modal.show">
   <div class="modal-content">
     <div core-layout="::{name: 'modal', show: false}"></div>
