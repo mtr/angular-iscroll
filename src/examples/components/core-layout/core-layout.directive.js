@@ -21,6 +21,7 @@ function coreLayout($log, coreLayoutService) {
 
         scope.state = options;
 
+        element.addClass('core-layout');
         //if (! options.show) {
         //    element.addClass('ng-hide');
         //}

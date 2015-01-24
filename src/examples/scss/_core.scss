@@ -3,32 +3,34 @@ $footer-height: 50px;
 
 $header-z-index: 1000;
 
-.core {
-  left: 0;
-  width: 100%;
-  padding: 0;
-  margin: 0;
+.core-layout {
+  .cl-header, .cl-contents, .cl-footer {
+    left: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
 
-  &.header {
+  .cl-header {
     top: 0;
 
-    &.header-hide {
+    &.cl-header-hide {
       display: none;
     }
   }
-  &.header, &.footer {
+  .cl-header, .cl-footer {
       z-index: $header-z-index;
   }
-  &.footer {
+  .cl-footer {
     bottom: 0;
     height: $footer-height;
 
-    &.footer-hide {
+    &.cl-footer-hide {
       display: none;
     }
   }
 
-  &.pop-up {
+  .cl-pop-up {
     position: absolute;
     top: 0;
     right: 0;
@@ -41,19 +43,19 @@ $header-z-index: 1000;
 }
 
 .iscroll-off {
-  .core {
-    &.header, &.footer {
+  .core-layout {
+    .cl-header, .cl-footer {
       position: fixed;
     }
-    &.contents {
+    .cl-contents {
       position: relative;
       margin-top: $header-height;
       margin-bottom: $footer-height;
 
-      &.header-hide {
+      &.cl-header-hide {
         margin-top: 0;
       }
-      &.footer-hide {
+      &.cl-footer-hide {
         margin-bottom: 0;
       }
     }
@@ -65,19 +67,21 @@ $header-z-index: 1000;
     overflow: hidden;
   }
 
-  .core {
-    position: absolute;
-    overflow: hidden;
+  .core-layout {
+    .cl-header, .cl-contents, .cl-footer {
+      position: absolute;
+      overflow: hidden;
+    }
 
-    &.contents {
+    .cl-contents {
       overflow: auto;
       top: $header-height;
       bottom: $footer-height;
 
-      &.header-hide {
+      &.cl-header-hide {
         top: 0;
       }
-      &.footer-hide {
+      &.cl-footer-hide {
         bottom: 0;
       }
     }
