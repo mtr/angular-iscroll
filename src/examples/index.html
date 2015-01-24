@@ -26,17 +26,12 @@
   improve
   your experience.</p>
 <![endif]-->
-<div class="core header" ui-view="header" ng-class="{
-      'header-hide': !coreLayout.showHeader
-      }"></div>
-<div class="core contents" ui-view="contents" ng-class="{
-      'header-hide': !coreLayout.showHeader,
-      'footer-hide': !coreLayout.showFooter
-      }"></div>
-<div class="core footer" ui-view="footer" ng-class="{
-      'footer-hide': !coreLayout.showFooter
-      }"></div>
-
+<div core-layout="::{name: 'main', showHeader: true, showFooter: true}"></div>
+<div class="modal-dialog" ng-show="coreLayout.modal.show">
+  <div class="modal-content">
+    <div core-layout="::{name: 'modal', show: false}"></div>
+  </div>
+</div>
 <script src="js/bundle.js"></script>
 </body>
 </html>

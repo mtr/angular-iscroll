@@ -10,35 +10,9 @@ function config($urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 }
 
-function MyAppController($scope, $window, $interval, $log,
-                         coreLayoutService, iScrollService) {
+function MyAppController($scope, iScrollService, coreLayoutService) {
     $scope.iScrollState = iScrollService.state;
-    $scope.toggleIScroll = iScrollService.toggle;
-
-    $scope.coreLayout = coreLayoutService.layout;
-
-    $scope.demos = [
-        {
-            state: 'demos.staticList',
-            name: 'Static List'
-        },
-        {
-            state: 'demos.ngRepeatList',
-            name: 'ngRepeat List'
-        },
-        {
-            state: 'demos.multiColumnDynamic',
-            name: 'Multi-column'
-        }
-    ];
-
-    var promise = $interval(function _checkBrowserSync() {
-        $scope.browserSync = !!$window.___browserSync___;
-    }, 250);
-
-    $scope.$on('$destroy', function _cleanUp() {
-        $interval.cancel(promise);
-    });
+    $scope.coreLayout = coreLayoutService.state;
 }
 
 angular
@@ -47,6 +21,7 @@ angular
         require('angular-iscroll').name,
         require('angular-messages').name,
         require('./components/core-layout/core-layout.js').name,
+        require('./components/header/header.js').name,
         require('./components/version/version.js').name,
         require('./demos/demos.js').name,
         require('./home/home.js').name

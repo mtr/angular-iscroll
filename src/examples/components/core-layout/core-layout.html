@@ -1,0 +1,10 @@
+<div class="core header" ui-view="header" ng-class="{
+      'header-hide': !state.showHeader
+      }"></div>
+<div class="core contents" ui-view="contents" ng-class="{
+      'header-hide': !state.showHeader,
+      'footer-hide': !state.showFooter
+      }"></div>
+<div class="core footer" ui-view="footer" ng-class="{
+      'footer-hide': !state.showFooter
+      }"></div>

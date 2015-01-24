@@ -36,16 +36,22 @@
                   </li>
                   <li class="list-group-item">
                     <label><input name="useIScroll" type="checkbox"
-                                  ng-model="coreLayout.showHeader">
+                                  ng-model="coreLayout.main.showHeader">
                       Show header</label>
                   </li>
                   <li class="list-group-item">
                     <label><input name="useIScroll" type="checkbox"
-                                  ng-model="coreLayout.showFooter">
+                                  ng-model="coreLayout.main.showFooter">
                       Show footer</label>
                   </li>
                 </ul>
               </div>
+            </div>
+            <div class="row hidden-xs">
+              <button class="btn btn-primary" type="button"
+                      ui-sref="home.modal.signIn">Sign in</button>
+              <button class="btn btn-default" type="button"
+                      ui-sref="home.modal.register">Register</button>
             </div>
           </div>
         </div>

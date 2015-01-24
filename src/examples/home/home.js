@@ -5,10 +5,8 @@ var angular = require('angular');
 /* @ngInject */
 function HomeController($scope, $log, iScrollService) {
     $scope.iScrollState = iScrollService.state;
+    $scope.toggleIScroll = iScrollService.toggle;
 }
-
-/* @ngInject */
-function HomeHeaderController($log) {}
 
 /* @ngInject */
 function config($stateProvider) {
@@ -17,26 +15,41 @@ function config($stateProvider) {
             url: '/',
             views: {
                 'header@': {
-                    templateUrl: 'home/header.html'
-                    //controller: 'HomeHeaderController'
+                    templateUrl: 'components/header/header.html',
+                    controller: 'HeaderController'
                 },
                 'contents@': {
                     templateUrl: 'home/home.html',
                     controller: 'HomeController'
                 },
                 'footer@': {
-                    templateUrl: 'home/footer.html'
-                    //controller: 'HomeHeaderController'
-                    //FIXME: controller: HideFooterController?
-                    //FIXME: onEnter: showFooter?
-                    //FIXME: onExit: hideFooter?
+                    templateUrl: 'home/login-or-register.footer.html'
                 }
+            }
+        })
+        .state('home.modal.signIn', {
+            url: '/signIn',
+            views: {
+                'header': {
+                    templateUrl: 'components/core-layout/core-layout.modal.header.html'
+                },
+                'contents': {
+                    templateUrl: 'home/login.html'
+                },
+                'footer': {
+                    templateUrl: 'components/core-layout/core-layout.modal.footer.html'
+                }
+
+            },
+            onEnter: /* @ngInject */ function _openModal(coreLayoutService) {
+                coreLayoutService.openModal();
+            },
+            onExit: /* @ngInject */ function _closeModal(coreLayoutService) {
+                coreLayoutService.closeModal();
             }
         });
 }
 
 module.exports = angular.module('myApp.home', [])
     .config(config)
-    .controller('HomeController', HomeController)
-    .controller('HomeHeaderController', HomeHeaderController);
-
+    .controller('HomeController', HomeController);
