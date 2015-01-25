@@ -1,74 +1,43 @@
-$header-height: 50px;
-$footer-height: 50px;
+$cl-header-height: 50px !default;
+$cl-footer-height: 50px !default;
 
-$header-z-index: 1000;
+$cl-header-z-index: 1000 !default;
 
 .core-layout {
-  >.cl-header, >.cl-contents, >.cl-footer {
+  > .cl-header, > .cl-contents, > .cl-footer {
     left: 0;
     width: 100%;
     padding: 0;
     margin: 0;
   }
 
-  >.cl-header {
+  > .cl-header {
     top: 0;
   }
-  >.cl-header, >.cl-footer {
-    z-index: $header-z-index;
+  > .cl-header, > .cl-footer {
+    z-index: $cl-header-z-index;
   }
-  >.cl-footer {
+  > .cl-footer {
     bottom: 0;
-    height: $footer-height;
-
-  }
-  >.cl-pop-up {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-  }
-
-  &.cl-header-hide {
-    >.cl-header {
-      display: none;
-    }
-  }
-  &.cl-footer-hide {
-    >.cl-footer {
-      display: none;
-    }
+    height: $cl-footer-height;
   }
 }
 
 .iscroll-off {
   .core-layout {
-    >.cl-header, >.cl-footer {
+    > .cl-header, > .cl-footer {
       position: fixed;
     }
-    >.cl-contents {
+    > .cl-contents {
       position: relative;
-      margin-top: $header-height;
-      margin-bottom: $footer-height;
+      margin-top: $cl-header-height;
+      margin-bottom: $cl-footer-height;
 
-    }
-
-    &.cl-header-hide {
-      >.cl-contents {
-        margin-top: 0;
-      }
-    }
-    &.cl-footer-hide {
-      >.cl-contents {
-        margin-bottom: 0;
-      }
     }
   }
 }
+
+@include responsive-visibility('.cl-visible-xs');
 
 .iscroll-on {
   body {
@@ -76,26 +45,15 @@ $header-z-index: 1000;
   }
 
   .core-layout {
-    >.cl-header, >.cl-contents, >.cl-footer {
+    > .cl-header, > .cl-contents, > .cl-footer {
       position: absolute;
       overflow: hidden;
     }
 
-    >.cl-contents {
+    > .cl-contents {
       overflow: auto;
-      top: $header-height;
-      bottom: $footer-height;
-    }
-    &.cl-header-hide {
-      >.cl-contents {
-        top: 0;
-      }
-    }
-    &.cl-footer-hide {
-      >.cl-contents {
-        bottom: 0;
-      }
+      top: $cl-header-height;
+      bottom: $cl-footer-height;
     }
   }
 }
-

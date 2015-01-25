@@ -1,0 +1,30 @@
+.core-layout {
+  &.cl-header-hide > .cl-header {
+      display: none !important;
+  }
+  &.cl-footer-hide > .cl-footer {
+      display: none !important;
+  }
+}
+
+.iscroll-off {
+  .core-layout {
+    &.cl-header-hide > .cl-contents {
+        margin-top: 0;
+    }
+    &.cl-footer-hide > .cl-contents {
+        margin-bottom: 0;
+    }
+  }
+}
+
+.iscroll-on {
+  .core-layout {
+    &.cl-header-hide > .cl-contents {
+        top: 0;
+    }
+    &.cl-footer-hide > .cl-contents {
+        bottom: 0;
+    }
+  }
+}
