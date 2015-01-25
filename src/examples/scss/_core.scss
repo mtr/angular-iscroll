@@ -30,8 +30,8 @@ $cl-header-z-index: 1000 !default;
     }
     > .cl-contents {
       position: relative;
-//      margin-top: 0;
-//      margin-bottom: $cl-footer-height;
+      margin-top: $cl-header-height;
+      margin-bottom: $cl-footer-height;
 
     }
   }
@@ -50,8 +50,8 @@ $cl-header-z-index: 1000 !default;
 
     > .cl-contents {
       overflow: auto;
-//      top: 0;
-//      bottom: 0;
+      top: $cl-header-height;
+      bottom: $cl-footer-height;
     }
   }
 }

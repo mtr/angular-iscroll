@@ -82,13 +82,6 @@ $cl-screen-md-max: ($cl-screen-lg-min - 1) !default;
     $footer-selectors: join($footer-selectors,
             unquote('.core-layout.cl-footer-visible-#{$size}'), comma);
   }
-  .cl-header, .cl-footer {
-    display: none !important;
-  }
-  .iscroll-off .core-layout .cl-contents { margin-top: 0; }
-  .iscroll-off .core-layout .cl-contents { margin-bottom: 0; }
-  .iscroll-on .core-layout .cl-contents { top: 0; }
-  .iscroll-on .core-layout .cl-contents { bottom: 0; }
 
   #{$header-selectors} {
     > .cl-header {
