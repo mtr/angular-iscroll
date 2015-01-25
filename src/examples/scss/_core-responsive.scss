@@ -1,30 +1,153 @@
-.core-layout {
-  &.cl-header-hide > .cl-header {
-      display: none !important;
-  }
-  &.cl-footer-hide > .cl-footer {
-      display: none !important;
+// Extra small screen / phone
+$cl-screen-xs-min: 480px !default;
+// Small screen / tablet
+$cl-screen-sm-min: 768px !default;
+// Medium screen / desktop
+$cl-screen-md-min: 992px !default;
+// Large screen / wide desktop
+$cl-screen-lg-min: 1200px !default;
+
+// To ensure that media queries don't overlap when required, provide a maximum.
+$cl-screen-xs-max: ($cl-screen-sm-min - 1) !default;
+$cl-screen-sm-max: ($cl-screen-md-min - 1) !default;
+$cl-screen-md-max: ($cl-screen-lg-min - 1) !default;
+
+
+@mixin cl-area-visibility($area, $what, $target: $area) {
+  .core-layout.cl-#{$area}-#{$what} > .cl-#{$target} {
+    @content
   }
 }
 
-.iscroll-off {
-  .core-layout {
-    &.cl-header-hide > .cl-contents {
-        margin-top: 0;
+@mixin cl-responsive-invisibility($what) {
+  @include cl-area-visibility('header', $what) {
+    display: none !important;
+  }
+  @include cl-area-visibility('footer', $what) {
+    display: none !important;
+  }
+
+  .iscroll-off {
+    @include cl-area-visibility('header', $what, 'contents') {
+      margin-top: 0;
     }
-    &.cl-footer-hide > .cl-contents {
-        margin-bottom: 0;
+    @include cl-area-visibility('footer', $what, 'contents') {
+      margin-bottom: 0;
+    }
+  }
+
+  .iscroll-on {
+    @include cl-area-visibility('header', $what, 'contents') {
+      top: 0;
+    }
+    @include cl-area-visibility('footer', $what, 'contents') {
+      bottom: 0;
     }
   }
 }
 
-.iscroll-on {
-  .core-layout {
-    &.cl-header-hide > .cl-contents {
-        top: 0;
+@mixin cl-responsive-visibility($what, $header-height, $footer-height) {
+  @include cl-area-visibility('header', $what) {
+    display: block !important;
+  }
+  @include cl-area-visibility('footer', $what) {
+    display: block !important;
+  }
+
+  .iscroll-off {
+    @include cl-area-visibility('header', $what, 'contents') {
+      margin-top: $header-height;
     }
-    &.cl-footer-hide > .cl-contents {
-        bottom: 0;
+    @include cl-area-visibility('footer', $what, 'contents') {
+      margin-bottom: $footer-height;
     }
   }
+
+  .iscroll-on {
+    @include cl-area-visibility('header', $what, 'contents') {
+      top: $header-height;
+    }
+    @include cl-area-visibility('footer', $what, 'contents') {
+      bottom: $footer-height;
+    }
+  }
+}
+
+@mixin default-invisible($sizes) {
+  $header-selectors: ();
+  $footer-selectors: ();
+  @each $size in $sizes {
+    $header-selectors: join($header-selectors,
+            unquote('.core-layout.cl-header-visible-#{$size}'), comma);
+    $footer-selectors: join($footer-selectors,
+            unquote('.core-layout.cl-footer-visible-#{$size}'), comma);
+  }
+  .cl-header, .cl-footer {
+    display: none !important;
+  }
+  .iscroll-off .core-layout .cl-contents { margin-top: 0; }
+  .iscroll-off .core-layout .cl-contents { margin-bottom: 0; }
+  .iscroll-on .core-layout .cl-contents { top: 0; }
+  .iscroll-on .core-layout .cl-contents { bottom: 0; }
+
+  #{$header-selectors} {
+    > .cl-header {
+      display: none !important;
+    }
+  }
+  #{$footer-selectors} {
+    > .cl-footer {
+
+      display: none !important;
+    }
+  }
+  .iscroll-off #{$header-selectors} {
+    > .cl-contents {
+      margin-top: 0;
+    }
+  }
+  .iscroll-off #{$footer-selectors} {
+    > .cl-contents {
+      margin-bottom: 0;
+    }
+  }
+  .iscroll-on #{$header-selectors} {
+    > .cl-contents {
+      top: 0;
+    }
+  }
+  .iscroll-on #{$footer-selectors} {
+    > .cl-contents {
+      bottom: 0;
+    }
+  }
+}
+
+$sizes: (xs, sm, md, lg);
+@include default-invisible($sizes);
+
+@mixin cl-responsive-visible-hidden-pair($size: '', $joint: '-') {
+  $suffix: #{$joint}#{$size};
+
+  @include cl-responsive-visibility('visible#{$suffix}', $cl-header-height,
+          $cl-footer-height);
+  @include cl-responsive-invisibility('hidden#{$suffix}')
+}
+
+@include cl-responsive-visible-hidden-pair($joint: '');
+
+@media (max-width: $cl-screen-xs-max) {
+  @include cl-responsive-visible-hidden-pair(xs);
+}
+
+@media (min-width: $cl-screen-sm-min) and (max-width: $cl-screen-sm-max) {
+  @include cl-responsive-visible-hidden-pair(sm);
+}
+
+@media (min-width: $cl-screen-md-min) and (max-width: $cl-screen-md-max) {
+  @include cl-responsive-visible-hidden-pair(md);
+}
+
+@media (min-width: $cl-screen-lg-min) {
+  @include cl-responsive-visible-hidden-pair(lg);
 }

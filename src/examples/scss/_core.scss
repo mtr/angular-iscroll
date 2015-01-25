@@ -30,14 +30,12 @@ $cl-header-z-index: 1000 !default;
     }
     > .cl-contents {
       position: relative;
-      margin-top: $cl-header-height;
-      margin-bottom: $cl-footer-height;
+//      margin-top: 0;
+//      margin-bottom: $cl-footer-height;
 
     }
   }
 }
-
-@include responsive-visibility('.cl-visible-xs');
 
 .iscroll-on {
   body {
@@ -52,8 +50,8 @@ $cl-header-z-index: 1000 !default;
 
     > .cl-contents {
       overflow: auto;
-      top: $cl-header-height;
-      bottom: $cl-footer-height;
+//      top: 0;
+//      bottom: 0;
     }
   }
 }
