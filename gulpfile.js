@@ -80,13 +80,12 @@ gulp.task('lib', function () {
         ' * @license <%= pkg.name %> v<%= pkg.version %>, <%= now %>\n' +
         ' * (c) <%= years %> <%= pkg.author.name %> <<%= pkg.author.email %>>\n' +
         ' * License: <%= pkg.license %>\n' +
-        ' */\n' +
-        ';(function (window) {\n', {
+        ' */\n', {
             now: dateFormat(now, "isoDateTime"),
             years: dateFormat(now, "yyyy"),
             pkg: pkg
         }))
-        .pipe(footer('})(window);\n'))
+        .pipe(footer('\n'))
         .pipe(remember('lib'))          // Add back all files to the stream.
         .pipe(concat('angular-iscroll.js')) // Do things that require all files.
         .pipe(gulpNgAnnotate())
