@@ -2113,7 +2113,13 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
   .iscroll-off .core-layout.cl-footer-hidden-lg > .cl-contents { margin-bottom: 0; }
   .iscroll-on .core-layout.cl-header-hidden-lg > .cl-contents { top: 0; }
   .iscroll-on .core-layout.cl-footer-hidden-lg > .cl-contents { bottom: 0; } }
-.core-layout.cl-modal-background { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; z-index: 1001; background-color: rgba(255, 255, 255, 0.5); }
+.core-layout.cl-modal-overlay { position: absolute; overflow: hidden; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; z-index: 1001; background-color: rgba(0, 0, 0, 0.5); pointer-events: none; }
+.core-layout.cl-modal-overlay .cl-modal-box { position: absolute; background-color: #fff; pointer-events: auto; }
+@media (max-width: 767px) { .core-layout.cl-modal-overlay .cl-modal-box { top: 0; left: 0; width: 100%; height: 100%; } }
+@media (min-width: 768px) { .core-layout.cl-modal-overlay .cl-modal-box { left: 50%; top: 50%; transform: translate(-50%, -50%); } }
+@media (min-width: 768px) and (max-width: 991px) { .core-layout.cl-modal-overlay .cl-modal-box { width: 700px; height: 700px; } }
+@media (min-width: 992px) and (max-width: 1199px) { .core-layout.cl-modal-overlay .cl-modal-box { width: 700px; height: 700px; } }
+@media (min-width: 1200px) { .core-layout.cl-modal-overlay .cl-modal-box { width: 700px; height: 700px; } }
 
 .core.header .navbar, .core.header .navbar-text { margin-bottom: 0; }
 
