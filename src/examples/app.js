@@ -10,9 +10,11 @@ function config($urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
 }
 
-function MyAppController($scope, iScrollService, coreLayoutService) {
-    $scope.iScrollState = iScrollService.state;
-    $scope.coreLayout = coreLayoutService.state;
+function MyAppController(iScrollService, coreLayoutService) {
+    var vm = this;  // Use 'controller as' syntax.
+
+    vm.iScrollState = iScrollService.state;
+    vm.layout = coreLayoutService.state;
 }
 
 angular

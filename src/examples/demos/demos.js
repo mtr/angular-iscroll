@@ -8,11 +8,11 @@ function config($stateProvider) {
         url: '/demos',
         abstract: true,
         views: {
-            'header@': {
+            'main-header@': {
                 templateUrl: 'components/header/header.html',
                 controller: 'HeaderController'
             },
-            'footer@': {
+            'main-footer@': {
                 templateUrl: 'components/footer/footer.html'
             }
         }

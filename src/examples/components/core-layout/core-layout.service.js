@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-function CoreLayoutService() {
+function CoreLayoutService($rootScope) {
     var _state = {
         /* Different state variables are assigned by core-layout directive
          * instances. */
@@ -25,6 +25,7 @@ function CoreLayoutService() {
         _state.modal.show = false;
     }
 
+    $rootScope.coreLayout = _state;
 
     return {
         state: _state,

@@ -21,7 +21,7 @@ function config($stateProvider) {
     $stateProvider.state('demos.ngRepeatList', {
         url: '/ngRepeatList',
         views: {
-            'contents@': {
+            'main-contents@': {
                 templateUrl: 'demos/ng-repeat-list/ng-repeat-list.html',
                 controller: 'NgRepeatListController'
             }

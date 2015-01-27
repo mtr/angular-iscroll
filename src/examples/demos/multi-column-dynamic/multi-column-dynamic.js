@@ -21,7 +21,7 @@ function config($stateProvider) {
     $stateProvider.state('demos.multiColumnDynamic', {
         url: '/multiColumnDynamic',
         views: {
-            'contents@': {
+            'main-contents@': {
                 templateUrl:
                     'demos/multi-column-dynamic/multi-column-dynamic.html',
                 controller: 'MultiColumnDynamicController'

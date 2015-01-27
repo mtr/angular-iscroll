@@ -9,9 +9,13 @@ function config($stateProvider) {
         url: 'modal',
         abstract: true,
         views: {
-            'modal@': {
-                templateUrl: 'components/core-layout/core-layout.modal.html'
+            'modal-header@': {
+                templateUrl: 'components/core-layout/core-layout.modal.header.html'
+            },
+            'modal-footer@': {
+                templateUrl: 'components/core-layout/core-layout.modal.footer.html'
             }
+
         }
     });
 }

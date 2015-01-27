@@ -14,15 +14,15 @@ function config($stateProvider) {
         .state('home', {
             url: '/',
             views: {
-                'header@': {
+                'main-header@': {
                     templateUrl: 'components/header/header.html',
                     controller: 'HeaderController'
                 },
-                'contents@': {
+                'main-contents@': {
                     templateUrl: 'home/home.html',
                     controller: 'HomeController'
                 },
-                'footer@': {
+                'main-footer@': {
                     templateUrl: 'home/login-or-register.footer.html'
                 }
             }
@@ -30,16 +30,9 @@ function config($stateProvider) {
         .state('home.modal.signIn', {
             url: '/signIn',
             views: {
-                'header': {
-                    templateUrl: 'components/core-layout/core-layout.modal.header.html'
-                },
-                'contents': {
+                'modal-contents@': {
                     templateUrl: 'home/login.html'
-                },
-                'footer': {
-                    templateUrl: 'components/core-layout/core-layout.modal.footer.html'
                 }
-
             },
             onEnter: /* @ngInject */ function _openModal(coreLayoutService) {
                 coreLayoutService.openModal();

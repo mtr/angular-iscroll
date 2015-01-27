@@ -16,7 +16,7 @@ function config($stateProvider) {
     $stateProvider.state('demos.staticList', {
         url: '/staticList',
         views: {
-            'contents@': {
+            'main-contents@': {
                 templateUrl: 'demos/static-list/static-list.html',
                 controller: 'StaticListController'
             }
