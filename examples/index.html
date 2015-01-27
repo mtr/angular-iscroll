@@ -15,10 +15,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body ng-controller="MyAppController"
+<body ng-controller="MyAppController as app"
       ng-class="{
-      'iscroll-on': iScrollState.useIScroll,
-      'iscroll-off': !iScrollState.useIScroll
+      'iscroll-on': app.iScrollState.useIScroll,
+      'iscroll-off': !app.iScrollState.useIScroll
       }">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser.
@@ -26,17 +26,15 @@
   improve
   your experience.</p>
 <![endif]-->
-<div class="core header" ui-view="header" ng-class="{
-      'header-hide': !coreLayout.showHeader
-      }"></div>
-<div class="core contents" ui-view="contents" ng-class="{
-      'header-hide': !coreLayout.showHeader,
-      'footer-hide': !coreLayout.showFooter
-      }"></div>
-<div class="core footer" ui-view="footer" ng-class="{
-      'footer-hide': !coreLayout.showFooter
-      }"></div>
-
+<div core-layout="::{name: 'main', header: {visible: {all: true}}, footer: {visible: {xs: true}}}"></div>
+<div class="core-layout cl-modal-background" ng-show="app.layout.modal.show">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div core-layout="::{name: 'modal', show: false}"
+           ng-class="app.layout.modal.classes"></div>
+    </div>
+  </div>
+</div>
 <script src="js/bundle.js"></script>
 </body>
 </html>

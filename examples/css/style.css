@@ -2021,23 +2021,99 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 .iscroll-on .iscroll-wrapper { position: relative; width: 100%; height: 100%; overflow: hidden; background-color: #777; }
 .iscroll-on .iscroll-scroller { position: absolute; width: 100%; min-height: 100%; background-color: #fff; }
 
-.core { left: 0; width: 100%; padding: 0; margin: 0; }
-.core.header { top: 0; }
-.core.header.header-hide { display: none; }
-.core.header, .core.footer { z-index: 1000; }
-.core.footer { bottom: 0; height: 50px; }
-.core.footer.footer-hide { display: none; }
+.core-layout > .cl-header, .core-layout > .cl-contents, .core-layout > .cl-footer { left: 0; width: 100%; padding: 0; margin: 0; }
+.core-layout > .cl-header { top: 0; }
+.core-layout > .cl-header, .core-layout > .cl-footer { z-index: 1000; }
+.core-layout > .cl-footer { bottom: 0; height: 50px; }
 
-.iscroll-off .core.header, .iscroll-off .core.footer { position: fixed; }
-.iscroll-off .core.contents { position: relative; margin-top: 50px; margin-bottom: 50px; }
-.iscroll-off .core.contents.header-hide { margin-top: 0; }
-.iscroll-off .core.contents.footer-hide { margin-bottom: 0; }
+.iscroll-off .core-layout > .cl-header, .iscroll-off .core-layout > .cl-footer { position: fixed; }
+.iscroll-off .core-layout > .cl-contents { position: relative; margin-top: 50px; margin-bottom: 50px; }
 
 .iscroll-on body { overflow: hidden; }
-.iscroll-on .core { position: absolute; overflow: hidden; }
-.iscroll-on .core.contents { overflow: auto; top: 50px; bottom: 50px; }
-.iscroll-on .core.contents.header-hide { top: 0; }
-.iscroll-on .core.contents.footer-hide { bottom: 0; }
+.iscroll-on .core-layout > .cl-header, .iscroll-on .core-layout > .cl-contents, .iscroll-on .core-layout > .cl-footer { position: absolute; overflow: hidden; }
+.iscroll-on .core-layout > .cl-contents { overflow: auto; top: 50px; bottom: 50px; }
+
+.core-layout.cl-header-visible-xs > .cl-header, .core-layout.cl-header-visible-sm > .cl-header, .core-layout.cl-header-visible-md > .cl-header, .core-layout.cl-header-visible-lg > .cl-header { display: none !important; }
+
+.core-layout.cl-footer-visible-xs > .cl-footer, .core-layout.cl-footer-visible-sm > .cl-footer, .core-layout.cl-footer-visible-md > .cl-footer, .core-layout.cl-footer-visible-lg > .cl-footer { display: none !important; }
+
+.iscroll-off .core-layout.cl-header-visible-xs > .cl-contents, .core-layout.cl-header-visible-sm > .cl-contents, .core-layout.cl-header-visible-md > .cl-contents, .core-layout.cl-header-visible-lg > .cl-contents { margin-top: 0; }
+
+.iscroll-off .core-layout.cl-footer-visible-xs > .cl-contents, .core-layout.cl-footer-visible-sm > .cl-contents, .core-layout.cl-footer-visible-md > .cl-contents, .core-layout.cl-footer-visible-lg > .cl-contents { margin-bottom: 0; }
+
+.iscroll-on .core-layout.cl-header-visible-xs > .cl-contents, .core-layout.cl-header-visible-sm > .cl-contents, .core-layout.cl-header-visible-md > .cl-contents, .core-layout.cl-header-visible-lg > .cl-contents { top: 0; }
+
+.iscroll-on .core-layout.cl-footer-visible-xs > .cl-contents, .core-layout.cl-footer-visible-sm > .cl-contents, .core-layout.cl-footer-visible-md > .cl-contents, .core-layout.cl-footer-visible-lg > .cl-contents { bottom: 0; }
+
+.core-layout.cl-header-visible > .cl-header { display: block !important; }
+
+.core-layout.cl-footer-visible > .cl-footer { display: block !important; }
+
+.iscroll-off .core-layout.cl-header-visible > .cl-contents { margin-top: 50px; }
+.iscroll-off .core-layout.cl-footer-visible > .cl-contents { margin-bottom: 50px; }
+
+.iscroll-on .core-layout.cl-header-visible > .cl-contents { top: 50px; }
+.iscroll-on .core-layout.cl-footer-visible > .cl-contents { bottom: 50px; }
+
+.core-layout.cl-header-hidden > .cl-header { display: none !important; }
+
+.core-layout.cl-footer-hidden > .cl-footer { display: none !important; }
+
+.iscroll-off .core-layout.cl-header-hidden > .cl-contents { margin-top: 0; }
+.iscroll-off .core-layout.cl-footer-hidden > .cl-contents { margin-bottom: 0; }
+
+.iscroll-on .core-layout.cl-header-hidden > .cl-contents { top: 0; }
+.iscroll-on .core-layout.cl-footer-hidden > .cl-contents { bottom: 0; }
+
+@media (max-width: 767px) { .core-layout.cl-header-visible-xs > .cl-header { display: block !important; }
+  .core-layout.cl-footer-visible-xs > .cl-footer { display: block !important; }
+  .iscroll-off .core-layout.cl-header-visible-xs > .cl-contents { margin-top: 50px; }
+  .iscroll-off .core-layout.cl-footer-visible-xs > .cl-contents { margin-bottom: 50px; }
+  .iscroll-on .core-layout.cl-header-visible-xs > .cl-contents { top: 50px; }
+  .iscroll-on .core-layout.cl-footer-visible-xs > .cl-contents { bottom: 50px; }
+  .core-layout.cl-header-hidden-xs > .cl-header { display: none !important; }
+  .core-layout.cl-footer-hidden-xs > .cl-footer { display: none !important; }
+  .iscroll-off .core-layout.cl-header-hidden-xs > .cl-contents { margin-top: 0; }
+  .iscroll-off .core-layout.cl-footer-hidden-xs > .cl-contents { margin-bottom: 0; }
+  .iscroll-on .core-layout.cl-header-hidden-xs > .cl-contents { top: 0; }
+  .iscroll-on .core-layout.cl-footer-hidden-xs > .cl-contents { bottom: 0; } }
+@media (min-width: 768px) and (max-width: 991px) { .core-layout.cl-header-visible-sm > .cl-header { display: block !important; }
+  .core-layout.cl-footer-visible-sm > .cl-footer { display: block !important; }
+  .iscroll-off .core-layout.cl-header-visible-sm > .cl-contents { margin-top: 50px; }
+  .iscroll-off .core-layout.cl-footer-visible-sm > .cl-contents { margin-bottom: 50px; }
+  .iscroll-on .core-layout.cl-header-visible-sm > .cl-contents { top: 50px; }
+  .iscroll-on .core-layout.cl-footer-visible-sm > .cl-contents { bottom: 50px; }
+  .core-layout.cl-header-hidden-sm > .cl-header { display: none !important; }
+  .core-layout.cl-footer-hidden-sm > .cl-footer { display: none !important; }
+  .iscroll-off .core-layout.cl-header-hidden-sm > .cl-contents { margin-top: 0; }
+  .iscroll-off .core-layout.cl-footer-hidden-sm > .cl-contents { margin-bottom: 0; }
+  .iscroll-on .core-layout.cl-header-hidden-sm > .cl-contents { top: 0; }
+  .iscroll-on .core-layout.cl-footer-hidden-sm > .cl-contents { bottom: 0; } }
+@media (min-width: 992px) and (max-width: 1199px) { .core-layout.cl-header-visible-md > .cl-header { display: block !important; }
+  .core-layout.cl-footer-visible-md > .cl-footer { display: block !important; }
+  .iscroll-off .core-layout.cl-header-visible-md > .cl-contents { margin-top: 50px; }
+  .iscroll-off .core-layout.cl-footer-visible-md > .cl-contents { margin-bottom: 50px; }
+  .iscroll-on .core-layout.cl-header-visible-md > .cl-contents { top: 50px; }
+  .iscroll-on .core-layout.cl-footer-visible-md > .cl-contents { bottom: 50px; }
+  .core-layout.cl-header-hidden-md > .cl-header { display: none !important; }
+  .core-layout.cl-footer-hidden-md > .cl-footer { display: none !important; }
+  .iscroll-off .core-layout.cl-header-hidden-md > .cl-contents { margin-top: 0; }
+  .iscroll-off .core-layout.cl-footer-hidden-md > .cl-contents { margin-bottom: 0; }
+  .iscroll-on .core-layout.cl-header-hidden-md > .cl-contents { top: 0; }
+  .iscroll-on .core-layout.cl-footer-hidden-md > .cl-contents { bottom: 0; } }
+@media (min-width: 1200px) { .core-layout.cl-header-visible-lg > .cl-header { display: block !important; }
+  .core-layout.cl-footer-visible-lg > .cl-footer { display: block !important; }
+  .iscroll-off .core-layout.cl-header-visible-lg > .cl-contents { margin-top: 50px; }
+  .iscroll-off .core-layout.cl-footer-visible-lg > .cl-contents { margin-bottom: 50px; }
+  .iscroll-on .core-layout.cl-header-visible-lg > .cl-contents { top: 50px; }
+  .iscroll-on .core-layout.cl-footer-visible-lg > .cl-contents { bottom: 50px; }
+  .core-layout.cl-header-hidden-lg > .cl-header { display: none !important; }
+  .core-layout.cl-footer-hidden-lg > .cl-footer { display: none !important; }
+  .iscroll-off .core-layout.cl-header-hidden-lg > .cl-contents { margin-top: 0; }
+  .iscroll-off .core-layout.cl-footer-hidden-lg > .cl-contents { margin-bottom: 0; }
+  .iscroll-on .core-layout.cl-header-hidden-lg > .cl-contents { top: 0; }
+  .iscroll-on .core-layout.cl-footer-hidden-lg > .cl-contents { bottom: 0; } }
+.core-layout.cl-modal-background { position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%; z-index: 1001; background-color: rgba(255, 255, 255, 0.5); }
 
 .core.header .navbar, .core.header .navbar-text { margin-bottom: 0; }
 

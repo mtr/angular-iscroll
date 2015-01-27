@@ -6,19 +6,161 @@
           <h1>iScroll Example App</h1>
 
           <div class="well">
-            <p>This app shows how the <code>iscroll</code> directive can be
-              used to create a responsive <a href="https://angularjs.org/">AngularJS</a> web app
-              that renders and behaves well both on large (laptop) and small
-            (mobile phone) screens.  The use of <a href="http://iscrolljs.com/">iScroll</a> ensures that the top and bottom "navigation bars" stay on the screen, as with the CSS <code>position: fixed</code> declaration, even on older iOS and Android devices that doesn't support <code>fixed</code> properly.</p>
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <p>This app shows how the <code>iscroll</code> directive can be
+                  used to create a responsive <a href="https://angularjs.org/">AngularJS</a>
+                  web app
+                  that renders and behaves well both on large (laptop) and small
+                  (mobile phone) screens. The use of <a
+                      href="http://iscrolljs.com/">iScroll</a> ensures that the
+                  top
+                  and bottom "navigation bars" stay on the screen, as with the
+                  CSS
+                  <code>position: fixed</code> declaration, even on older iOS
+                  and
+                  Android devices that doesn't support <code>fixed</code>
+                  properly.
+                </p>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <p>You may also toggle some states that define how this demo is
+                  rendered:</p>
 
+                <ul class="list-group ">
+                  <li class="list-group-item">
+                    <label><input type="checkbox"
+                                  ng-model="iScrollState.useIScroll"
+                                  ng-click="toggleIScroll(true)">
+                      Use iScroll</label>
+                  </li>
+                </ul>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <table class="table">
+                  <caption>Toggle visible and hidden header and footer
+                    states.
+                  </caption>
+                  <thead>
+                  <tr>
+                    <th>What</th>
+                    <th>All</th>
+                    <th>X-small</th>
+                    <th>Small</th>
+                    <th>Medium</th>
+                    <th>Large</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <th scope="row">Show Header</th>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.header.visible.all">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.header.visible.xs">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.header.visible.sm">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.header.visible.md">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.header.visible.lg">
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Hide Header</th>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.header.hidden.all">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.header.hidden.xs">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.header.hidden.sm">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.header.hidden.md">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.header.hidden.lg">
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Show Footer</th>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.footer.visible.all">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.footer.visible.xs">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.footer.visible.sm">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.footer.visible.md">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.footer.visible.lg">
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Hide Footer</th>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.footer.hidden.all">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.footer.hidden.xs">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.footer.hidden.sm">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.footer.hidden.md">
+                    </td>
+                    <td>
+                      <input type="checkbox" autocomplete="off"
+                             ng-model="$root.coreLayout.main.footer.hidden.lg">
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row hidden-xs">
+              <button class="btn btn-primary" type="button"
+                      ui-sref="home.modal.signIn">Sign in
+              </button>
+              <button class="btn btn-default" type="button"
+                      ui-sref="home.modal.register">Register
+              </button>
+            </div>
           </div>
-
-          <h2>Some State Information</h2>
-          <ul class="list-group">
-            <li class="list-group-item">
-              <code>useIScroll</code>: <code>{{iScrollState.useIScroll}}</code>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
