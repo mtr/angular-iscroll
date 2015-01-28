@@ -38,7 +38,7 @@ module.exports = angular.module('myApp');
 
 },{"./components/core-layout/core-layout.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.js","./components/header/header.js":"/home/mtr/projects/angular-iscroll/src/examples/components/header/header.js","./components/version/version.js":"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.js","./demos/demos.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/demos.js","./home/home.js":"/home/mtr/projects/angular-iscroll/src/examples/home/home.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js","angular-iscroll":"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js","angular-messages":"/home/mtr/projects/angular-iscroll/node_modules/angular-messages/angular-messages.js","bootstrap":"/home/mtr/projects/angular-iscroll/node_modules/bootstrap-sass/assets/javascripts/bootstrap.js","ui.router":"/home/mtr/projects/angular-iscroll/node_modules/angular-ui-router/release/angular-ui-router.js"}],"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js":[function(require,module,exports){
 /**
- * @license angular-iscroll v0.5.1, 2015-01-25T12:12:31+0100
+ * @license angular-iscroll v0.5.1, 2015-01-28T10:44:54+0100
  * (c) 2015 Martin Thorsen Ranang <mtr@ranang.org>
  * License: MIT
  */
@@ -58,7 +58,8 @@ module.exports = angular.module('myApp');
 
     var signals = {
         disabled: 'iscroll:disabled',
-        enabled: 'iscroll:enabled'
+        enabled: 'iscroll:enabled',
+        refresh: 'iscroll:refresh'
     };
 
     var classes = {
@@ -93,19 +94,25 @@ module.exports = angular.module('myApp');
                 _disable(signalOnly) : _enable(signalOnly);
         }
 
-        $rootScope.$on(iScrollSignals.disabled, function _disabledIScroll() {
-            //$log.debug('on(iScrollSignals.disabled)', iScrollSignals.disabled);
-        });
+        function _refresh(name) {
+            // The name parameter is not really used for now.
+            $rootScope.$emit(iScrollSignals.refresh, name);
+        }
 
-        $rootScope.$on(iScrollSignals.enabled, function _enabledIScroll() {
-            //$log.debug('on(iScrollSignals.enabled)', iScrollSignals.enabled);
-        });
+        //$rootScope.$on(iScrollSignals.disabled, function _disabledIScroll() {
+        //    $log.debug('on(iScrollSignals.disabled)', iScrollSignals.disabled);
+        //});
+        //
+        //$rootScope.$on(iScrollSignals.enabled, function _enabledIScroll() {
+        //    $log.debug('on(iScrollSignals.enabled)', iScrollSignals.enabled);
+        //});
 
         return {
             state: _state,
             enable: _enable,
             disable: _disable,
-            toggle: _toggle
+            toggle: _toggle,
+            refresh: _refresh
         };
     }
     iScrollService.$inject = ["$rootScope", "$log", "iScrollSignals"];
@@ -131,6 +138,12 @@ module.exports = angular.module('myApp');
             }
         };
 
+        function asyncRefresh(instance, options) {
+            $timeout(function _refreshAfterInitialRender() {
+                instance.refresh();
+            }, options.directive.asyncRefreshDelay);
+        }
+
         function _createInstance(scope, element, attrs, options) {
             var instance = new IScroll(element[0], options.iScroll);
 
@@ -141,9 +154,7 @@ module.exports = angular.module('myApp');
             }
 
             if (options.directive.asyncRefreshDelay !== false) {
-                $timeout(function _refreshAfterInitialRender() {
-                    instance.refresh();
-                }, options.directive.asyncRefreshDelay);
+                asyncRefresh(instance, options);
             }
 
             function _destroyInstance() {
@@ -156,12 +167,17 @@ module.exports = angular.module('myApp');
                 // Remove element's CSS transition values:
                 element.children('.iscroll-scroller').attr('style', null);
 
-                angular.forEach(signalListeners, _call);
+                angular.forEach(deregistrators, _call);
                 //$log.debug('angular-iscroll: destroyInstance');
             }
 
-            var signalListeners = [
+            function _refreshInstance() {
+                asyncRefresh(instance, options);
+            }
+
+            var deregistrators = [
                 $rootScope.$on(iScrollSignals.disabled, _destroyInstance),
+                $rootScope.$on(iScrollSignals.refresh, _refreshInstance),
                 scope.$on('$destroy', _destroyInstance)
             ];
 
@@ -51364,18 +51380,22 @@ function coreLayout($rootScope, $log, coreLayoutService) {
                  **/
                 var sizes = _.reduce(newValue, _trueKeys, []),
                     current = cache[group] || [],
-                    classPrefix = 'cl-' + area + '-' + visibility;
-
-                //$log.debug('current', current);
-                //$log.debug('sizes', sizes);
+                    classPrefix = 'cl-' + area + '-' + visibility,
+                    layoutChanged = false;
 
                 _.each(_.difference(sizes, current), function _addClass(size) {
-                    attrs.$addClass(classPrefix + suffixes[size])
+                    attrs.$addClass(classPrefix + suffixes[size]);
+                    layoutChanged = true;
                 });
 
                 _.each(_.difference(current, sizes), function _removeClass(size) {
-                    attrs.$removeClass(classPrefix + suffixes[size])
+                    attrs.$removeClass(classPrefix + suffixes[size]);
+                    layoutChanged = true;
                 });
+
+                if (layoutChanged) {
+                    coreLayoutService.layoutChanged(name);
+                }
 
                 cache[group] = sizes;
             });
@@ -51387,7 +51407,6 @@ function coreLayout($rootScope, $log, coreLayoutService) {
 
         delete options.name;
 
-        $log.debug('options', options);
         scope.names = {
             header: name + '-header',
             contents: name + '-contents',
@@ -51446,7 +51465,6 @@ var angular = require('angular');
 
 /* @ngInject */
 function config($stateProvider) {
-    console.log('core-layout.modal.js:7:config.config: ');
     $stateProvider.state('home.modal', {
         url: 'modal',
         abstract: true,
@@ -51472,7 +51490,7 @@ module.exports = angular.module('coreLayout.modal', [])
 var angular = require('angular');
 
 /* @ngInject */
-function CoreLayoutService($rootScope) {
+function CoreLayoutService($rootScope, $log, iScrollService) {
     var _state = {
         /* Different state variables are assigned by core-layout directive
          * instances. */
@@ -51494,15 +51512,20 @@ function CoreLayoutService($rootScope) {
         _state.modal.show = false;
     }
 
+    function _layoutChanged(name) {
+        iScrollService.refresh(name);
+    }
+
     $rootScope.coreLayout = _state;
 
     return {
         state: _state,
         openModal: _openModal,
-        closeModal: _closeModal
+        closeModal: _closeModal,
+        layoutChanged: _layoutChanged
     };
 }
-CoreLayoutService.$inject = ["$rootScope"];
+CoreLayoutService.$inject = ["$rootScope", "$log", "iScrollService"];
 
 module.exports = angular
     .module('coreLayout.service', [])
