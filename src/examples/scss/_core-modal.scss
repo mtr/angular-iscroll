@@ -1,14 +1,3 @@
-$cl-modal-z-index: ($cl-header-z-index + 1) !default;
-$cl-modal-overlay-color: rgba(0, 0, 0, 0.5) !default;
-
-$cl-modal-box-width-sm: 700px !default;
-$cl-modal-box-height-sm: $cl-modal-box-width-sm !default;
-$cl-modal-box-width-md: 700px !default;
-$cl-modal-box-height-md: $cl-modal-box-width-md !default;
-$cl-modal-box-width-lg: 700px !default;
-$cl-modal-box-height-lg: $cl-modal-box-width-lg !default;
-
-
 .core-layout {
   &.cl-modal-overlay {
     position: absolute;
@@ -35,6 +24,7 @@ $cl-modal-box-height-lg: $cl-modal-box-width-lg !default;
         height: 100%;
       }
       @media (min-width: $cl-screen-sm-min) {
+        // Center left-right and top-bottom.
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);

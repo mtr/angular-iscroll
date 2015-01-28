@@ -1,8 +1,3 @@
-$cl-header-height: 50px !default;
-$cl-footer-height: 50px !default;
-
-$cl-header-z-index: 1000 !default;
-
 .core-layout {
   > .cl-header, > .cl-contents, > .cl-footer {
     left: 0;
@@ -52,6 +47,38 @@ $cl-header-z-index: 1000 !default;
       overflow: auto;
       top: $cl-header-height;
       bottom: $cl-footer-height;
+    }
+  }
+}
+
+.cl-modal-box {
+  .core-layout {
+    > .cl-header, > .cl-footer {
+      z-index: $cl-modal-header-z-index;
+    }
+    > .cl-footer {
+      height: $cl-modal-footer-height;
+    }
+  }
+}
+
+.iscroll-off {
+  .cl-modal-box {
+    .core-layout {
+      > .cl-contents {
+        margin-top: $cl-modal-header-height;
+        margin-bottom: $cl-modal-footer-height;
+      }
+    }
+  }
+}
+.iscroll-on {
+  .cl-modal-box {
+    .core-layout {
+      > .cl-contents {
+        top: $cl-modal-header-height;
+        bottom: $cl-modal-footer-height;
+      }
     }
   }
 }
