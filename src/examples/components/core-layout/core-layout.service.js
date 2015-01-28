@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 /* @ngInject */
-function CoreLayoutService($rootScope) {
+function CoreLayoutService($rootScope, $log, iScrollService) {
     var _state = {
         /* Different state variables are assigned by core-layout directive
          * instances. */
@@ -25,12 +25,17 @@ function CoreLayoutService($rootScope) {
         _state.modal.show = false;
     }
 
+    function _layoutChanged(name) {
+        iScrollService.refresh(name);
+    }
+
     $rootScope.coreLayout = _state;
 
     return {
         state: _state,
         openModal: _openModal,
-        closeModal: _closeModal
+        closeModal: _closeModal,
+        layoutChanged: _layoutChanged
     };
 }
 

@@ -4,7 +4,6 @@ var angular = require('angular');
 
 /* @ngInject */
 function config($stateProvider) {
-    console.log('core-layout.modal.js:7:config.config: ');
     $stateProvider.state('home.modal', {
         url: 'modal',
         abstract: true,

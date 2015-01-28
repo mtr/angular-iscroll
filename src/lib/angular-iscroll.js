@@ -14,7 +14,8 @@
 
     var signals = {
         disabled: 'iscroll:disabled',
-        enabled: 'iscroll:enabled'
+        enabled: 'iscroll:enabled',
+        refresh: 'iscroll:refresh'
     };
 
     var classes = {
@@ -49,19 +50,25 @@
                 _disable(signalOnly) : _enable(signalOnly);
         }
 
-        $rootScope.$on(iScrollSignals.disabled, function _disabledIScroll() {
-            //$log.debug('on(iScrollSignals.disabled)', iScrollSignals.disabled);
-        });
+        function _refresh(name) {
+            // The name parameter is not really used for now.
+            $rootScope.$emit(iScrollSignals.refresh, name);
+        }
 
-        $rootScope.$on(iScrollSignals.enabled, function _enabledIScroll() {
-            //$log.debug('on(iScrollSignals.enabled)', iScrollSignals.enabled);
-        });
+        //$rootScope.$on(iScrollSignals.disabled, function _disabledIScroll() {
+        //    $log.debug('on(iScrollSignals.disabled)', iScrollSignals.disabled);
+        //});
+        //
+        //$rootScope.$on(iScrollSignals.enabled, function _enabledIScroll() {
+        //    $log.debug('on(iScrollSignals.enabled)', iScrollSignals.enabled);
+        //});
 
         return {
             state: _state,
             enable: _enable,
             disable: _disable,
-            toggle: _toggle
+            toggle: _toggle,
+            refresh: _refresh
         };
     }
 
@@ -86,6 +93,12 @@
             }
         };
 
+        function asyncRefresh(instance, options) {
+            $timeout(function _refreshAfterInitialRender() {
+                instance.refresh();
+            }, options.directive.asyncRefreshDelay);
+        }
+
         function _createInstance(scope, element, attrs, options) {
             var instance = new IScroll(element[0], options.iScroll);
 
@@ -96,9 +109,7 @@
             }
 
             if (options.directive.asyncRefreshDelay !== false) {
-                $timeout(function _refreshAfterInitialRender() {
-                    instance.refresh();
-                }, options.directive.asyncRefreshDelay);
+                asyncRefresh(instance, options);
             }
 
             function _destroyInstance() {
@@ -111,12 +122,17 @@
                 // Remove element's CSS transition values:
                 element.children('.iscroll-scroller').attr('style', null);
 
-                angular.forEach(signalListeners, _call);
+                angular.forEach(deregistrators, _call);
                 //$log.debug('angular-iscroll: destroyInstance');
             }
 
-            var signalListeners = [
+            function _refreshInstance() {
+                asyncRefresh(instance, options);
+            }
+
+            var deregistrators = [
                 $rootScope.$on(iScrollSignals.disabled, _destroyInstance),
+                $rootScope.$on(iScrollSignals.refresh, _refreshInstance),
                 scope.$on('$destroy', _destroyInstance)
             ];
 

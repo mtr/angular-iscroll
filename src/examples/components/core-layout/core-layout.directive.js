@@ -63,18 +63,22 @@ function coreLayout($rootScope, $log, coreLayoutService) {
                  **/
                 var sizes = _.reduce(newValue, _trueKeys, []),
                     current = cache[group] || [],
-                    classPrefix = 'cl-' + area + '-' + visibility;
-
-                //$log.debug('current', current);
-                //$log.debug('sizes', sizes);
+                    classPrefix = 'cl-' + area + '-' + visibility,
+                    layoutChanged = false;
 
                 _.each(_.difference(sizes, current), function _addClass(size) {
-                    attrs.$addClass(classPrefix + suffixes[size])
+                    attrs.$addClass(classPrefix + suffixes[size]);
+                    layoutChanged = true;
                 });
 
                 _.each(_.difference(current, sizes), function _removeClass(size) {
-                    attrs.$removeClass(classPrefix + suffixes[size])
+                    attrs.$removeClass(classPrefix + suffixes[size]);
+                    layoutChanged = true;
                 });
+
+                if (layoutChanged) {
+                    coreLayoutService.layoutChanged(name);
+                }
 
                 cache[group] = sizes;
             });
@@ -86,7 +90,6 @@ function coreLayout($rootScope, $log, coreLayoutService) {
 
         delete options.name;
 
-        $log.debug('options', options);
         scope.names = {
             header: name + '-header',
             contents: name + '-contents',
