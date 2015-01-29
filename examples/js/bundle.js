@@ -51299,20 +51299,32 @@ return jQuery;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.controller.js":[function(require,module,exports){
+},{}],"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout-close.directive.js":[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
+//_ = require('lodash');
 
 /* @ngInject */
-function CoreLayoutController($scope, $log, coreLayoutService) {
-    $log.debug('core-layout.controller.js:7:CoreLayoutController.CoreLayoutController: ');
+function coreLayoutClose($state, $log, coreLayoutService) {
+    function _link(scope, element, attrs) {
+        element.on('click', function _close() {
+            $state.go(coreLayoutService.state[scope.name].closeTargetState);
+        });
+    }
+
+    return {
+        link: _link,
+        scope: {
+            name: '@coreLayoutClose'
+        }
+    };
 }
-CoreLayoutController.$inject = ["$scope", "$log", "coreLayoutService"];
+coreLayoutClose.$inject = ["$state", "$log", "coreLayoutService"];
 
 module.exports = angular
-    .module('coreLayout.controller', [])
-    .controller('CoreLayoutController', CoreLayoutController);
+    .module('coreLayoutClose.directive', ['ui.router'])
+    .directive('coreLayoutClose', coreLayoutClose);
 
 },{"angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.directive.js":[function(require,module,exports){
 'use strict';
@@ -51452,32 +51464,19 @@ var angular = require('angular');
 
 module.exports = angular
     .module('coreLayout', [
-        require('./core-layout.controller.js').name,
         require('./core-layout.modal.js').name,
         require('./core-layout.service.js').name,
-        require('./core-layout.directive.js').name
+        require('./core-layout.directive.js').name,
+        require('./core-layout-close.directive.js').name
     ]);
 
-},{"./core-layout.controller.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.controller.js","./core-layout.directive.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.directive.js","./core-layout.modal.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.modal.js","./core-layout.service.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.service.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.modal.js":[function(require,module,exports){
+},{"./core-layout-close.directive.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout-close.directive.js","./core-layout.directive.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.directive.js","./core-layout.modal.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.modal.js","./core-layout.service.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.service.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.modal.js":[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 
 /* @ngInject */
 function config($stateProvider) {
-    $stateProvider.state('home.modal', {
-        url: 'modal',
-        abstract: true,
-        views: {
-            'modal-header@': {
-                templateUrl: 'components/core-layout/core-layout.modal.header.html'
-            },
-            'modal-footer@': {
-                templateUrl: 'components/core-layout/core-layout.modal.footer.html'
-            }
-
-        }
-    });
 }
 config.$inject = ["$stateProvider"];
 
@@ -51487,29 +51486,37 @@ module.exports = angular.module('coreLayout.modal', [])
 },{"angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.service.js":[function(require,module,exports){
 'use strict';
 
-var angular = require('angular');
+var angular = require('angular'),
+    _ = require('lodash');
+
 
 /* @ngInject */
 function CoreLayoutService($rootScope, $log, iScrollService) {
     var _state = {
-        /* Different state variables are assigned by core-layout directive
-         * instances. */
+        /**
+         * Different state variables are assigned by core-layout directive
+         * instances.
+         **/
     };
 
-    function _openModal() {
+    function _mergeStateIfProvided(configChanges) {
+        if (angular.isDefined(configChanges)) {
+            _.merge(_state.modal, configChanges);
+        }
+    }
+
+    function _openModal(configChanges) {
+        _mergeStateIfProvided(configChanges);
         _state.modal.show = true;
     }
 
-    function _closeModal() {
-        /* FIXME:  Should perhaps take an optional set of classes to add on the
-         * surrounding core-layout element, like 'visible-xs-block',
-         * 'hidden-xs hidden-sm', etc.
-         * NOTE:  Theres should probably be configurable
-         * 'all', 'header', 'contents', and 'footer' add/remove classes,
-          * since whether to show, e.g., the footer might depend on
-          * the screen size.
-         */
+    function _updateModal(configChanges) {
+        _mergeStateIfProvided(configChanges);
+    }
+
+    function _closeModal(configChanges) {
         _state.modal.show = false;
+        _mergeStateIfProvided(configChanges);
     }
 
     function _layoutChanged(name) {
@@ -51521,6 +51528,7 @@ function CoreLayoutService($rootScope, $log, iScrollService) {
     return {
         state: _state,
         openModal: _openModal,
+        updateModal: _updateModal,
         closeModal: _closeModal,
         layoutChanged: _layoutChanged
     };
@@ -51531,7 +51539,7 @@ module.exports = angular
     .module('coreLayout.service', [])
     .factory('coreLayoutService', CoreLayoutService);
 
-},{"angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js"}],"/home/mtr/projects/angular-iscroll/src/examples/components/header/header.controller.js":[function(require,module,exports){
+},{"angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js","lodash":"/home/mtr/projects/angular-iscroll/node_modules/lodash/dist/lodash.js"}],"/home/mtr/projects/angular-iscroll/src/examples/components/header/header.controller.js":[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -51785,24 +51793,67 @@ function config($stateProvider) {
                     controller: 'HomeController'
                 },
                 'main-footer@': {
-                    templateUrl: 'home/login-or-register.footer.html'
+                    templateUrl: 'home/open-modal.footer.html'
                 }
             }
         })
-        .state('home.modal.signIn', {
-            url: '/signIn',
+        .state('home.modal', {
+            url: 'modal',
+            abstract: true,
             views: {
-                'modal-contents@': {
-                    templateUrl: 'home/login.html'
+                'modal-header@': {
+                    templateUrl: 'components/core-layout/core-layout.modal.header.html'
+                },
+                'modal-footer@': {
+                    templateUrl: 'components/core-layout/core-layout.modal.footer.html'
                 }
             },
             onEnter: /* @ngInject */ ["coreLayoutService", function _openModal(coreLayoutService) {
-                coreLayoutService.openModal();
+                console.log('modal.onEnter');
+                coreLayoutService.openModal({
+                    header: {visible: {all: true}},
+                    footer: {visible: {all: true}},
+                    closeTargetState: 'home'
+                });
             }],
             onExit: /* @ngInject */ ["coreLayoutService", function _closeModal(coreLayoutService) {
-                coreLayoutService.closeModal();
+                console.log('modal.onExit');
+                coreLayoutService.closeModal({
+                    closeTargetState: null
+                });
             }]
-        });
+        })
+        .state('home.modal.first', {
+            url: '/first',
+            views: {
+                'modal-contents@': {
+                    templateUrl: 'home/first.modal.html',
+                    controller: 'HomeController'
+                },
+                'modal-footer@': {
+                    templateUrl: 'home/first.modal.footer.html'
+                }
+            }
+        })
+        .state('home.modal.second', {
+            url: '/second',
+            views: {
+                'modal-contents@': {
+                    templateUrl: 'home/second.modal.html'
+                }
+            },
+            onEnter: /* @ngInject */ ["coreLayoutService", function _openModal(coreLayoutService) {
+                coreLayoutService.updateModal({
+                    header: {visible: {all: false, xs: true}}
+                });
+            }],
+            onExit: /* @ngInject */ ["coreLayoutService", function _closeModal(coreLayoutService) {
+                coreLayoutService.updateModal({
+                    //header: {visible: {all: true, xs: false}}
+                });
+            }]
+        }
+    );
 }
 config.$inject = ["$stateProvider"];
 
