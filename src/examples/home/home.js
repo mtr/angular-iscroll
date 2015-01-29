@@ -23,24 +23,67 @@ function config($stateProvider) {
                     controller: 'HomeController'
                 },
                 'main-footer@': {
-                    templateUrl: 'home/login-or-register.footer.html'
+                    templateUrl: 'home/open-modal.footer.html'
                 }
             }
         })
-        .state('home.modal.signIn', {
-            url: '/signIn',
+        .state('home.modal', {
+            url: 'modal',
+            abstract: true,
             views: {
-                'modal-contents@': {
-                    templateUrl: 'home/login.html'
+                'modal-header@': {
+                    templateUrl: 'components/core-layout/core-layout.modal.header.html'
+                },
+                'modal-footer@': {
+                    templateUrl: 'components/core-layout/core-layout.modal.footer.html'
                 }
             },
             onEnter: /* @ngInject */ function _openModal(coreLayoutService) {
-                coreLayoutService.openModal();
+                console.log('modal.onEnter');
+                coreLayoutService.openModal({
+                    header: {visible: {all: true}},
+                    footer: {visible: {all: true}},
+                    closeTargetState: 'home'
+                });
             },
             onExit: /* @ngInject */ function _closeModal(coreLayoutService) {
-                coreLayoutService.closeModal();
+                console.log('modal.onExit');
+                coreLayoutService.closeModal({
+                    closeTargetState: null
+                });
             }
-        });
+        })
+        .state('home.modal.first', {
+            url: '/first',
+            views: {
+                'modal-contents@': {
+                    templateUrl: 'home/first.modal.html',
+                    controller: 'HomeController'
+                },
+                'modal-footer@': {
+                    templateUrl: 'home/first.modal.footer.html'
+                }
+            }
+        })
+        .state('home.modal.second', {
+            url: '/second',
+            views: {
+                'modal-contents@': {
+                    templateUrl: 'home/second.modal.html'
+                }
+            },
+            onEnter: /* @ngInject */ function _openModal(coreLayoutService) {
+                coreLayoutService.updateModal({
+                    header: {visible: {all: false, xs: true}}
+                });
+            },
+            onExit: /* @ngInject */ function _closeModal(coreLayoutService) {
+                coreLayoutService.updateModal({
+                    //header: {visible: {all: true, xs: false}}
+                });
+            }
+        }
+    );
 }
 
 module.exports = angular.module('myApp.home', [])

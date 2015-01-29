@@ -1,3 +1,28 @@
+@mixin cl-modal-content-size-reset() {
+  .cl-header-visible-sm,
+  .cl-header-visible-md,
+  .cl-header-visible-lg {
+    > .cl-contents {
+      height: $cl-modal-box-height-sm - ($cl-modal-header-height + $cl-modal-footer-height);
+    }
+  }
+}
+
+@mixin cl-modal-content-size($size, $height) {
+  .cl-contents {
+    height: $height - ($cl-modal-header-height + $cl-modal-footer-height);
+  }
+  .cl-header-hidden-#{$size} > .cl-contents {
+    height: $height - $cl-modal-footer-height;
+  }
+  .cl-footer-hidden-#{$size} > .cl-contents {
+    height: $height - $cl-modal-header-height;
+  }
+  .cl-header-hidden-#{$size}.cl-footer-hidden-#{$size} > .cl-contents {
+    height: $height - $cl-modal-header-height;
+  }
+}
+
 .core-layout {
   &.cl-modal-overlay {
     position: absolute;
@@ -30,17 +55,29 @@
         transform: translate(-50%, -50%);
       }
 
+      .cl-contents {
+        overflow-y: auto;
+      }
+
+      @include cl-modal-content-size-reset();
+
       @media (min-width: $cl-screen-sm-min) and (max-width: $cl-screen-sm-max) {
         width: $cl-modal-box-width-sm;
         height: $cl-modal-box-height-sm;
+        @include cl-modal-content-size(sm, $cl-modal-box-height-sm);
+//        margin: (- $cl-modal-box-height-sm/2) 0 0 (- $cl-modal-box-width-sm/2);
       }
       @media (min-width: $cl-screen-md-min) and (max-width: $cl-screen-md-max) {
         width: $cl-modal-box-width-md;
         height: $cl-modal-box-height-md;
+        @include cl-modal-content-size(md, $cl-modal-box-height-md);
+//        margin: (- $cl-modal-box-height-md/2) 0 0 (- $cl-modal-box-width-md/2);
       }
       @media (min-width: $cl-screen-lg-min) {
         width: $cl-modal-box-width-lg;
         height: $cl-modal-box-height-lg;
+        @include cl-modal-content-size(lg, $cl-modal-box-height-lg);
+//        margin: (- $cl-modal-box-height-lg/2) 0 0 (- $cl-modal-box-width-lg/2);
       }
     }
   }

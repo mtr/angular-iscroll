@@ -1,78 +1,78 @@
 @mixin cl-area-visibility($area, $what, $target: $area) {
-  .core-layout.cl-#{$area}-#{$what} > .cl-#{$target} {
+  .cl-#{$area}-#{$what} > .cl-#{$target} {
     @content
   }
 }
 
-@mixin cl-responsive-invisibility($what) {
-  @include cl-area-visibility('header', $what) {
+@mixin cl-responsive-hidden($hidden-size) {
+  @include cl-area-visibility('header', $hidden-size) {
     display: none !important;
   }
-  @include cl-area-visibility('footer', $what) {
+  @include cl-area-visibility('footer', $hidden-size) {
     display: none !important;
   }
 
   .iscroll-off {
-    @include cl-area-visibility('header', $what, 'contents') {
+    @include cl-area-visibility('header', $hidden-size, 'contents') {
       margin-top: 0;
     }
-    @include cl-area-visibility('footer', $what, 'contents') {
+    @include cl-area-visibility('footer', $hidden-size, 'contents') {
       margin-bottom: 0;
     }
   }
 
   .iscroll-on {
-    @include cl-area-visibility('header', $what, 'contents') {
+    @include cl-area-visibility('header', $hidden-size, 'contents') {
       top: 0;
     }
-    @include cl-area-visibility('footer', $what, 'contents') {
+    @include cl-area-visibility('footer', $hidden-size, 'contents') {
       bottom: 0;
     }
   }
 }
 
-@mixin cl-responsive-visibility($what, $header-height, $footer-height,
+@mixin cl-responsive-visible($visible-size, $header-height, $footer-height,
 $modal-header-height, $modal-footer-height) {
 
-  @include cl-area-visibility('header', $what) {
+  @include cl-area-visibility('header', $visible-size) {
     display: block !important;
   }
-  @include cl-area-visibility('footer', $what) {
+  @include cl-area-visibility('footer', $visible-size) {
     display: block !important;
   }
 
   .iscroll-off {
-    @include cl-area-visibility('header', $what, 'contents') {
+    @include cl-area-visibility('header', $visible-size, 'contents') {
       margin-top: $header-height;
     }
-    @include cl-area-visibility('footer', $what, 'contents') {
+    @include cl-area-visibility('footer', $visible-size, 'contents') {
       margin-bottom: $footer-height;
     }
   }
 
   .iscroll-on {
-    @include cl-area-visibility('header', $what, 'contents') {
+    @include cl-area-visibility('header', $visible-size, 'contents') {
       top: $header-height;
     }
-    @include cl-area-visibility('footer', $what, 'contents') {
+    @include cl-area-visibility('footer', $visible-size, 'contents') {
       bottom: $footer-height;
     }
   }
 
   .iscroll-off .cl-modal-box {
-    @include cl-area-visibility('header', $what, 'contents') {
+    @include cl-area-visibility('header', $visible-size, 'contents') {
       margin-top: $modal-header-height;
     }
-    @include cl-area-visibility('footer', $what, 'contents') {
+    @include cl-area-visibility('footer', $visible-size, 'contents') {
       margin-bottom: $modal-footer-height;
     }
   }
 
   .iscroll-on .cl-modal-box {
-    @include cl-area-visibility('header', $what, 'contents') {
+    @include cl-area-visibility('header', $visible-size, 'contents') {
       top: $modal-header-height;
     }
-    @include cl-area-visibility('footer', $what, 'contents') {
+    @include cl-area-visibility('footer', $visible-size, 'contents') {
       bottom: $modal-footer-height;
     }
   }
@@ -84,9 +84,9 @@ $modal-header-height, $modal-footer-height) {
   $footer-selectors: ();
   @each $size in $sizes {
     $header-selectors: join($header-selectors,
-            unquote('.core-layout.cl-header-visible-#{$size}'), comma);
+            unquote('.cl-header-visible-#{$size}'), comma);
     $footer-selectors: join($footer-selectors,
-            unquote('.core-layout.cl-footer-visible-#{$size}'), comma);
+            unquote('.cl-footer-visible-#{$size}'), comma);
   }
 
   #{$header-selectors} {
@@ -96,7 +96,6 @@ $modal-header-height, $modal-footer-height) {
   }
   #{$footer-selectors} {
     > .cl-footer {
-
       display: none !important;
     }
   }
@@ -127,9 +126,9 @@ $modal-header-height, $modal-footer-height) {
 @mixin cl-responsive-visible-hidden-pair($header-height, $footer-height, $modal-header-height, $modal-footer-height, $size: '', $joint: '-') {
   $suffix: #{$joint}#{$size};
 
-  @include cl-responsive-visibility('visible#{$suffix}', $header-height,
+  @include cl-responsive-visible('visible#{$suffix}', $header-height,
           $footer-height, $modal-header-height, $modal-footer-height);
-  @include cl-responsive-invisibility('hidden#{$suffix}')
+  @include cl-responsive-hidden('hidden#{$suffix}')
 }
 
 

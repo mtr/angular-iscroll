@@ -1,28 +1,36 @@
 'use strict';
 
-var angular = require('angular');
+var angular = require('angular'),
+    _ = require('lodash');
+
 
 /* @ngInject */
 function CoreLayoutService($rootScope, $log, iScrollService) {
     var _state = {
-        /* Different state variables are assigned by core-layout directive
-         * instances. */
+        /**
+         * Different state variables are assigned by core-layout directive
+         * instances.
+         **/
     };
 
-    function _openModal() {
+    function _mergeStateIfProvided(configChanges) {
+        if (angular.isDefined(configChanges)) {
+            _.merge(_state.modal, configChanges);
+        }
+    }
+
+    function _openModal(configChanges) {
+        _mergeStateIfProvided(configChanges);
         _state.modal.show = true;
     }
 
-    function _closeModal() {
-        /* FIXME:  Should perhaps take an optional set of classes to add on the
-         * surrounding core-layout element, like 'visible-xs-block',
-         * 'hidden-xs hidden-sm', etc.
-         * NOTE:  Theres should probably be configurable
-         * 'all', 'header', 'contents', and 'footer' add/remove classes,
-          * since whether to show, e.g., the footer might depend on
-          * the screen size.
-         */
+    function _updateModal(configChanges) {
+        _mergeStateIfProvided(configChanges);
+    }
+
+    function _closeModal(configChanges) {
         _state.modal.show = false;
+        _mergeStateIfProvided(configChanges);
     }
 
     function _layoutChanged(name) {
@@ -34,6 +42,7 @@ function CoreLayoutService($rootScope, $log, iScrollService) {
     return {
         state: _state,
         openModal: _openModal,
+        updateModal: _updateModal,
         closeModal: _closeModal,
         layoutChanged: _layoutChanged
     };
