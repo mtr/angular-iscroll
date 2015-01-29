@@ -1,4 +1,5 @@
 @mixin cl-modal-content-size-reset() {
+  // FIXME:  This is not done yet:
   .cl-header-visible-sm,
   .cl-header-visible-md,
   .cl-header-visible-lg {
@@ -9,6 +10,7 @@
 }
 
 @mixin cl-modal-content-size($size, $height) {
+  // This probably needs a rewrite or needs to be moved to _core-responsive.scss
   .cl-contents {
     height: $height - ($cl-modal-header-height + $cl-modal-footer-height);
   }
@@ -52,7 +54,7 @@
         // Center left-right and top-bottom.
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
+//        transform: translate(-50%, -50%);  // This didn't work in Safari.
       }
 
       .cl-contents {
@@ -65,19 +67,19 @@
         width: $cl-modal-box-width-sm;
         height: $cl-modal-box-height-sm;
         @include cl-modal-content-size(sm, $cl-modal-box-height-sm);
-//        margin: (- $cl-modal-box-height-sm/2) 0 0 (- $cl-modal-box-width-sm/2);
+        margin: (- $cl-modal-box-height-sm/2) 0 0 (- $cl-modal-box-width-sm/2);
       }
       @media (min-width: $cl-screen-md-min) and (max-width: $cl-screen-md-max) {
         width: $cl-modal-box-width-md;
         height: $cl-modal-box-height-md;
         @include cl-modal-content-size(md, $cl-modal-box-height-md);
-//        margin: (- $cl-modal-box-height-md/2) 0 0 (- $cl-modal-box-width-md/2);
+        margin: (- $cl-modal-box-height-md/2) 0 0 (- $cl-modal-box-width-md/2);
       }
       @media (min-width: $cl-screen-lg-min) {
         width: $cl-modal-box-width-lg;
         height: $cl-modal-box-height-lg;
         @include cl-modal-content-size(lg, $cl-modal-box-height-lg);
-//        margin: (- $cl-modal-box-height-lg/2) 0 0 (- $cl-modal-box-width-lg/2);
+        margin: (- $cl-modal-box-height-lg/2) 0 0 (- $cl-modal-box-width-lg/2);
       }
     }
   }
