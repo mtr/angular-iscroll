@@ -63,13 +63,8 @@
     "watchify": "^2.2.1"
   },
   "browser": {
-    "angular": "./node_modules/angular/angular.js",
-    "angular-iscroll": "./dist/lib/angular-iscroll.js",
     "angular-messages": "./node_modules/angular-messages/angular-messages.js",
-    "bootstrap": "./node_modules/bootstrap-sass/assets/javascripts/bootstrap.js",
-    "iscroll": "./node_modules/iscroll/build/iscroll.js",
-    "jquery": "./node_modules/jquery/dist/jquery.js",
-    "ui.router": "./node_modules/angular-ui-router/release/angular-ui-router.js"
+    "bootstrap": "./node_modules/bootstrap-sass/assets/javascripts/bootstrap.js"
   },
   "browserify": {
     "transform": [
