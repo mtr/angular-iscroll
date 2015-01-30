@@ -1,6 +1,6 @@
 {
   "name": "angular-iscroll",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "AngularJS module that enables iScroll 5 functionality, wrapping it in an easy-to-use directive.",
   "main": "index.js",
   "scripts": {

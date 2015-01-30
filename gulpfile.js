@@ -70,6 +70,11 @@ function _getNow() {
     return new Date();
 }
 
+gulp.task('scss', function () {
+    return gulp.src('src/lib/_*.scss')
+        .pipe(gulp.dest('dist/lib/scss'));
+});
+
 gulp.task('lib', function () {
     var now = _getNow();
 
@@ -103,6 +108,8 @@ gulp.task('lib', function () {
 gulp.task('watch', function () {
     var watcher = gulp.watch(paths.lib.src, ['lib']);
 
+    gulp.watch('src/lib/_*.scss', ['scss']);
+
     watcher.on('change', function _srcChanged(event) {
         if (event.type === 'deleted') {
             delete cached.caches.lib[event.path];
@@ -111,7 +118,7 @@ gulp.task('watch', function () {
     });
 });
 
-gulp.task('default', ['lib']);
+gulp.task('default', ['scss', 'lib']);
 
 
 gulp.task('browser-sync', function () {
