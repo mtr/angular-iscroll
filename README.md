@@ -34,4 +34,4 @@ gulp examples   # (will rebuild on every file change)
 
 
 ## Demo
-You may have a look at an Angular [demo app](http://mtr.github.io/angular-iscroll/examples/) that shows how you can use the `iscroll` directive.  For example, the demo shows how to handle DOM content generated dynamically through [ngRepeat](https://docs.angularjs.org/api/ng/directive/ngRepeat).
+You may have a look at [core-layout](http://mtr.github.io/core-layout/examples/), an Angular demo app that shows how you can use the `iscroll` directive in a responsive-design web-app with support for both drawers (slide-out menus) and modals.  For example, the demo shows how to handle DOM content generated dynamically through [ngRepeat](https://docs.angularjs.org/api/ng/directive/ngRepeat).
