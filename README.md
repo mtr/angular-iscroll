@@ -3,7 +3,12 @@ AngularJS module that enables iScroll 5 functionality, wrapping it in an easy-to
 
 ## Install
 
-To check out a development version, start by cloning the repository, by
+Install the [angular-iscroll NPM package](https://www.npmjs.com/package/angular-iscroll)
+```bash
+npm install --save angular-iscroll
+```
+
+Or, to check out a development version, start by cloning the repository, by
 ```bash
 git clone git@github.com:mtr/angular-iscroll.git
 ```
