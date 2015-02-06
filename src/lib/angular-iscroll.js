@@ -55,14 +55,6 @@
             $rootScope.$emit(iScrollSignals.refresh, name);
         }
 
-        //$rootScope.$on(iScrollSignals.disabled, function _disabledIScroll() {
-        //    $log.debug('on(iScrollSignals.disabled)', iScrollSignals.disabled);
-        //});
-        //
-        //$rootScope.$on(iScrollSignals.enabled, function _enabledIScroll() {
-        //    $log.debug('on(iScrollSignals.enabled)', iScrollSignals.enabled);
-        //});
-
         return {
             state: _state,
             enable: _enable,
@@ -77,7 +69,8 @@
     }
 
     /* @ngInject */
-    function iscroll($rootScope, $timeout, $log, iScrollSignals, iScrollService) {
+    function iscroll($rootScope, $timeout, $interval, $log, iScrollSignals,
+                     iScrollService) {
         /* The different options for iScroll are explained in detail at
          http://iscrolljs.com/#configuring */
         var defaults = {
@@ -86,10 +79,17 @@
                 mouseWheel: true
             },
             directive: {
-                /* Delay, in ms, before we asynchronously perform an
-                 iScroll.refresh().  If false, then no async refresh is
-                 performed. */
-                asyncRefreshDelay: 0
+                /**
+                 * Delay, in ms, before we asynchronously perform an
+                 * iScroll.refresh().  If false, then no async refresh is
+                 * performed.
+                 **/
+                asyncRefreshDelay: 0,
+                /**
+                 * Delay, in ms, between each iScroll.refresh().  If false,
+                 * then no periodic refresh is performed.
+                 **/
+                refreshInterval: false
             }
         };
 
@@ -100,7 +100,8 @@
         }
 
         function _createInstance(scope, element, attrs, options) {
-            var instance = new IScroll(element[0], options.iScroll);
+            var instance = new IScroll(element[0], options.iScroll),
+                refreshEnabled = true;
 
             element.removeClass(classes.off).addClass(classes.on);
 
@@ -127,7 +128,26 @@
             }
 
             function _refreshInstance() {
+                if (refreshEnabled) {
+                    refreshEnabled = false;
                 asyncRefresh(instance, options);
+                    refreshEnabled = true;
+            }
+            }
+
+            function _disableRefresh() {
+                refreshEnabled = false;
+            }
+
+            function _enableRefresh() {
+                refreshEnabled = true;
+            }
+
+            instance.on('scrollStart', _disableRefresh);
+            instance.on('scrollEnd', _enableRefresh);
+
+            if (options.directive.refreshInterval !== false) {
+                $interval(_refreshInstance, options.directive.refreshInterval);
             }
 
             var deregistrators = [
@@ -141,11 +161,13 @@
 
         function _link(scope, element, attrs) {
             var options = {
-                iScroll: angular.extend({}, scope.iscroll || {}, defaults.iScroll),
-                directive: {}
+                iScroll: angular.extend({}, scope.iscroll || {},
+                    defaults.iScroll),
+                directive: angular.extend({}, defaults.directive)
             };
 
-            angular.forEach(options.iScroll, function _extractOptions(value, key) {
+            angular.forEach(options.iScroll,
+                function _extractOptions(value, key) {
                     if (defaults.directive.hasOwnProperty(key)) {
                         options.directive[key] = value;
                         delete options.iScroll[key];
@@ -163,7 +185,6 @@
 
             function _removeEnableHandlers() {
                 angular.forEach(enableHandlers, _call);
-                //$log.debug('angular-iscroll: removeEnableHandlers');
             }
 
             if (iScrollService.state.useIScroll) {
@@ -185,10 +206,9 @@
         }
     }
 
-    var angularIscroll = angular.module('angular-iscroll', [])
+    return angular.module('angular-iscroll', [])
         .directive('iscroll', iscroll)
         .factory('iScrollService', iScrollService)
         .constant('iScrollSignals', signals);
-
-    return angularIscroll;
 }));
+
