@@ -38,7 +38,7 @@ module.exports = angular.module('myApp');
 
 },{"./components/core-layout/core-layout.js":"/home/mtr/projects/angular-iscroll/src/examples/components/core-layout/core-layout.js","./components/header/header.js":"/home/mtr/projects/angular-iscroll/src/examples/components/header/header.js","./components/version/version.js":"/home/mtr/projects/angular-iscroll/src/examples/components/version/version.js","./demos/demos.js":"/home/mtr/projects/angular-iscroll/src/examples/demos/demos.js","./home/home.js":"/home/mtr/projects/angular-iscroll/src/examples/home/home.js","angular":"/home/mtr/projects/angular-iscroll/node_modules/angular/angular.js","angular-iscroll":"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js","angular-messages":"/home/mtr/projects/angular-iscroll/node_modules/angular-messages/angular-messages.js","bootstrap":"/home/mtr/projects/angular-iscroll/node_modules/bootstrap-sass/assets/javascripts/bootstrap.js","ui.router":"/home/mtr/projects/angular-iscroll/node_modules/angular-ui-router/release/angular-ui-router.js"}],"/home/mtr/projects/angular-iscroll/dist/lib/angular-iscroll.js":[function(require,module,exports){
 /**
- * @license angular-iscroll v0.5.1, 2015-01-28T10:44:54+0100
+ * @license angular-iscroll v0.5.1, 2015-01-29T14:32:47+0100
  * (c) 2015 Martin Thorsen Ranang <mtr@ranang.org>
  * License: MIT
  */
