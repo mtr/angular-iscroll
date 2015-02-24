@@ -76,7 +76,7 @@ function MyAppController(iScrollService) {
     vm.iScrollState = iScrollService.state;
 }
 ```
-thereby providing a way to globally change the meaning of the `iscroll-wrapper` + `iscroll-scroller` combination.  Please note: To get more info about the "controller as" syntax, you might enjoy [John Papa's AngularJS Styleguide](https://github.com/johnpapa/angularjs-styleguide#controlleras-with-vm).
+thereby providing a way to globally change the meaning of the `iscroll-wrapper` + `iscroll-scroller` combination.  Please note: To get more info about the "controller as" syntax, you might enjoy [John Papa's AngularJS Style Guide](https://github.com/johnpapa/angularjs-styleguide#controlleras-with-vm).
 
 Furthermore, the global iScroll state exposed by the service should be changed through the service's `enable([signalOnly])`, `disable([signalOnly])`, and `toggle([signalOnly])` methods, where each method will change the state accordingly, and then emit a corresponding signal from `$rootScope` that gets picked up and handled by the available `angular-iscroll` directive instances.  If the `signalOnly` flag is `true`, then the state is not changed by the service method, but the signal is sent nonetheless.
 
@@ -97,3 +97,20 @@ The directive provides two configuration options:
 
 - `asyncRefreshDelay` (default `0`): defines the delay, in ms, before the directive asynchronously performs an IScroll.refresh().  If `false`, then no async refresh is performed.  This can come in handy when you need to wait for the DOM to be rendered before `IScroll` can know the size of its scrolling area.
 - `refreshInterval` (default `false`): a delay, in ms, between each periodic iScroll.refresh().  If `false`, then no periodic refresh is performed.  This functionality can be handy in complex applications, where it might be difficult to decide when `iScrollService.refresh()` should be called, and a periodic call to `IScroll.refresh()`, for example every 500 ms, might provide a smooth user experience.  To avoid scroll stuttering caused by calls to refresh during an ongoing scroll operation, the `angular-iscroll` directive prevents `refresh()` calls if IScroll is currently performing a scroll operation.
+
+#### Globally Configuring the Directive's Default Options
+
+The `iscroll` directive gets its default configuration from the `iScrollService`.  To provide a way to easily, globally configure the defaults for all `iscroll` instances, the module defines an `iScrollServiceProvider` which can be injected into the app controller's configuration block which is guarranteed to run before the controller is used anywhere.  For example:
+```js
+/* @ngInject */
+function _config(iScrollServiceProvider) {
+    iScrollServiceProvider.configureDefaults(/* Supply your default configuration object here. */);
+}
+
+angular
+    .module('myApp', ['angular-iscroll'])
+    .config(_config);
+```
+The configuration you provide this way will serve as the updated global default for all `iscroll` directive instances.
+
+Please note that the above example relies on [ng-annotate](https://www.npmjs.com/package/ng-annotate) for adding AngularJS dependency-injection annotations during builds, as indicated by the `/* @ngInject */` comment.
