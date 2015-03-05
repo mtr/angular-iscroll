@@ -106,9 +106,9 @@ That way, the scope's `instance` variable will hold a reference to the actual
 ### Configuration
 I've designed this module so that it should be easy to configure.  First of all, you can supply per-instance options, both for `IScroll` and the directive itself, when you apply the directive.  For example
 ```html
-<div iscroll="{iScroll: {mouseWheel: true, momentum: true}, directive: {refreshInterval: 500}}">…</div>
+<div iscroll="{mouseWheel: true, momentum: true, refreshInterval: 500}">…</div>
 ```
-would pass along the options `{mouseWheel: true, momentum: true}` to IScroll, while the directive-specific configuration parameter, `{refreshInterval: 500}`, is only interpreted by the directive.  
+would pass along the options `{mouseWheel: true, momentum: true}` to `IScroll`, while the directive-specific configuration parameter, `{refreshInterval: 500}`, is only interpreted by the directive.  Any config option not recognized as a directive-specific option, will be forwarded to `IScroll`.
 
 There are lots of configuration options for IScroll itself; those are best [documented by iScroll](http://iscrolljs.com/#configuring).
 
