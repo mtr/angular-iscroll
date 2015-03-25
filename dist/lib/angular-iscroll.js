@@ -1,5 +1,5 @@
 /**
- * @license angular-iscroll v1.2.3, 2015-03-05T16:21:09+0100
+ * @license angular-iscroll v1.2.4, 2015-03-25T21:28:50+0100
  * (c) 2015 Martin Thorsen Ranang <mtr@ranang.org>
  * License: MIT
  */
@@ -56,10 +56,12 @@
         function _configureDefaults(options) {
             angular.extend(defaultOptions, options);
         }
+
         this.configureDefaults = _configureDefaults;
         function _getDefaults() {
             return defaultOptions;
         }
+
         this.getDefaults = _getDefaults;
 
         /* @ngInject */
@@ -115,7 +117,6 @@
     /* @ngInject */
     function iscroll($rootScope, $timeout, $interval, $log, iScrollSignals,
                      iScrollService) {
-
         function asyncRefresh(instance, options) {
             $timeout(function _refreshAfterInitialRender() {
                 instance.refresh();
@@ -124,7 +125,8 @@
 
         function _createInstance(scope, element, attrs, options) {
             var instance = new IScroll(element[0], options.iScroll),
-                refreshEnabled = true;
+                refreshEnabled = true,
+                refreshInterval = null;
 
             element.removeClass(classes.off).addClass(classes.on);
 
@@ -137,6 +139,10 @@
             }
 
             function _destroyInstance() {
+                if (refreshInterval !== null) {
+                    $interval.cancel(refreshInterval);
+                }
+
                 if (angular.isDefined(scope.iscrollInstance)) {
                     delete scope.iscrollInstance;
                 }
@@ -170,7 +176,8 @@
             instance.on('scrollEnd', _enableRefresh);
 
             if (options.directive.refreshInterval !== false) {
-                $interval(_refreshInstance, options.directive.refreshInterval);
+                refreshInterval = $interval(_refreshInstance,
+                    options.directive.refreshInterval);
             }
 
             var deregistrators = [
