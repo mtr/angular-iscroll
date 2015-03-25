@@ -51,10 +51,12 @@
         function _configureDefaults(options) {
             angular.extend(defaultOptions, options);
         }
+
         this.configureDefaults = _configureDefaults;
         function _getDefaults() {
             return defaultOptions;
         }
+
         this.getDefaults = _getDefaults;
 
         /* @ngInject */
@@ -109,9 +111,6 @@
     /* @ngInject */
     function iscroll($rootScope, $timeout, $interval, $log, iScrollSignals,
                      iScrollService) {
-
-        var refreshIntervals = [];
-
         function asyncRefresh(instance, options) {
             $timeout(function _refreshAfterInitialRender() {
                 instance.refresh();
@@ -120,7 +119,8 @@
 
         function _createInstance(scope, element, attrs, options) {
             var instance = new IScroll(element[0], options.iScroll),
-                refreshEnabled = true;
+                refreshEnabled = true,
+                refreshInterval = null;
 
             element.removeClass(classes.off).addClass(classes.on);
 
@@ -133,10 +133,9 @@
             }
 
             function _destroyInstance() {
-                // Cancel intervals
-                refreshIntervals.forEach(function(refreshInterval) {
-                  $interval.cancel(refreshInterval);
-                });
+                if (refreshInterval !== null) {
+                    $interval.cancel(refreshInterval);
+                }
 
                 if (angular.isDefined(scope.iscrollInstance)) {
                     delete scope.iscrollInstance;
@@ -171,7 +170,8 @@
             instance.on('scrollEnd', _enableRefresh);
 
             if (options.directive.refreshInterval !== false) {
-                refreshIntervals.push($interval(_refreshInstance, options.directive.refreshInterval));
+                refreshInterval = $interval(_refreshInstance,
+                    options.directive.refreshInterval);
             }
 
             var deregistrators = [
