@@ -134,3 +134,7 @@ angular
 The configuration you provide this way will serve as the updated global default for all `iscroll` directive instances.
 
 Please note that the above example relies on [ng-annotate](https://www.npmjs.com/package/ng-annotate) for adding AngularJS dependency-injection annotations during builds, as indicated by the `/* @ngInject */` comment.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mtr/angular-iscroll/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
