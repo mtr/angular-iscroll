@@ -27,6 +27,7 @@
   your experience.</p>
 <![endif]-->
 <div core-layout="::{name: 'main', header: {visible: {all: true}}, footer: {visible: {xs: true}}}"></div>
+<!-- :: means "bind once" -->
 <div class="core-layout cl-modal-overlay" ng-show="app.layout.modal.show">
   <div class="cl-modal-box">
     <div core-layout="::{name: 'modal', show: false}"
