@@ -235,7 +235,8 @@
 
             angular.forEach(options.iScroll,
                 function _extractOptions(value, key) {
-                    if (iScrollService.defaults.directive.hasOwnProperty(key)) {
+                    if (iScrollService.defaults.directive.hasOwnProperty(key) ||
+                        iScrollEventHandlerMap.hasOwnProperty(key)) {
                         options.directive[key] = value;
                         delete options.iScroll[key];
                     }
@@ -270,7 +271,7 @@
                 iscroll: '=',
                 iscrollInstance: '='
             }
-        }
+        };
     }
 
     return angular.module('angular-iscroll', [])
