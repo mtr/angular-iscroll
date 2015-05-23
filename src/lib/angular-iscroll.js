@@ -31,19 +31,20 @@
             'zoomStart',
             'zoomEnd'
         ],
-        /**
-         * Add handler name to event name mapping.
-         *
-         * Please note that the 'scroll' event is only available when using
-         * iscroll-probe.js (for example, through angular-iscroll-probe).
-         *
-         * For example, the handler for the 'scrollEnd' event can be configured
-         * by supplying the onScrollEnd option.
-         **/
-        iScrollEventHandlerMap =
-            _.reduce(iScrollEvents, function _addPair(result, event) {
-                result['on' + _capitalizeFirst(event)] = event;
-            }, {});
+        iScrollEventHandlerMap = {};
+
+    /**
+     * Add handler name to event name mapping.
+     *
+     * Please note that the 'scroll' event is only available when using
+     * iscroll-probe.js (for example, through angular-iscroll-probe).
+     *
+     * For example, the handler for the 'scrollEnd' event can be configured
+     * by supplying the onScrollEnd option.
+     **/
+    angular.forEach(iScrollEvents, function _addPair(event) {
+        this['on' + _capitalizeFirst(event)] = event;
+    }, iScrollEventHandlerMap);
 
     function _capitalizeFirst(str) {
         return str.substring(0,1).toLocaleUpperCase() + str.substring(1);
@@ -77,9 +78,9 @@
                 }
             };
 
-        _.each(iScrollEventHandlerMap, function _provideDefault(event, handler) {
-            defaultOptions.directive[handler] = undefined;
-        });
+        angular.forEach(iScrollEventHandlerMap, function _default(event, handler) {
+            this[handler] = undefined;
+        }, defaultOptions.directive);
 
         function _configureDefaults(options) {
             angular.extend(defaultOptions, options);
@@ -157,11 +158,12 @@
                 refreshEnabled = true,
                 refreshInterval = null;
 
-            _.each(iScrollEventHandlerMap, function _addHandler(event, option) {
-                if (_.has(options.directive, option)) {
-                    instance.on(event, options.directive[option]);
-                }
-            });
+            angular.forEach(iScrollEventHandlerMap,
+                function _addHandler(event, option) {
+                    if (angular.isDefined(options.directive[option])) {
+                        instance.on(event, options.directive[option]);
+                    }
+                });
 
             element.removeClass(classes.off).addClass(classes.on);
 
