@@ -13,40 +13,73 @@
     'use strict';
 
     var signals = {
-        disabled: 'iscroll:disabled',
-        enabled: 'iscroll:enabled',
-        refresh: 'iscroll:refresh'
-    };
+            disabled: 'iscroll:disabled',
+            enabled: 'iscroll:enabled',
+            refresh: 'iscroll:refresh'
+        },
+        classes = {
+            on: 'iscroll-on',
+            off: 'iscroll-off'
+        },
+        iScrollEvents = [
+            'beforeScrollStart',
+            'scrollCancel',
+            'scrollStart',
+            'scroll',
+            'scrollEnd',
+            'flick',
+            'zoomStart',
+            'zoomEnd'
+        ],
+        /**
+         * Add handler name to event name mapping.
+         *
+         * Please note that the 'scroll' event is only available when using
+         * iscroll-probe.js (for example, through angular-iscroll-probe).
+         *
+         * For example, the handler for the 'scrollEnd' event can be configured
+         * by supplying the onScrollEnd option.
+         **/
+        iScrollEventHandlerMap =
+            _.reduce(iScrollEvents, function _addPair(result, event) {
+                result['on' + _capitalizeFirst(event)] = event;
+            }, {});
 
-    var classes = {
-        on: 'iscroll-on',
-        off: 'iscroll-off'
-    };
+    function _capitalizeFirst(str) {
+        return str.substring(0,1).toLocaleUpperCase() + str.substring(1);
+    }
 
     function iScrollServiceProvider() {
         var defaultOptions = {
-            iScroll: {
-                /**
-                 * The different options for iScroll are explained in
-                 * detail at http://iscrolljs.com/#configuring
-                 **/
-                momentum: true,
-                mouseWheel: true
-            },
-            directive: {
-                /**
-                 * Delay, in ms, before we asynchronously perform an
-                 * iScroll.refresh().  If false, then no async refresh is
-                 * performed.
-                 **/
-                asyncRefreshDelay: 0,
-                /**
-                 * Delay, in ms, between each iScroll.refresh().  If false,
-                 * then no periodic refresh is performed.
-                 **/
-                refreshInterval: false
-            }
-        };
+                iScroll: {
+                    /**
+                     * The different options for iScroll are explained in
+                     * detail at http://iscrolljs.com/#configuring
+                     **/
+                    momentum: true,
+                    mouseWheel: true
+                },
+                directive: {
+                    /**
+                     * Delay, in ms, before we asynchronously perform an
+                     * iScroll.refresh().  If false, then no async refresh is
+                     * performed.
+                     **/
+                    asyncRefreshDelay: 0,
+                    /**
+                     * Delay, in ms, between each iScroll.refresh().  If false,
+                     * then no periodic refresh is performed.
+                     **/
+                    refreshInterval: false
+                    /**
+                     * Event handler options are added below.
+                     **/
+                }
+            };
+
+        _.each(iScrollEventHandlerMap, function _provideDefault(event, handler) {
+            defaultOptions.directive[handler] = undefined;
+        });
 
         function _configureDefaults(options) {
             angular.extend(defaultOptions, options);
@@ -69,7 +102,8 @@
                 if (!signalOnly) {
                     _state.useIScroll = false;
                 }
-                //$log.debug('emit(iScrollSignals.disabled)', iScrollSignals.disabled);
+                //$log.debug('emit(iScrollSignals.disabled)',
+                //    iScrollSignals.disabled);
                 $rootScope.$emit(iScrollSignals.disabled);
             }
 
@@ -77,7 +111,8 @@
                 if (!signalOnly) {
                     _state.useIScroll = true;
                 }
-                //$log.debug('emit(iScrollSignals.enabled)', iScrollSignals.enabled);
+                //$log.debug('emit(iScrollSignals.enabled)',
+                //    iScrollSignals.enabled);
                 $rootScope.$emit(iScrollSignals.enabled);
             }
 
@@ -121,6 +156,12 @@
             var instance = new IScroll(element[0], options.iScroll),
                 refreshEnabled = true,
                 refreshInterval = null;
+
+            _.each(iScrollEventHandlerMap, function _addHandler(event, option) {
+                if (_.has(options.directive, option)) {
+                    instance.on(event, options.directive[option]);
+                }
+            });
 
             element.removeClass(classes.off).addClass(classes.on);
 
