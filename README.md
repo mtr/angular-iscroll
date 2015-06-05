@@ -8,6 +8,11 @@ Install the [angular-iscroll NPM package](https://www.npmjs.com/package/angular-
 npm install --save angular-iscroll
 ```
 
+Install through Bower
+```bash
+bower install --save angular-iscroll
+```
+
 Or, to check out a development version, start by cloning the repository, by
 ```bash
 git clone git@github.com:mtr/angular-iscroll.git
