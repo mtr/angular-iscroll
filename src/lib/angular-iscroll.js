@@ -52,38 +52,39 @@
 
     function iScrollServiceProvider() {
         var defaultOptions = {
-                iScroll: {
-                    /**
-                     * The different options for iScroll are explained in
-                     * detail at http://iscrolljs.com/#configuring
-                     **/
-                    momentum: true,
-                    mouseWheel: true
-                },
-                directive: {
-                    /**
-                     * Delay, in ms, before we asynchronously perform an
-                     * iScroll.refresh().  If false, then no async refresh is
-                     * performed.
-                     **/
-                    asyncRefreshDelay: 0,
-                    /**
-                     * Delay, in ms, between each iScroll.refresh().  If false,
-                     * then no periodic refresh is performed.
-                     **/
-                    refreshInterval: false
-                    /**
-                     * Event handler options are added below.
-                     **/
-                }
-            };
+            iScroll: {
+                /**
+                 * The different options for iScroll are explained in
+                 * detail at http://iscrolljs.com/#configuring
+                 **/
+                momentum: true,
+                mouseWheel: true
+            },
+            directive: {
+                /**
+                 * Delay, in ms, before we asynchronously perform an
+                 * iScroll.refresh().  If false, then no async refresh is
+                 * performed.
+                 **/
+                asyncRefreshDelay: 0,
+                /**
+                 * Delay, in ms, between each iScroll.refresh().  If false,
+                 * then no periodic refresh is performed.
+                 **/
+                refreshInterval: false
+                /**
+                 * Event handler options are added below.
+                 **/
+            }
+        };
 
         angular.forEach(iScrollEventHandlerMap, function _default(event, handler) {
             this[handler] = undefined;
         }, defaultOptions.directive);
 
         function _configureDefaults(options) {
-            angular.extend(defaultOptions, options);
+            angular.extend(defaultOptions.iScroll, options.iScroll);
+            angular.extend(defaultOptions.directive, options.directive);
         }
 
         this.configureDefaults = _configureDefaults;
