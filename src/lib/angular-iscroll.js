@@ -71,7 +71,11 @@
                      * Delay, in ms, between each iScroll.refresh().  If false,
                      * then no periodic refresh is performed.
                      **/
-                    refreshInterval: false
+                    refreshInterval: false,
+                    /**
+                     * Skip digest cycle on iScroll.refresh()
+                     */
+                    invokeApply: true
                     /**
                      * Event handler options are added below.
                      **/
@@ -150,7 +154,7 @@
         function asyncRefresh(instance, options) {
             $timeout(function _refreshAfterInitialRender() {
                 instance.refresh();
-            }, options.directive.asyncRefreshDelay);
+            }, options.directive.asyncRefreshDelay, options.directive.invokeApply);
         }
 
         function _createInstance(scope, element, attrs, options) {
@@ -214,7 +218,7 @@
 
             if (options.directive.refreshInterval !== false) {
                 refreshInterval = $interval(_refreshInstance,
-                    options.directive.refreshInterval);
+                    options.directive.refreshInterval,0, options.directive.invokeApply);
             }
 
             var deregistrators = [
