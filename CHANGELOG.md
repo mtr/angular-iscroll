@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/mtr/angular-iscroll/tree/HEAD)
-
-[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v1.3.3...HEAD)
+## [v2.0.0](https://github.com/mtr/angular-iscroll/tree/v2.0.0) (2015-12-16)
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v1.3.3...v2.0.0)
 
 **Merged pull requests:**
 
