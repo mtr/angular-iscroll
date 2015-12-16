@@ -122,6 +122,33 @@ The directive provides two configuration options:
 
 - `asyncRefreshDelay` (default `0`): defines the delay, in ms, before the directive asynchronously performs an IScroll.refresh().  If `false`, then no async refresh is performed.  This can come in handy when you need to wait for the DOM to be rendered before `IScroll` can know the size of its scrolling area.
 - `refreshInterval` (default `false`): a delay, in ms, between each periodic iScroll.refresh().  If `false`, then no periodic refresh is performed.  This functionality can be handy in complex applications, where it might be difficult to decide when `iScrollService.refresh()` should be called, and a periodic call to `IScroll.refresh()`, for example every 500 ms, might provide a smooth user experience.  To avoid scroll stuttering caused by calls to refresh during an ongoing scroll operation, the `angular-iscroll` directive prevents `refresh()` calls if IScroll is currently performing a scroll operation.
+- `invokeApply` (default `false`, since version _2.0.0_): whether or not to invoke AngularJS' `$apply()` (and thereby `$digest()`) cycle on every refresh, as determined by `asyncRefreshDelay` or `refreshInterval`.  When `false`, it will not invoke model dirty checking on every call to `IScroll.refresh()`.  This can result in huge performance gain if `refreshInterval` is set to a low value (for example 500 ms).  Example usage:
+
+        iScrollServiceProvider.configureDefaults({
+            iscroll: {
+               invokeApply:false
+           }
+        });
+
+    To test it, you can paste this code to your app `run` block:
+
+        /**
+         * This code measures `$digest()` performance
+         * by logging digest times to the console.
+         */
+        var $oldDigest = $rootScope.$digest;
+        var $newDigest = function() {
+                console.time("$digest");
+               $oldDigest.apply($rootScope);
+                console.timeEnd("$digest");
+        };
+        $rootScope.$digest = $newDigest;
+
+    With `invokeApply = true` and `refreshInterval = 500` you'll see that digest is run every 500ms.
+    With `invokeApply = false` and `refreshInterval = 500` you'll see that digest is not invoked by `angular-iscroll`.
+
+    Thanks to [DinkoMiletic](https://github.com/DinkoMiletic) for implementing this optimization.
+
 
 #### Globally Configuring the Directive's Default Options
 

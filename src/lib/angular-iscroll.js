@@ -73,9 +73,9 @@
                      **/
                     refreshInterval: false,
                     /**
-                     * Skip digest cycle on iScroll.refresh()
+                     * If `false`, skip `$digest()` cycle on iScroll.refresh().
                      */
-                    invokeApply: true
+                    invokeApply: false
                     /**
                      * Event handler options are added below.
                      **/
