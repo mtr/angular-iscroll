@@ -95,10 +95,11 @@
             return defaultOptions;
         }
 
+        //noinspection JSUnusedGlobalSymbols
         this.getDefaults = _getDefaults;
 
         /* @ngInject */
-        function iScrollService($rootScope, $log, iScrollSignals) {
+        function iScrollService($rootScope, iScrollSignals) {
             var _state = {
                 useIScroll: true
             };
@@ -141,6 +142,7 @@
             };
         }
 
+        //noinspection JSUnusedGlobalSymbols
         this.$get = iScrollService;
     }
 
@@ -149,7 +151,7 @@
     }
 
     /* @ngInject */
-    function iscroll($rootScope, $timeout, $interval, $log, iScrollSignals,
+    function iscroll($rootScope, $timeout, $interval, iScrollSignals,
                      iScrollService) {
         function asyncRefresh(instance, options) {
             $timeout(function _refreshAfterInitialRender() {
@@ -199,6 +201,7 @@
 
             function _refreshInstance() {
                 if (refreshEnabled) {
+                    //noinspection JSUnusedAssignment
                     refreshEnabled = false;
                     asyncRefresh(instance, options);
                     refreshEnabled = true;
