@@ -1,5 +1,8 @@
 # Change Log
 
+## [v2.0.1](https://github.com/mtr/angular-iscroll/tree/v2.0.1) (2015-12-17)
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v2.0.0...v2.0.1)
+
 ## [v2.0.0](https://github.com/mtr/angular-iscroll/tree/v2.0.0) (2015-12-16)
 [Full Changelog](https://github.com/mtr/angular-iscroll/compare/v1.3.3...v2.0.0)
 
