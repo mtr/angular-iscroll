@@ -1,3 +1,8 @@
+[![bitHound Overall Score](https://www.bithound.io/github/mtr/angular-iscroll/badges/score.svg)](https://www.bithound.io/github/mtr/angular-iscroll)
+[![bitHound Dependencies](https://www.bithound.io/github/mtr/angular-iscroll/badges/dependencies.svg)](https://www.bithound.io/github/mtr/angular-iscroll/master/dependencies/npm)
+[![bitHound Dev Dependencies](https://www.bithound.io/github/mtr/angular-iscroll/badges/devDependencies.svg)](https://www.bithound.io/github/mtr/angular-iscroll/master/dependencies/npm)
+[![bitHound Code](https://www.bithound.io/github/mtr/angular-iscroll/badges/code.svg)](https://www.bithound.io/github/mtr/angular-iscroll)
+
 # angular-iscroll
 AngularJS module that enables iScroll 5 functionality, wrapping it in an easy-to-use directive
 
