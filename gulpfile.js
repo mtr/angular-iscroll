@@ -1,5 +1,4 @@
-var _ = require('lodash'),
-    bump = require('gulp-bump'),
+var bump = require('gulp-bump'),
     cached = require('gulp-cached'),
     concat = require('gulp-concat'),
     dateFormat = require('dateformat'),
