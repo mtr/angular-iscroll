@@ -2,14 +2,14 @@
     // Using the Universal Module Definition pattern from
     // https://github.com/umdjs/umd/blob/master/returnExports.js
     if (typeof define === 'function' && define.amd) {
-        define(['iscroll'], factory);
+        define(['iscroll', 'platform'], factory);
     } else if (typeof exports === 'object') {
-        module.exports = factory(require('iscroll'));
+        module.exports = factory(require('iscroll'), require('platform'));
     } else {
         // Browser globals (root is window)
-        root.angularIscroll = factory(root.IScroll);
+        root.angularIscroll = factory(root.IScroll, root.platform);
     }
-}(this, function (IScroll) {
+}(this, function (IScroll, platform) {
     'use strict';
 
     var signals = {
@@ -31,7 +31,40 @@
             'zoomStart',
             'zoomEnd'
         ],
-        iScrollEventHandlerMap = {};
+        iScrollEventHandlerMap = {},
+        minIOSMajorVersion = 7,
+        useNativeScroll = _useNativeScroll();
+
+    function _osVersion() {
+        var v = (platform.os.version).match(/(\d+).(\d+).?(\d+)?/);
+        return [
+            parseInt(v[1], 10),
+            parseInt(v[2], 10),
+            parseInt(v[3] || 0, 10)
+        ];
+    }
+
+    function _isChromeMobile() {
+        return platform.name === 'Chrome Mobile';
+    }
+
+    function _useNativeScroll() {
+        if (platform.name === 'Opera Mini') {
+            return false;
+        }
+
+        switch (platform.os.family) {
+            case 'Android':
+                // In Chrome we trust.
+                return _isChromeMobile();
+            case 'iOS':
+                // Buggy handling in older iOS versions.
+                return _osVersion()[0] > minIOSMajorVersion;
+            default:
+                // Assuming desktop or other browser.
+                return true;
+        }
+    }
 
     /**
      * Add handler name to event name mapping.
@@ -47,40 +80,47 @@
     }, iScrollEventHandlerMap);
 
     function _capitalizeFirst(str) {
-        return str.substring(0,1).toLocaleUpperCase() + str.substring(1);
+        return str.substring(0, 1).toLocaleUpperCase() + str.substring(1);
     }
 
     function iScrollServiceProvider() {
         var defaultOptions = {
-                iScroll: {
-                    /**
-                     * The different options for iScroll are explained in
-                     * detail at http://iscrolljs.com/#configuring
-                     **/
-                    momentum: true,
-                    mouseWheel: true
-                },
-                directive: {
-                    /**
-                     * Delay, in ms, before we asynchronously perform an
-                     * iScroll.refresh().  If false, then no async refresh is
-                     * performed.
-                     **/
-                    asyncRefreshDelay: 0,
-                    /**
-                     * Delay, in ms, between each iScroll.refresh().  If false,
-                     * then no periodic refresh is performed.
-                     **/
-                    refreshInterval: false,
-                    /**
-                     * If `false`, skip `$digest()` cycle on iScroll.refresh().
-                     */
-                    invokeApply: false
-                    /**
-                     * Event handler options are added below.
-                     **/
-                }
-            };
+            iScroll: {
+                /**
+                 * The different options for iScroll are explained in
+                 * detail at http://iscrolljs.com/#configuring
+                 **/
+                momentum: true,
+                mouseWheel: true
+            },
+            directive: {
+                /**
+                 * Whether or not to initially enable the use of iScroll.
+                 *
+                 * The `useNativeScroll` flag is automatically determined
+                 * by running _useNativeScroll();
+                 **/
+                initiallyEnabled: !useNativeScroll,
+                /**
+                 * Delay, in ms, before we asynchronously perform an
+                 * iScroll.refresh().  If false, then no async refresh is
+                 * performed.
+                 **/
+                asyncRefreshDelay: 0,
+                /**
+                 * Delay, in ms, between each iScroll.refresh().  If false,
+                 * then no periodic refresh is performed.
+                 **/
+                refreshInterval: false,
+                /**
+                 * If `false`, skip `$digest()` cycle on iScroll.refresh().
+                 */
+                invokeApply: false
+                /**
+                 * Event handler options are added below.
+                 **/
+            }
+        };
 
         angular.forEach(iScrollEventHandlerMap, function _default(event, handler) {
             this[handler] = undefined;
@@ -99,6 +139,9 @@
             }
         }
 
+        // Export the auto-determined value of `useNativeScroll`.
+        this.useNativeScroll = useNativeScroll;
+
         this.configureDefaults = _configureDefaults;
         function _getDefaults() {
             return defaultOptions;
@@ -110,7 +153,7 @@
         /* @ngInject */
         function iScrollService($rootScope, iScrollSignals) {
             var _state = {
-                useIScroll: true
+                useIScroll: defaultOptions.directive.initiallyEnabled
             };
 
             function _disable(signalOnly) {
@@ -230,7 +273,7 @@
 
             if (options.directive.refreshInterval !== false) {
                 refreshInterval = $interval(_refreshInstance,
-                    options.directive.refreshInterval,0, options.directive.invokeApply);
+                    options.directive.refreshInterval, 0, options.directive.invokeApply);
             }
 
             var deregistrators = [
