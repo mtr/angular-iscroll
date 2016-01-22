@@ -1,5 +1,5 @@
 /**
- * @license angular-iscroll v3.0.0, 2016-01-22T22:11:04+0100
+ * @license angular-iscroll v3.1.0, 2016-01-22T22:29:52+0100
  * (c) 2016 Martin Thorsen Ranang <mtr@ranang.org>
  * License: MIT
  */
@@ -146,6 +146,7 @@
 
         // Export the auto-determined value of `useNativeScroll`.
         this.useNativeScroll = useNativeScroll;
+        this.platform = platform;
 
         this.configureDefaults = _configureDefaults;
         function _getDefaults() {
@@ -158,7 +159,8 @@
         /* @ngInject */
         function iScrollService($rootScope, iScrollSignals) {
             var _state = {
-                useIScroll: defaultOptions.directive.initiallyEnabled
+                useIScroll: defaultOptions.directive.initiallyEnabled,
+                autoDetectedUseNativeScroll: useNativeScroll
             };
 
             function _disable(signalOnly) {
