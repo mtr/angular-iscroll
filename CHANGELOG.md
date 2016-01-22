@@ -1,5 +1,24 @@
 # Change Log
 
+## [v3.1.0](https://github.com/mtr/angular-iscroll/tree/v3.1.0) (2016-01-22)
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.0.0...v3.1.0)
+
+## [v3.0.0](https://github.com/mtr/angular-iscroll/tree/v3.0.0) (2016-01-22)
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v2.0.1...v3.0.0)
+
+**Implemented enhancements:**
+
+- Automatically detect the need for using iScroll. [\#25](https://github.com/mtr/angular-iscroll/issues/25)
+- Support being initially disabled. [\#24](https://github.com/mtr/angular-iscroll/issues/24)
+- Address jshint issues [\#23](https://github.com/mtr/angular-iscroll/issues/23)
+- Remove unmaintained example code because core-layout is well maintained [\#22](https://github.com/mtr/angular-iscroll/issues/22)
+- Add bitHound configuration. [\#21](https://github.com/mtr/angular-iscroll/issues/21)
+- Address npm dependency issues found in master branch \[Opened by bitHound\] [\#20](https://github.com/mtr/angular-iscroll/issues/20)
+
+**Fixed bugs:**
+
+- iScrollServiceProvider.configureDefaults\(\) does not perform a deep merge of options with defaultOptions. [\#26](https://github.com/mtr/angular-iscroll/issues/26)
+
 ## [v2.0.1](https://github.com/mtr/angular-iscroll/tree/v2.0.1) (2015-12-17)
 [Full Changelog](https://github.com/mtr/angular-iscroll/compare/v2.0.0...v2.0.1)
 
