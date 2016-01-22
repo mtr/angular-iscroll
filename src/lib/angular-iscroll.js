@@ -87,7 +87,16 @@
         }, defaultOptions.directive);
 
         function _configureDefaults(options) {
-            angular.extend(defaultOptions, options);
+            /**
+             * Since angular.extend is not performing a "deep" merge, we'll
+             * do it in two steps.
+             **/
+            if (angular.isDefined(options.directive)) {
+                angular.extend(defaultOptions.directive, options.directive);
+            }
+            if (angular.isDefined(options.iScroll)) {
+                angular.extend(defaultOptions.iScroll, options.iScroll);
+            }
         }
 
         this.configureDefaults = _configureDefaults;
