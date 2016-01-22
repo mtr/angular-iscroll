@@ -141,6 +141,7 @@
 
         // Export the auto-determined value of `useNativeScroll`.
         this.useNativeScroll = useNativeScroll;
+        this.platform = platform;
 
         this.configureDefaults = _configureDefaults;
         function _getDefaults() {
@@ -153,7 +154,8 @@
         /* @ngInject */
         function iScrollService($rootScope, iScrollSignals) {
             var _state = {
-                useIScroll: defaultOptions.directive.initiallyEnabled
+                useIScroll: defaultOptions.directive.initiallyEnabled,
+                autoDetectedUseNativeScroll: useNativeScroll
             };
 
             function _disable(signalOnly) {
