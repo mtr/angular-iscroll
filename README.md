@@ -172,8 +172,8 @@ The configuration you provide this way will serve as the updated global default 
 
 Please note that the above example relies on [ng-annotate](https://www.npmjs.com/package/ng-annotate) for adding AngularJS dependency-injection annotations during builds, as indicated by the `/* @ngInject */` comment.
 
-## Compatibility ##
-Thanks to a generous “free for Open Source” sponsorship from [BrowserStack](https://www.browserstack.com) I've been able to test [core-layout](http://mtr.github.io/core-layout/examples/), and thereby [angular-iscroll](https://github.com/mtr/angular-iscroll/), with a plethora of devices and browsers.
+## Support ##
+Thanks to a generous “free for Open Source” sponsorship from [BrowserStack](https://www.browserstack.com) I've been able to test [core-layout](http://mtr.github.io/core-layout/examples/), and thereby [angular-iscroll](https://github.com/mtr/angular-iscroll/), with a plethora of devices and browsers.  The following browsers and devices has been tested successfully:
 
 * Desktop
   * Chrome 16–48 on OS X 10.10
@@ -214,40 +214,3 @@ During testing, the [core-layout](http://mtr.github.io/core-layout/examples/) de
 * Safari 3 with iOS 3 on iPhone 3GS
 
 This does not necessarily mean that `angular-iscroll` itself breaks in the same browsers, but the demo code did.
-
-
-### Should _not_ use iScroll, but do ###
-
- - [ ] Android Browser 4.0 with Android 4.1.2 and 4.0.4
-    ```
-    layout: "WebKit",
-    name: "Android Browser",
-    version: "4.0",
-    os: {
-        family: "Android",
-        version: "4.1.2" || "4.0.4"
-    }
-    ```
-    But
-    ```
-    layout: "WebKit",
-    name: "Android Browser",
-    version: "4.0",
-    os: {
-        family: "Android",
-        version: "2.3.3"
-    }
-    ```
-    _should_ use iScroll.
- - [ ] Safari 5.1, but Safari 4.0.5 and Safari 5.0.2 _should_ use iScroll.
- - [ ] Windows Phone 8.1
-     ```
-     name: "IE Mobile",
-     version: "11.0",
-     os: {
-         family: "iOS",
-         version: "7.0.3"
-     }
-     ```
-
-
