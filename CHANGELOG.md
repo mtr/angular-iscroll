@@ -1,5 +1,12 @@
 # Change Log
 
+## [v3.2.0](https://github.com/mtr/angular-iscroll/tree/v3.2.0) (2016-01-27)
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.1.0...v3.2.0)
+
+**Merged pull requests:**
+
+- \#25 Add platform.js requirement to bower.json [\#27](https://github.com/mtr/angular-iscroll/pull/27) ([simison](https://github.com/simison))
+
 ## [v3.1.0](https://github.com/mtr/angular-iscroll/tree/v3.1.0) (2016-01-22)
 [Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.0.0...v3.1.0)
 
