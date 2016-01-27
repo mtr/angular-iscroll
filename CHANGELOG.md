@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/mtr/angular-iscroll/tree/HEAD)
+
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.2.0...HEAD)
+
+**Implemented enhancements:**
+
+- Refine the need-iScroll auto-detection rules [\#28](https://github.com/mtr/angular-iscroll/issues/28)
+
 ## [v3.2.0](https://github.com/mtr/angular-iscroll/tree/v3.2.0) (2016-01-27)
 [Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.1.0...v3.2.0)
 
