@@ -171,3 +171,83 @@ angular
 The configuration you provide this way will serve as the updated global default for all `iscroll` directive instances.
 
 Please note that the above example relies on [ng-annotate](https://www.npmjs.com/package/ng-annotate) for adding AngularJS dependency-injection annotations during builds, as indicated by the `/* @ngInject */` comment.
+
+## Compatibility ##
+Thanks to a generous “free for Open Source” sponsorship from [BrowserStack](https://www.browserstack.com) I've been able to test [core-layout](http://mtr.github.io/core-layout/examples/), and thereby [angular-iscroll](https://github.com/mtr/angular-iscroll/), with a plethora of devices and browsers.
+
+* Desktop
+  * Chrome 16–48 on OS X 10.10
+  * Chrome 48 on Ubuntu 14.04
+  * Firefox 6.0–43.0 on OS X 10.10
+  * Firefox 43.0.4 on Ubuntu 14.04
+  * Internet Explorer 9, 10, and 11 on Windows 7
+  * Internet Explorer Edge 12 on Windows 10
+  * Opera 12.12–34 on OS X 10.10
+  * Safari 5.1.7 on Windows 10
+  * Safari 8.0.8 on OS X 10.10.5
+  * Yandex 14.12 on OS X 10.10
+* Mobile
+  * Android Browser 4.0 with Android 4.0.4 on Samsung Galaxy Note 10.1
+  * Android Browser 4.0 with Android 4.1.2 on Samsung Galaxy S3
+  * Chrome Mobile 45 with Android 5.0.2 on Samsung Galaxy S6
+  * Chrome Mobile 45 with Android 4.4 on Google Nexus 5
+  * Safari 4.0.5 with iOS 4.0.1 on iPhone 4
+  * Safari 5.0.2 with iOS 4.3.2 on iPad 2
+  * Safari 5.1 with iOS 5.0 on iPad 2
+  * Safari 5.1 with iOS 5.1 on iPhone 4S
+  * Safari 6.0 with iOS 6.0 on iPhone 5
+  * Safari 7.0 with iOS 7.0.4 on iPad Air
+  * Safari 8.0 with iOS 8.1.1 on iPad Air 2
+  * Safari 9.0 with iOS 9.0.2 on iPhone 6S
+  * IE Mobile 11.0 with Windows Phone 8.1 on Nokia Lumia 520, 925, and 930
+
+### Incompatible Browsers ###
+During testing, the [core-layout](http://mtr.github.io/core-layout/examples/) demo broke in the following browsers:
+
+* Firefox 3.6, 4, and 5 on OS X 10.10
+* Internet Explorer 8 on Windows 7 (fails during jQuery version 2.2.0 initialization):
+  ```
+  // Use the handy event callback
+  document.addEventListener( "DOMContentLoaded", completed );
+  ```
+  Error message: `Object doesn't support this property or method`.
+* Safari 3 with iOS 3 on iPhone 3GS
+
+This does not necessarily mean that `angular-iscroll` itself breaks in the same browsers, but the demo code did.
+
+
+### Should _not_ use iScroll, but do ###
+
+ - [ ] Android Browser 4.0 with Android 4.1.2 and 4.0.4
+    ```
+    layout: "WebKit",
+    name: "Android Browser",
+    version: "4.0",
+    os: {
+        family: "Android",
+        version: "4.1.2" || "4.0.4"
+    }
+    ```
+    But
+    ```
+    layout: "WebKit",
+    name: "Android Browser",
+    version: "4.0",
+    os: {
+        family: "Android",
+        version: "2.3.3"
+    }
+    ```
+    _should_ use iScroll.
+ - [ ] Safari 5.1, but Safari 4.0.5 and Safari 5.0.2 _should_ use iScroll.
+ - [ ] Windows Phone 8.1
+     ```
+     name: "IE Mobile",
+     version: "11.0",
+     os: {
+         family: "iOS",
+         version: "7.0.3"
+     }
+     ```
+
+
