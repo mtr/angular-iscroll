@@ -161,7 +161,18 @@ The `iscroll` directive gets its default configuration from the `iScrollService`
 ```js
 /* @ngInject */
 function _config(iScrollServiceProvider) {
-    iScrollServiceProvider.configureDefaults(/* Supply your default configuration object here. */);
+    // Supply a default configuration object, eg:
+    iScrollServiceProvider.configureDefaults({
+        iScroll: {
+            // Passed through to the iScroll library
+            scrollbars: true,
+            fadeScrollbars: true
+        },
+        directive: {
+            // Interpreted by the directive
+            refreshInterval: 500
+        }
+    });
 }
 
 angular
