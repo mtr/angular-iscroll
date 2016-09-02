@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/mtr/angular-iscroll/tree/HEAD)
-
-[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.2.0...HEAD)
+## [v3.4.0](https://github.com/mtr/angular-iscroll/tree/v3.4.0) (2016-09-02)
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.2.0...v3.4.0)
 
 **Implemented enhancements:**
 
@@ -43,6 +42,7 @@
 **Merged pull requests:**
 
 - Add option to skip digest cycle when refresh option is turned on [\#19](https://github.com/mtr/angular-iscroll/pull/19) ([DinkoMiletic](https://github.com/DinkoMiletic))
+- Fixing bug where the argument passed to configureDefaults\(\) clobbers the built-in defaults [\#17](https://github.com/mtr/angular-iscroll/pull/17) ([mikechamberlain](https://github.com/mikechamberlain))
 
 ## [v1.3.3](https://github.com/mtr/angular-iscroll/tree/v1.3.3) (2015-06-07)
 [Full Changelog](https://github.com/mtr/angular-iscroll/compare/v1.3.2...v1.3.3)
