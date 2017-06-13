@@ -1,5 +1,5 @@
 /**
- * @license angular-iscroll v3.5.1, 2017-06-13T10:57:52+0200
+ * @license angular-iscroll v3.5.1, 2017-06-13T11:03:21+0200
  * (c) 2017 Martin Thorsen Ranang <mtr@ranang.org>
  * License: MIT
  */
