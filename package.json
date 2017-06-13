@@ -27,7 +27,8 @@
   "homepage": "https://github.com/mtr/angular-iscroll",
   "dependencies": {
     "angular": ">=1.6",
-    "iscroll": "^5.2.0"
+    "iscroll": "^5.2.0",
+    "platform": "^1.3.4"
   },
   "devDependencies": {
     "dateformat": "^2.0.0",
@@ -47,7 +48,6 @@
     "gulp-tag-version": "^1.3.0",
     "gulp-uglify": "^3.0.0",
     "jshint": "^2.9.4",
-    "platform": "^1.3.4",
     "pump": "^1.0.2"
   }
 }
