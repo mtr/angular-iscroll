@@ -367,8 +367,7 @@
 
         function _link(scope, element, attrs) {
             var options = {
-                iScroll: angular.extend({}, scope.iscroll || {},
-                    iScrollService.defaults.iScroll),
+                iScroll: angular.extend({}, iScrollService.defaults.iScroll, scope.iscroll || {}),
                 directive: angular.extend({}, iScrollService.defaults.directive)
             };
 
