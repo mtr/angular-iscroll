@@ -115,9 +115,8 @@
         return platform.name === 'Chrome Mobile';
     }
 
-    function _isAndroidBrowserWithRecentOS(platform) {
-        return platform.name === 'Android Browser' &&
-            versionCompare(platform.os.version, '4.0.4') >= 0;
+    function _isRecentOS(platform) {
+        return versionCompare(platform.os.version, '4.0.4') >= 0;
     }
 
     function _useNativeScroll(platform) {
@@ -131,9 +130,8 @@
 
         switch (platform.os.family) {
             case 'Android':
-                // In Chrome we trust.
-                return _isChromeMobile(platform) ||
-                    _isAndroidBrowserWithRecentOS(platform);
+                // In Chrome we trust, but also younger Android releases.
+                return _isChromeMobile(platform) || _isRecentOS(platform);
             case 'iOS':
                 // Buggy handling in older iOS versions.
                 return versionCompare(platform.version, '5.1') >= 0;
@@ -221,6 +219,7 @@
         this.platform = platform;
 
         this.configureDefaults = _configureDefaults;
+
         function _getDefaults() {
             return defaultOptions;
         }
