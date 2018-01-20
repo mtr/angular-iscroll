@@ -1,11 +1,44 @@
 # Change Log
 
+## [v3.6.0](https://github.com/mtr/angular-iscroll/tree/v3.6.0) (2018-01-20)
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.5.1...v3.6.0)
+
+**Implemented enhancements:**
+
+- Automated detection is too strict on Android devices. [\#41](https://github.com/mtr/angular-iscroll/issues/41)
+
+**Fixed bugs:**
+
+- Automated detection is too strict on Android devices. [\#41](https://github.com/mtr/angular-iscroll/issues/41)
+
+**Closed issues:**
+
+- FF and IE directive service and scope reference problems. [\#15](https://github.com/mtr/angular-iscroll/issues/15)
+
+## [v3.5.1](https://github.com/mtr/angular-iscroll/tree/v3.5.1) (2017-06-13)
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.5.0...v3.5.1)
+
+## [v3.5.0](https://github.com/mtr/angular-iscroll/tree/v3.5.0) (2017-06-13)
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.4.1...v3.5.0)
+
+## [v3.4.1](https://github.com/mtr/angular-iscroll/tree/v3.4.1) (2017-06-13)
+[Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.4.0...v3.4.1)
+
+**Closed issues:**
+
+- Why does it always appear "scroll-off" [\#35](https://github.com/mtr/angular-iscroll/issues/35)
+- Keep getting "TypeError: IScroll is not a function" [\#16](https://github.com/mtr/angular-iscroll/issues/16)
+
 ## [v3.4.0](https://github.com/mtr/angular-iscroll/tree/v3.4.0) (2016-09-02)
 [Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.2.0...v3.4.0)
 
 **Implemented enhancements:**
 
 - Refine the need-iScroll auto-detection rules [\#28](https://github.com/mtr/angular-iscroll/issues/28)
+
+**Merged pull requests:**
+
+- Fix. Fixed issue with overriding instance config with default options. [\#34](https://github.com/mtr/angular-iscroll/pull/34) ([egor-manjula](https://github.com/egor-manjula))
 
 ## [v3.2.0](https://github.com/mtr/angular-iscroll/tree/v3.2.0) (2016-01-27)
 [Full Changelog](https://github.com/mtr/angular-iscroll/compare/v3.1.0...v3.2.0)
@@ -53,7 +86,7 @@
 
 **Merged pull requests:**
 
-- Adds bower.json and bower install instructions [\#12](https://github.com/mtr/angular-iscroll/pull/12) ([savelbr](https://github.com/savelbr))
+- Adds bower.json and bower install instructions [\#12](https://github.com/mtr/angular-iscroll/pull/12) ([brechtpm](https://github.com/brechtpm))
 
 ## [v1.3.2](https://github.com/mtr/angular-iscroll/tree/v1.3.2) (2015-05-23)
 [Full Changelog](https://github.com/mtr/angular-iscroll/compare/v1.3.1...v1.3.2)
