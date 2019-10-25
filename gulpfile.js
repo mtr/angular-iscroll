@@ -79,7 +79,7 @@ gulp.task('watch', function () {
     });
 });
 
-gulp.task('default', ['scss', 'lib']);
+gulp.task('default', gulp.parallel(['scss', 'lib']));
 
 function increaseVersion(importance) {
     // Get all the files to bump version in.
