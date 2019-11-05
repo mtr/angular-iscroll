@@ -8,38 +8,37 @@ Install the [angular-iscroll NPM package](https://www.npmjs.com/package/angular-
 npm install --save angular-iscroll
 ```
 
-Install through Bower
+Install through Yarn
 ```bash
-bower install --save angular-iscroll
+yarn add angular-iscroll
 ```
 
 Or, to check out a development version, start by cloning the repository, by
 ```bash
 git clone git@github.com:mtr/angular-iscroll.git
 ```
-Then, install the necessary dependencies:
+If you don't use `yarn` you may run `npm run-script [command]` instead of `yarn [command]`.  So, to install the necessary dependencies:
 ```bash
 cd angular-iscroll/
-npm install
+yarn install
+yarn build          # or `npm run-script build`
 ```
+
 After that, you should have a `dist` directory with a subdirectory named `lib`:
 ```
 dist/
 └── lib
     ├── angular-iscroll.js
-    └── angular-iscroll.min.js
+    ├── angular-iscroll.js.gz
+    └── scss
+        └── _iscroll.scss
 ```
 
 ### Build
 
 To rebuild the library, run
 ```bash
-gulp            # or "gulp watch" (to rebuild on every file change)
-```
-
-To build the examples, run
-```bash
-gulp examples   # (will rebuild on every file change)
+yarn build            # or `yarn watch`
 ```
 
 
