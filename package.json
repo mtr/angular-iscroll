@@ -36,6 +36,9 @@
   "peerDependencies": {
     "angular": ">=1.8"
   },
+  "resolutions": {
+    "loader-utils": "^2.0.4"
+  },
   "devDependencies": {
     "@babel/core": "^7.23.5",
     "@babel/preset-env": "^7.23.5",
