@@ -34,3 +34,12 @@ bower_components
 
 # Sass cache
 .sass-cache/
+
+# Modern Yarn
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

@@ -1,20 +1,27 @@
-const webpack = require('webpack');
-const path = require('path');
-const CompressionPlugin = require('compression-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const package = require('./package.json');
-const dateFormat = require('dateformat');
+import {CleanWebpackPlugin} from 'clean-webpack-plugin';
+import CompressionPlugin from 'compression-webpack-plugin';
+import dateFormat from 'dateformat';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import path from 'path';
+import {fileURLToPath} from 'url';
+import webpack from 'webpack';
 
-const now = new Date();
+import _package from './package.json' assert {type: 'json'};
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const now = new Date(),
+    timestamp = dateFormat(now, 'isoDateTime'),
+    year = dateFormat(now, 'yyyy');
+
+export default {
     plugins: [
         new CleanWebpackPlugin(),
         new webpack.BannerPlugin({
-            banner: `@license ${package.name} v${package.version}, ${dateFormat(now, "isoDateTime")}
-(c) ${dateFormat(now, "yyyy")} ${package.author.name} <${package.author.email}>
-License: ${package.license}`
+            banner: `@license ${_package.name} v${_package.version}, ${timestamp}
+(c) ${year} ${_package.author.name} <${_package.author.email}>
+License: ${_package.license}`
         })
     ].concat([
         new MiniCssExtractPlugin({
