@@ -37,7 +37,8 @@
     "angular": ">=1.8"
   },
   "resolutions": {
-    "loader-utils": "^2.0.4"
+    "loader-utils": "^2.0.4",
+    "minimatch": "^3.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
